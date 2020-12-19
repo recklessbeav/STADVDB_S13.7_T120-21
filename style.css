@@ -14,7 +14,65 @@ body{
     /* background-color: #ffffff; */
 }
 
+/*Beginning of overview*/
+
+#overview_header {
+    position: relative;
+    top: 50px;
+    font-family: 'Gill Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.case_holder {
+    position: relative;
+    top: 100px;
+    font-family: 'Gill Sans', sans-serif;
+    background-color: #e26c6a;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.3);
+}
+
+.content_case {
+    position: relative;
+    top: -10px;
+    font-family: 'Gill Sans', sans-serif;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+#number {
+    /* 73.4 M */
+    position: relative;
+    top: -10px;
+
+    font-family:Arial, Helvetica, sans-serif;
+    font-style:normal;
+    font-weight:bolder;
+    font-size: 36px;
+    line-height: 44px;
+    /* identical to box height */
+
+    color: #000000;
+}
+/*
+#casesword {
+    font-style: normal;
+    font-weight: bolder;
+    font-size: 14px;
+
+
+    color: #F0E6E6;
+};
+*/
+/*End of overview*/
+
 .table{
+  position: relative;                   /*I have added positioning for the table containter*/
+  top: 150px;                           /*  so it doesn't collide with the total and overview parts.*/
   background-color: #550526;
   width: 100%;
   border: 15px;
@@ -23,7 +81,7 @@ body{
 }
 
 .inside_table{
-    background-color: lightgrey;
+  background-color: lightgrey;
   width: 100%;
   padding: 50px;
 }
@@ -64,5 +122,3 @@ form label {
     background-color: #368F8B !important;
     border-color:#207a76   !important;
 }
-
-
