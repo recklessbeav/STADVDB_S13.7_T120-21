@@ -12,6 +12,8 @@
 body{
     background-color: #a107027a;
     /* background-color: #ffffff; */
+    font-family: "Montserrat";
+    color: black;
 }
 
 /*Beginning of overview*/
@@ -121,4 +123,39 @@ form label {
 .btn-reset {
     background-color: #368F8B !important;
     border-color:#207a76   !important;
+}
+
+.total{
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.card{
+    /* font-size: 16px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #E26C69;
+    border-radius: 0px;
+    height: 150px;
+    width: 150px;
+    margin: 20px;
+}
+
+.fa{
+    font-size: 30px;
+    margin: 10px;
+}
+
+.num-cases{
+    font-weight: 800;
+    margin: 0px;
+}
+
+.case-type{
+    font-family: "Tienne";
+    color: white;
+    font-size: 14px;
 }
