@@ -11,6 +11,9 @@
     <link rel="stylesheet" type="text/css" media="all" href="style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Red+Rose&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:black|Ubuntu" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css2?family=Tienne&display=swap' rel='stylesheet'>
     
     <!-- JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
@@ -30,7 +33,34 @@
 
     <div class="container">
         <div class="row">
-            overview
+            <h1 id = "overview_header">OVERVIEW</h1>
+            <div class = "case_holder" id = "total_cases">
+                <svg width="198" height="100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="15" cy="15" r="5" fill="#FAA613" fill-opacity="0.81"/>
+                </svg>
+                <div class = "content_case">
+                    <p id = "number">73.4M</p> <br>
+                    <p class = "caseword">Total Cases</p>
+                </div>
+            </div>
+            <div class = "case_holder" id = "recovered_cases">
+                <svg width="198" height="100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="15" cy="15" r="5" fill="#688E26" fill-opacity="0.81"/>
+                </svg>
+                <div class = "content_case">
+                    <p id = "number">41.5M</p> <br>
+                    <p class = "caseword">Recovered Cases</p>
+                </div>
+            </div>
+            <div class = "case_holder" id = "death_cases">
+                <svg width="198" height="100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="15" cy="15" r="5" fill="#F44708" fill-opacity="0.81"/>
+                </svg>
+                <div class = "content_case">
+                    <p id="number">1.63M</p> <br>
+                    <p class = "caseword">Death Cases</p>
+                </div>
+            </div>
         </div>
         <div class="row table" >
 
@@ -66,8 +96,40 @@
             <a class="btn btn-success btn-reset" role="button" style="margin-top: 15px;">Reset</a>
                 
         </div>
-        <div class="row">
-            total
+
+        <h1 class="total">TOTAL</h1>
+        <div class="row table mt-2 justify-content-center">
+            
+            <div class="card">
+                <i class="fa fa-circle" style="color:#FAA613"></i>
+                <h2 class="num-cases">73.4 M</h2>
+                <p class="case-type">Total cases</p>
+            </div>
+            
+            <div class="card">
+                <i class="fa fa-circle" style="color:#688E26"></i>
+                <h2 class="num-cases">73.4 M</h2>
+                <p class="case-type">Recovered</p>
+            </div>
+            
+            <div class="card">
+                <i class="fa fa-circle" style="color:#F44728"></i>
+                <h2 class="num-cases">73.4 M</h2>
+                <p class="case-type">Deaths</p>
+            </div>
+            
+            <div class="card">
+                <i class="fa fa-circle" style="color:#138BFA"></i>
+                <h2 class="num-cases">73.4 M</h2>
+                <p class="case-type">Active cases</p>
+            </div>
+            
+            <div class="card">
+                <i class="fa fa-circle" style="color:#D235B9"></i>
+                <h2 class="num-cases">73.4 M</h2>
+                <p class="case-type">New cases</p>
+            </div>
+
         </div>
     </div>
 </body>

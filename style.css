@@ -12,9 +12,62 @@
 body{
     background-color: #a107027a;
     /* background-color: #ffffff; */
+    font-family: "Montserrat";
+    color: black;
 }
 
+/*Beginning of overview*/
+
+#overview_header {
+    position: relative;
+    top: 50px;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.case_holder {
+    position: relative;
+    top: 100px;
+    font-family: 'Gill Sans', sans-serif;
+    background-color: #e26c6a;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.3);
+}
+
+.content_case {
+    position: relative;
+    top: -10px;
+    font-family: "Montserrat";
+    width: 200px;
+    height: 100px;
+    text-align: center;
+}
+
+#number {
+    position: relative;
+    top: -10px;
+    font-style:normal;
+    font-weight:bolder;
+    font-size: 36px;
+    line-height: 44px;
+    color: #000000;
+}
+
+.caseword {
+   position: relative;
+   font-family: "Tienne";
+   color: white;
+   font-size: 14px;
+   top: -50px
+}
+
+/*End of overview*/
+
 .table{
+  position: relative;                   /*I have added positioning for the table containter*/
+  top: 150px;                           /*  so it doesn't collide with the total and overview parts.*/
   background-color: #550526;
   width: 100%;
   border: 15px;
@@ -23,7 +76,7 @@ body{
 }
 
 .inside_table{
-    background-color: lightgrey;
+  background-color: lightgrey;
   width: 100%;
   padding: 50px;
 }
@@ -49,4 +102,39 @@ form label {
     border-color:#207a76   !important;
 }
 
+.total{
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
 
+.card{
+    /* font-size: 16px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #E26C69;
+    border-radius: 0px;
+    height: 150px;
+    width: 150px;
+    margin: 20px;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.3);
+}
+
+.fa{
+    font-size: 30px;
+    margin: 10px;
+}
+
+.num-cases{
+    font-weight: 800;
+    margin: 0px;
+    color: #000000;
+}
+
+.case-type{
+    font-family: "Tienne";
+    color: white;
+    font-size: 14px;
+}
