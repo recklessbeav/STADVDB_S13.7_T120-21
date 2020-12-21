@@ -21,7 +21,6 @@ body{
 #overview_header {
     position: relative;
     top: 50px;
-    font-family: 'Gill Sans', sans-serif;
     font-size: 22px;
     font-weight: 800;
 }
@@ -40,36 +39,30 @@ body{
 .content_case {
     position: relative;
     top: -10px;
-    font-family: 'Gill Sans', sans-serif;
-    width: 100px;
+    font-family: "Montserrat";
+    width: 200px;
     height: 100px;
-    margin: 0 auto;
+    text-align: center;
 }
 
 #number {
-    /* 73.4 M */
     position: relative;
     top: -10px;
-
-    font-family:Arial, Helvetica, sans-serif;
     font-style:normal;
     font-weight:bolder;
     font-size: 36px;
     line-height: 44px;
-    /* identical to box height */
-
     color: #000000;
 }
-/*
-#casesword {
-    font-style: normal;
-    font-weight: bolder;
-    font-size: 14px;
 
+.caseword {
+   position: relative;
+   font-family: "Tienne";
+   color: white;
+   font-size: 14px;
+   top: -50px
+}
 
-    color: #F0E6E6;
-};
-*/
 /*End of overview*/
 
 .table{
@@ -142,6 +135,7 @@ form label {
     height: 150px;
     width: 150px;
     margin: 20px;
+    box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.3);
 }
 
 .fa{
@@ -152,6 +146,7 @@ form label {
 .num-cases{
     font-weight: 800;
     margin: 0px;
+    color: #000000;
 }
 
 .case-type{
