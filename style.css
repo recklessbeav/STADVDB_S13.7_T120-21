@@ -28,13 +28,6 @@ body{
   padding: 50px;
 }
 
-.caret-off::before {
-    display: none !important;
-}
-
-.caret-off::after {
-    display: none !important;
-}
 
 form label {
     font-weight: bold;
@@ -45,15 +38,6 @@ form label {
     display: flex;
 }
 
-@media only screen and (max-width: 726px) {
-    .shrink {
-        font-size: 50px !important;
-    }
-    .card {
-        width: 80% !important;
-        margin: 0 auto;
-    }
-}
 
 .btn{
     background-color: #F2C14E !important;
