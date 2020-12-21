@@ -11,23 +11,23 @@
 
 body{
     background-color: #a107027a;
-    /* background-color: #ffffff; */
     font-family: "Montserrat";
     color: black;
 }
 
+.row {
+    margin: 0 0 70 20;
+}
+
 /*Beginning of overview*/
 
-#overview_header {
-    position: relative;
-    top: 50px;
+.header {
+    margin: 0 0 30 20;
     font-size: 22px;
     font-weight: 800;
 }
 
 .case_holder {
-    position: relative;
-    top: 100px;
     font-family: 'Gill Sans', sans-serif;
     background-color: #e26c6a;
     width: 200px;
@@ -66,13 +66,10 @@ body{
 /*End of overview*/
 
 .table{
-  position: relative;                   /*I have added positioning for the table containter*/
-  top: 150px;                           /*  so it doesn't collide with the total and overview parts.*/
   background-color: #550526;
   width: 100%;
   border: 15px;
   padding: 20px;
-  margin: 20px;
 }
 
 .inside_table{
@@ -102,14 +99,7 @@ form label {
     border-color:#207a76   !important;
 }
 
-.total{
-    margin-left: 20px;
-    font-size: 20px;
-    font-weight: bold;
-}
-
 .card{
-    /* font-size: 16px; */
     display: flex;
     justify-content: center;
     align-items: center;
