@@ -16,13 +16,18 @@ body{
 }
 
 .row {
-    margin: 0 0 70 20;
+    margin: 0px;
+}
+
+.container {
+    margin-top: 80px;
+    margin-bottom: 80px;
 }
 
 /*Beginning of overview*/
 
 .header {
-    margin: 0 0 30 20;
+    /* margin: 0 0 30 20; */
     font-size: 22px;
     font-weight: 800;
 }
