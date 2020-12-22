@@ -92,6 +92,12 @@ form label {
 .btn{
     background-color: #F2C14E !important;
     border-color: #bd9333 !important;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 30px;
 }
 
 .btn-reset {
