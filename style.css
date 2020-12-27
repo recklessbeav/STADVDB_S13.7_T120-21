@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #5b1d31;
+    background-color: #6B032F;
     font-family: 'Red Rose', cursive;
     color: #ffffff;
 }
@@ -16,13 +16,18 @@ body{
 }
 
 .row {
-    margin: 0 0 70 20;
+    margin: 0px;
+}
+
+.container {
+    margin-top: 80px;
+    margin-bottom: 80px;
 }
 
 /*Beginning of overview*/
 
 .header {
-    margin: 0 0 30 20;
+    /* margin: 0 0 30 20; */
     font-size: 22px;
     font-weight: 800;
 }
@@ -92,6 +97,12 @@ form label {
 .btn{
     background-color: #F2C14E !important;
     border-color: #bd9333 !important;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 30px;
 }
 
 .btn-reset {

@@ -1,0 +1,24 @@
+{
+  "name": "stadvdb_s13.7_t120-21",
+  "version": "1.0.0",
+  "description": "machine project for covid database reports",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/recklessbeav/STADVDB_S13.7_T120-21.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/recklessbeav/STADVDB_S13.7_T120-21/issues"
+  },
+  "homepage": "https://github.com/recklessbeav/STADVDB_S13.7_T120-21#readme"
+}

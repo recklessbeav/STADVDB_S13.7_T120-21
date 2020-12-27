@@ -31,9 +31,9 @@
     </nav>
            
 
-    <div class="container mt-5">
+    <div class="container">
         <h1 class="header">OVERVIEW</h1>
-        <div class="row">
+        <div class="row mt-5">
             <div class = "case_holder" id = "total_cases">
                 <svg width="198" height="100" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="15" cy="15" r="5" fill="#FAA613" fill-opacity="0.81"/>
@@ -81,14 +81,14 @@
                             <option value="Active Cases">Philippines</option>
                         </select>
                     </div>
-                    <div class="col-3">
-                        <input type="month" id="month_table" name="month_table" style="height: 28px">
+                    <div class="col-2">
+                        <input type="date" id="start_date" name="start_date" style="height: 28px">
                     </div>
-                    <div class="col-3">
-                        <input type="date" id="day_table" name="day_table" style="height: 28px">
+                    <div class="col-2">
+                        <input type="date" id="end_date" name="end_date" style="height: 28px">
                     </div>
                     <div class="col text-right">
-                        <a class="btn btn-success" role="button" style="height: 40px;">Filter</a>
+                        <a class="btn btn-success" role="button">Filter</a>
                     </div>
                 </div>
                 <div class="row pt-2">
@@ -101,38 +101,63 @@
         </div>
 
         <h1 class="header">TOTAL</h1>
-        <div class="row table mt-2 justify-content-center">
-            
-            <div class="card">
-                <i class="fa fa-circle" style="color:#FAA613"></i>
-                <h2 class="num-cases">73.4 M</h2>
-                <p class="case-type">Total cases</p>
-            </div>
-            
-            <div class="card">
-                <i class="fa fa-circle" style="color:#688E26"></i>
-                <h2 class="num-cases">73.4 M</h2>
-                <p class="case-type">Recovered</p>
-            </div>
-            
-            <div class="card">
-                <i class="fa fa-circle" style="color:#F44728"></i>
-                <h2 class="num-cases">73.4 M</h2>
-                <p class="case-type">Deaths</p>
-            </div>
-            
-            <div class="card">
-                <i class="fa fa-circle" style="color:#138BFA"></i>
-                <h2 class="num-cases">73.4 M</h2>
-                <p class="case-type">Active cases</p>
-            </div>
-            
-            <div class="card">
-                <i class="fa fa-circle" style="color:#D235B9"></i>
-                <h2 class="num-cases">73.4 M</h2>
-                <p class="case-type">New cases</p>
-            </div>
+        <div class="row table p-5">
+            <form id="total-form">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <select id="country_total" name="country_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            <option selected>Country</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="USA">USA</option>
+                        </select>
 
+                        <select id="continent_total" name="continent_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            <option selected>Continent</option>
+                            <option value="Asia">Philippines</option>
+                            <option value="North America">North America</option>
+                            <option value="South America">South America</option>
+                            <option value="Europe">Europe</option>
+                        </select>
+                    </div>
+                    <a class="btn btn-success" role="button" name="filter_total" id="filter_total">Filter</a>                     
+                </div>
+            </form>
+
+            <div class="row table justify-content-center">
+                <div class="card">
+                    <i class="fa fa-circle" style="color:#FAA613"></i>
+                    <h2 class="num-cases">73.4 M</h2>
+                    <p class="case-type">Total cases</p>
+                </div>
+                
+                <div class="card">
+                    <i class="fa fa-circle" style="color:#688E26"></i>
+                    <h2 class="num-cases">73.4 M</h2>
+                    <p class="case-type">Recovered</p>
+                </div>
+                
+                <div class="card">
+                    <i class="fa fa-circle" style="color:#F44728"></i>
+                    <h2 class="num-cases">73.4 M</h2>
+                    <p class="case-type">Deaths</p>
+                </div>
+                
+                <div class="card">
+                    <i class="fa fa-circle" style="color:#138BFA"></i>
+                    <h2 class="num-cases">73.4 M</h2>
+                    <p class="case-type">Active cases</p>
+                </div>
+                
+                <div class="card">
+                    <i class="fa fa-circle" style="color:#D235B9"></i>
+                    <h2 class="num-cases">73.4 M</h2>
+                    <p class="case-type">New cases</p>
+                </div>
+            </div>
+        
+            <div class="row justify-content-end" style="width:100%">
+                <a class="btn btn-success btn-reset" name="reset_total" id="reset_total" role="button">Reset</a>
+            </div>
         </div>
     </div>
 </body>
