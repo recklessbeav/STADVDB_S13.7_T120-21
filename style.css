@@ -24,6 +24,19 @@ body{
     margin-bottom: 80px;
 }
 
+ul {
+    margin: 7 0 7 10;
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+.title {
+    letter-spacing: 6px;
+}
+
 /*Beginning of overview*/
 
 .header {
