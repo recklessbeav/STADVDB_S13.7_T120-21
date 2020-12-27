@@ -2,6 +2,8 @@
 const express = require('express');
 const mysql = require('mysql');
 
+
+
 //Create connection
 const db = mysql.createConnection({
     host        :   'localhost',
@@ -22,6 +24,9 @@ db.connect((err) => {
 });
 
 const app = express();
+
+app.set('view engine', 'ejs');
+app.use(express.static("public"));
 
 //note: all of this routes will be done like how its done for the node-SQL sample code given
 
@@ -118,8 +123,11 @@ app.get('/getFIVE', (req, res) => {
         if (err) throw err;
 
         console.log('Data received covid_db database:');
-        console.log(result);
-        res.send(result);
+        // console.log(result);
+        result.forEach( (result) => {
+            console.log(`${result.COUNTRY} during ${result.MONTH} has ${result.DEATH_CASES} death cases`);
+        });
+        res.render('index.ejs', {title:'test', userData: result});
     })
 });
 

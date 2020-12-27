@@ -152,3 +152,20 @@ form label {
     color: white;
     font-size: 14px;
 }
+
+table, td, th { 
+    border: 1px solid ; 
+    text-align: left;
+} 
+table { 
+    border-collapse: collapse; 
+    width: 50%; 
+} 
+.table-data{ 
+    position: relative; 
+    left:150px; 
+    top:100px; 
+} 
+th, td { 
+    padding: 15px; 
+} 
