@@ -1,7 +1,7 @@
 // IMPORT
 const express = require('express');
 const mysql = require('mysql');
-
+const bodyParser = require('body-parser');
 
 
 //Create connection
@@ -27,6 +27,8 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({extended: true})) 
+app.use(bodyParser.json()) 
 
 //note: all of this routes will be done like how its done for the node-SQL sample code given
 
@@ -43,6 +45,50 @@ app.get('/', (req, res) => {
         })
         
     })
+})
+
+app.post('/', (req, res) => {
+    var cases = req.body.cases_table;
+    var country = req.body.country_table;
+    var start_date = req.body.start_date;
+    var end_date = req.body.end_date;
+
+    if (cases == 'All_Cases'){
+        q_cases = ', max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered';
+    }
+    else{
+        var q_cases = ', max(' + cases + ') as ' + cases;
+    }
+    if (country == 'All_Countries'){
+        country = '';
+    }
+    else{
+        country = ' WHERE country="' + country + '"';
+    }
+    if (start_date == 'All_Months'){
+        months = '';
+    }
+    else if (start_date != 'All_Months' && country == ''){
+        months = ' WHERE month(daily.date)="' + start_date + '"';
+    }
+    else if (start_date != 'All_Months' && country != ''){
+        months = ' AND month(daily.date)="' + start_date + '"';
+    }
+    console.log("cases ", cases);
+    console.log("country ", country);
+    console.log("start_date ", start_date);
+    console.log("end_date ", end_date);
+
+    var query = 'SELECT country, month(daily.date) AS month' + q_cases + ' FROM DAILY' + country + months + ' GROUP BY month(daily.date), country;';
+
+    db.query(query, (err, result) => {
+        if (err) throw err;
+        console.log('success');
+        db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
+            if (err) throw err;
+            res.render('index.ejs', {title:'Home', userData: result, country: countries});
+        })
+    });
 })
 
 /* 1.) Confirmed cases per day */

@@ -71,27 +71,27 @@
             </div>
         </div>
         <div class="container px-5 pt-5 pb-3" style="background-color: #550526;">
-            <form>
+            <form method="post">
                 <div class="row">
-                    <div class="col-2">
+                    <div class="col-3">
                         <label for="cases_table">Cases</label>
                         <select id="cases_table" name="cases_table"
                             style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
-                            <option selected>All Cases</option>
-                            <option value="Confirmed Cases">Confirmed Cases</option>
-                            <option value="Death Cases">Death Cases</option>
-                            <option value="Recovered Cases">Recovered Cases</option>
-                            <option value="Active Cases">Active Cases</option>
-                            <option value="New Cases">New Cases</option>
-                            <option value="New Deaths Cases">New Deaths Cases</option>
-                            <option value="New Recovered Cases">New Recovered Cases</option>
+                            <option value="All_Cases" selected>All Cases</option>
+                            <option value="confirmed">Confirmed Cases</option>
+                            <option value="deaths">Death Cases</option>
+                            <option value="recovered">Recovered Cases</option>
+                            <option value="active">Active Cases</option>
+                            <option value="new_cases">New Cases</option>
+                            <option value="new_deaths">New Deaths Cases</option>
+                            <option value="new_recovered">New Recovered Cases</option>
                         </select>
                     </div>
-                    <div class="col-2">
+                    <div class="col-4">
                         <label for="country_table">Country</label>
                         <select id="country_table" name="country_table"
                             style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
-                            <option selected>All Countries</option>
+                            <option value="All_Countries" selected>All Countries</option>
                             <!-- <option value="New Cases">Afghanistan</option> -->
                             <!-- <option value="Active Cases">Philippines</option> -->
                             <% for (const i in country) { %>
@@ -100,15 +100,31 @@
                         </select>
                     </div>
                     <div class="col-2">
-                        <label for="start_date">Start Date</label>
-                        <input type="date" id="start_date" name="start_date" style="height: 28px">
+                        <!-- <label for="start_date">Start Date</label> -->
+                        <label for="start_date">Month</label>
+                        <!-- <input type="date" id="start_date" name="start_date" style="height: 28px"> -->
+                        <select id="start_date" name="start_date"
+                            style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            <option value="All_Months" selected>All Months</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                        </select>
                     </div>
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <label for="end_date">End Date</label>
                         <input type="date" id="end_date" name="end_date" style="height: 28px">
+                    </div> -->
+                    <div class="col text-right">
+                        <!-- <a href="/filtered" class="btn btn-success" role="button">Filter</a> -->
+                        <input type="submit" class="btn btn-success" value="Filter">
                     </div>
                     <div class="col text-right">
-                        <a class="btn btn-success" role="button">Filter</a>
+                        <a href="/" class="btn btn-success btn-reset" role="button">Reset</a>
                     </div>
                 </div>
                 <div class="row pt-2">
@@ -152,9 +168,9 @@
                             
                     </div>
                 </div>
-                <div class="row d-flex justify-content-end pt-5">
-                    <a class="btn btn-success btn-reset" role="button">Reset</a>
-                </div>
+                <!-- <div class="row d-flex justify-content-end pt-5">
+                    <a href="/" class="btn btn-success btn-reset" role="button">Reset</a>
+                </div> -->
             </form>
         </div>
 
@@ -177,7 +193,7 @@
                             <option value="Europe">Europe</option>
                         </select>
                     </div>
-                    <a class="btn btn-success" role="button" name="filter_total" id="filter_total">Filter</a>                     
+                    <a href="/filtered" class="btn btn-success" role="" name="filter_total" id="filter_total">Filter</a>                     
                 </div>
             </form>
 
