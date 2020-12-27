@@ -30,6 +30,21 @@ app.use(express.static("public"));
 
 //note: all of this routes will be done like how its done for the node-SQL sample code given
 
+app.get('/', (req, res) => {
+    var query = 'SELECT country, MONTH(DAILY.DATE) AS month, max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered  FROM DAILY GROUP BY month(DAILY.DATE), country;';
+    // var query = 'SELECT * FROM DAILY WHERE COUNTRY="PHILIPPINES";';
+    db.query(query, (err, result) => {
+        if (err) throw err;
+        console.log('Data received from covid_db database:');
+        // console.log(result);
+        db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
+            if (err) throw err;
+            res.render('index.ejs', {title:'Home', userData: result, country: countries});
+        })
+        
+    })
+})
+
 /* 1.) Confirmed cases per day */
 
 app.get('/getONE-optionONE', (req, res) => {
