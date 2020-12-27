@@ -180,17 +180,17 @@
                 <div class="form-row">
                     <div class="form-group col">
                         <select id="country_total" name="country_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
-                            <option selected>Country</option>
-                            <option value="Philippines">Philippines</option>
-                            <option value="USA">USA</option>
+                            <option value="All_Countries" selected>All Countries</option>
+                            <% for (const i in country) { %>
+                                <option value="<%= country[i].COUNTRY %>"> <%= country[i].COUNTRY %> </option>
+                            <% } %>
                         </select>
 
                         <select id="continent_total" name="continent_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
-                            <option selected>Continent</option>
-                            <option value="Asia">Philippines</option>
-                            <option value="North America">North America</option>
-                            <option value="South America">South America</option>
-                            <option value="Europe">Europe</option>
+                            <option value="All_Continent" selected>All Continents</option>
+                            <% for (const i in continent) { %>
+                                <option value="<%= continent[i].who_region %>"> <%= continent[i].who_region %> </option>
+                            <% } %>
                         </select>
                     </div>
                     <a href="/filtered" class="btn btn-success" role="" name="filter_total" id="filter_total">Filter</a>                     

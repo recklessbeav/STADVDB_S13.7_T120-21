@@ -40,11 +40,12 @@ app.get('/', (req, res) => {
         console.log('Data received from covid_db database:');
         // console.log(result);
         db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
-            if (err) throw err;
-            res.render('index.ejs', {title:'Home', userData: result, country: countries});
-        })
-        
-    })
+            db.query('SELECT DISTINCT(who_region) FROM DAILY;', (err, continent) => {
+                if (err) throw err;
+                res.render('index.ejs', {title:'Home', userData: result, country: countries, continent: continent});
+            });
+        }); 
+    });
 })
 
 app.post('/', (req, res) => {
@@ -85,8 +86,10 @@ app.post('/', (req, res) => {
         if (err) throw err;
         console.log('success');
         db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
-            if (err) throw err;
-            res.render('index.ejs', {title:'Home', userData: result, country: countries});
+            db.query('SELECT DISTINCT(who_region) FROM DAILY;', (err, continent) => {
+                if (err) throw err;
+                res.render('index.ejs', {title:'Home', userData: result, country: countries, continent: continent});
+            });
         })
     });
 })
