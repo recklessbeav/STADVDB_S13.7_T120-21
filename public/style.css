@@ -106,6 +106,13 @@ form label {
     display: flex;
 }
 
+.inputs {
+    border: solid 1px rgb(116, 115, 115);
+    background-color: white;
+    cursor: pointer;
+    height: 28px;
+    margin-bottom: 15px;
+}
 
 .btn{
     background-color: #F2C14E !important;

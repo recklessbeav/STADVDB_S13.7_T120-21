@@ -73,26 +73,24 @@
         <div class="container px-5 pt-5 pb-3" style="background-color: #550526;">
             <form>
                 <div class="row">
-                    <div class="col-2">
-                        <select id="cases_table" name="cases_table"
-                            style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                    <div class="col">
+                        <select id="cases_table" name="cases_table" class="inputs">
                             <option selected>Cases</option>
                             <option value="New Cases">New Cases</option>
                             <option value="Active Cases">Active Cases</option>
                         </select>
                     </div>
-                    <div class="col-2">
-                        <select id="country_table" name="country_table"
-                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                    <div class="col">
+                        <select id="country_table" name="country_table" class="inputs">
                             <option selected>Country</option>
                             <option value="New Cases">Afghanistan</option>
                             <option value="Active Cases">Philippines</option>
                         </select>
                     </div>
-                    <div class="col-2">
+                    <div class="col">
                         <input type="date" id="start_date" name="start_date" style="height: 28px">
                     </div>
-                    <div class="col-2">
+                    <div class="col">
                         <input type="date" id="end_date" name="end_date" style="height: 28px">
                     </div>
                     <div class="col text-right">
@@ -113,13 +111,13 @@
             <form id="total-form">
                 <div class="form-row">
                     <div class="form-group col">
-                        <select id="country_total" name="country_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                        <select id="country_total" name="country_total" class="inputs">
                             <option selected>Country</option>
                             <option value="Philippines">Philippines</option>
                             <option value="USA">USA</option>
                         </select>
 
-                        <select id="continent_total" name="continent_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                        <select id="continent_total" name="continent_total" class="inputs">
                             <option selected>Continent</option>
                             <option value="Asia">Philippines</option>
                             <option value="North America">North America</option>
