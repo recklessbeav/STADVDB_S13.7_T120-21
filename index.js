@@ -40,11 +40,11 @@ app.get('/', (req, res) => {
         console.log('Data received from covid_db database:');
         // console.log(result);
         var res1 = [{
-            total_cases     :       "73.4M",
-            total_recovered :       "73.4M",
-            total_deaths     :       "73.4M",
-            active_cases    :       "73.4M",
-            new_cases       :       "73.4M"
+            total_cases     :       "-",
+            total_recovered :       "-",
+            total_deaths    :       "-",
+            active_cases    :       "-",
+            new_cases       :       "-"
         }]
         db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
             db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
@@ -98,11 +98,11 @@ app.post('/', (req, res) => {
             if (err) throw err;
             console.log('success');
             var res1 = [{
-                total_cases     :       "73.4M",
-                total_recovered :       "73.4M",
-                total_deaths     :       "73.4M",
-                active_cases    :       "73.4M",
-                new_cases       :       "73.4M"
+                total_cases     :       "-",
+                total_recovered :       "-",
+                total_deaths    :       "-",
+                active_cases    :       "-",
+                new_cases       :       "-"
             }]
             db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
                 db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
@@ -164,14 +164,39 @@ app.post('/', (req, res) => {
                 QUERY = 'SELECT SUM(total_cases) AS total_cases, SUM(total_recovered) AS total_recovered, SUM(total_deaths) AS total_deaths, SUM(active_cases) AS active_cases, SUM(new_cases) AS new_cases FROM WORLDOMETER GROUP BY CONTINENT;';
             }
 
-            console.log(QUERY);
+            //console.log(QUERY);
 
             db.query(QUERY, (err, RESULT) => {
+                var totalcases = 0;
+                var totalrecovered = 0;
+                var totaldeaths = 0;
+                var activecases = 0;
+                var newcases = 0;
+                if(RESULT.length!=0){
+                    var i=1;
+                    RESULT.forEach(function(data) {
+                        console.log(data);
+
+                        totalcases += data.total_cases;
+                        totalrecovered += data.total_recovered;
+                        totaldeaths += data.total_deaths;
+                        activecases += data.active_cases;
+                        newcases += data.new_cases;
+                    })
+                }
+
+                var TOTAL = [{
+                    total_cases     :       totalcases,
+                    total_recovered :       totalrecovered,
+                    total_deaths    :       totaldeaths,
+                    active_cases    :       activecases,
+                    new_cases       :       newcases
+                }]
                 db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
                     db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
                         if (err) throw err;
-                        console.log(RESULT);
-                        res.render('index.ejs', {title:'Home', userData: result, oneData: RESULT, country: countries, continent: continent});
+                        //console.log(RESULT);
+                        res.render('index.ejs', {title:'Home', userData: result, oneData: TOTAL, country: countries, continent: continent});
                     });
                 })
             })
