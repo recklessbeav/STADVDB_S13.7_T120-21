@@ -175,4 +175,70 @@ table {
 } 
 th, td { 
     padding: 15px; 
-} 
+}
+
+#cases_table{
+    position: relative;
+    font-size: 14px;
+}
+
+#country_table{
+    position: relative;
+    font-size: 14px;
+}
+
+#months {
+    position: relative;
+    font-size: 14px;
+}
+
+.label {
+    position: relative;
+    margin-right: 5px;
+    top: 5px;
+}
+
+.select {
+    position: relative;
+    margin-right: 15px;
+    top: 5px;
+}
+
+.input {
+    position: relative;
+    font-size: 14px;
+    margin-right: 15px;
+    top: 5px;
+}
+
+#top-row {
+    position: relative;
+    width: 1000px;
+    height: 36px;
+    float: left;
+}
+
+#dates {
+    position: relative;
+    top: 20px;
+    margin-bottom: 50px;
+    width: 830px;
+    height: 36px;
+    float: left;
+}
+
+#filter_btn {
+    position: relative;
+    height: 36px;
+    width: 70px;
+    top: 20px;
+    left: 25px;
+}
+
+#reset_btn {
+    position: relative;
+    height: 36px;
+    width: 70px;
+    top: 20px;
+    left: 50px;
+}
