@@ -33,8 +33,8 @@ app.use(bodyParser.json())
 //note: all of this routes will be done like how its done for the node-SQL sample code given
 
 app.get('/', (req, res) => {
-    var query = 'SELECT country, MONTH(DAILY.DATE) AS month, max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered  FROM DAILY GROUP BY month(DAILY.DATE), country;';
-    // var query = 'SELECT * FROM DAILY WHERE COUNTRY="PHILIPPINES";';
+    // var query = 'SELECT country, MONTH(DAILY.DATE) AS month, max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered  FROM DAILY GROUP BY month(DAILY.DATE), country;';
+    var query = 'SELECT * FROM DAILY WHERE COUNTRY="";';
     db.query(query, (err, result) => {
         if (err) throw err;
         console.log('Data received from covid_db database:');
@@ -69,15 +69,23 @@ app.post('/', (req, res) => {
         if (cases == 'All_Cases'){
             q_cases = ', max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered';
         }
+        else if (cases == 'None') {
+            q_cases = '';
+        }
         else{
             var q_cases = ', max(' + cases + ') as ' + cases;
         }
+
         if (country == 'All_Countries'){
             country = '';
+        }
+        else if (country == 'None') {
+            country = ' WHERE country=""';
         }
         else{
             country = ' WHERE country="' + country + '"';
         }
+        
         if (start_date == 'All_Months'){
             months = '';
         }
@@ -113,7 +121,8 @@ app.post('/', (req, res) => {
         });
     } 
     else if ( (!cases && !country && !start_date) && (country_total && continent_total) ) {
-        var query = 'SELECT country, MONTH(DAILY.DATE) AS month, max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered  FROM DAILY GROUP BY month(DAILY.DATE), country;';
+        // var query = 'SELECT country, MONTH(DAILY.DATE) AS month, max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered  FROM DAILY GROUP BY month(DAILY.DATE), country;';
+        var query = 'SELECT * FROM DAILY WHERE COUNTRY="";';
         db.query(query, (err, result) => {
             if (err) throw err;
 
@@ -163,6 +172,9 @@ app.post('/', (req, res) => {
             else if (continent_total == 'All_Continent'){
                 QUERY = 'SELECT SUM(total_cases) AS total_cases, SUM(total_recovered) AS total_recovered, SUM(total_deaths) AS total_deaths, SUM(active_cases) AS active_cases, SUM(new_cases) AS new_cases FROM WORLDOMETER GROUP BY CONTINENT;';
             }
+            else{
+                QUERY = 'SELECT * FROM WORLDOMETER WHERE COUNTRY =""'
+            }
 
             //console.log(QUERY);
 
@@ -192,8 +204,8 @@ app.post('/', (req, res) => {
                     active_cases    :       activecases,
                     new_cases       :       newcases
                 }]
-                db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
-                    db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
+                db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
+                    db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
                         if (err) throw err;
                         //console.log(RESULT);
                         res.render('index.ejs', {title:'Home', userData: result, oneData: TOTAL, country: countries, continent: continent});
