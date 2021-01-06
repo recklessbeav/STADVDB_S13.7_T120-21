@@ -2,6 +2,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+const { json } = require('body-parser');
 
 
 //Create connection
@@ -129,25 +130,35 @@ app.post('/', (req, res) => {
             var COUNTRY = '';
             var CONTINENT = '';
             var QUERY;
-            if (country_total == 'All_Countries' && continent_total == 'none')
-            {
-                console.log('ALL COUNTRIES');
-                COUNTRY = '';
-            }
-            else if (continent_total == 'none') {
-                console.log('NOT ALL COUNTRIES')
-                COUNTRY = ' WHERE country="' + country_total + '"';
-            }
+            // if (country_total == 'All_Countries' && continent_total == 'none')
+            // {
+            //     console.log('ALL COUNTRIES');
+            //     COUNTRY = '';
+            // }
+            // else if (continent_total == 'none') {
+            //     console.log('NOT ALL COUNTRIES')
+            //     COUNTRY = ' WHERE country="' + country_total + '"';
+            // }
 
-            if (country_total == 'none' && continent_total == 'All_Continent')
-            {
-                console.log('ALL CONTINENTS')
-                CONTINENT = '';
+            // if (country_total == 'none' && continent_total == 'All_Continent')
+            // {
+            //     console.log('ALL CONTINENTS')
+            //     CONTINENT = '';
+            // }
+            // else if (country_total == 'none') {
+            //     console.log('NOT ALL CONTINENTS')
+            //     CONTINENT = ' WHERE continent="' + continent_total + '"';
+            // }
+
+            if (continent_total !== 'All_Continent' || continent_total !== 'none' && country_total !== 'All_Countries' || country_total !== 'none'){
+                COUNTRY = ' WHERE country="' + country_total + '"';
+                CONTINENT = ' AND continent="' + continent_total + '"';
             }
-            else if (country_total == 'none') {
-                console.log('NOT ALL CONTINENTS')
+            else if (continent_total !== 'All_Continent' && country_total == 'All_Countries'){
+                COUNTRY = '';
                 CONTINENT = ' WHERE continent="' + continent_total + '"';
             }
+
 
             // if (country_total !== 'All_Countries' && continent_total !== 'All_Continent' && country_total !== 'none' && continent_total !== 'none')
             // {
@@ -160,18 +171,23 @@ app.post('/', (req, res) => {
             {
                 QUERY = 'SELECT total_cases, total_recovered, total_deaths, active_cases, new_cases FROM WORLDOMETER ' + COUNTRY + ';';
             }
+
+            else if(COUNTRY !== '' && CONTINENT !== '')
+            {
+                QUERY = 'SELECT total_cases, total_recovered, total_deaths, active_cases, new_cases FROM WORLDOMETER ' + COUNTRY + CONTINENT + ';';
+            }
             
-            else if (COUNTRY == '' && CONTINENT !== '') {
-                QUERY = 'SELECT total_cases, total_recovered, total_deaths, active_cases, new_cases FROM WORLDOMETER ' + CONTINENT + ';';
-            }
+            // else if (COUNTRY == '' && CONTINENT !== '') {
+            //     QUERY = 'SELECT total_cases, total_recovered, total_deaths, active_cases, new_cases FROM WORLDOMETER ' + CONTINENT + ';';
+            // }
 
-            else if (country_total == 'All_Countries') {
-                QUERY = 'SELECT total_cases, total_recovered, total_deaths, active_cases, new_cases FROM WORLDOMETER ORDER BY COUNTRY;';
-            }
+            // else if (country_total == 'All_Countries') {
+            //     QUERY = 'SELECT total_cases, total_recovered, total_deaths, active_cases, new_cases FROM WORLDOMETER ORDER BY COUNTRY;';
+            // }
 
-            else if (continent_total == 'All_Continent'){
-                QUERY = 'SELECT SUM(total_cases) AS total_cases, SUM(total_recovered) AS total_recovered, SUM(total_deaths) AS total_deaths, SUM(active_cases) AS active_cases, SUM(new_cases) AS new_cases FROM WORLDOMETER GROUP BY CONTINENT;';
-            }
+            // else if (continent_total == 'All_Continent'){
+            //     QUERY = 'SELECT SUM(total_cases) AS total_cases, SUM(total_recovered) AS total_recovered, SUM(total_deaths) AS total_deaths, SUM(active_cases) AS active_cases, SUM(new_cases) AS new_cases FROM WORLDOMETER GROUP BY CONTINENT;';
+            // }
             else{
                 QUERY = 'SELECT * FROM WORLDOMETER WHERE COUNTRY =""'
             }
@@ -216,6 +232,17 @@ app.post('/', (req, res) => {
         })
     }
     
+})
+
+app.get('/getcountries', (req, res) => {
+    var continent_total = req.query.continent_total;
+    // var continent_total = "Asia";
+    var query = 'SELECT DISTINCT(DAILY.COUNTRY) FROM DAILY JOIN WORLDOMETER ON DAILY.worldometer_id = WORLDOMETER.id WHERE continent="' + continent_total + '";';
+    db.query(query, (err, result) => {
+        if (err) throw err;
+        // console.log(JSON.parse(JSON.stringify(result)));
+        res.send(JSON.parse(JSON.stringify(result)));
+    })
 })
 
 /* 1.) Confirmed cases per day */

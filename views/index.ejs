@@ -16,12 +16,21 @@
     <link href='https://fonts.googleapis.com/css2?family=Tienne&display=swap' rel='stylesheet'>
     
     <!-- JS and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     
 </head>
 <body>
@@ -263,6 +272,22 @@
             if(val != 'none'){
                 $('#country_total').prop("disabled", false);
                 if (val != 'All_Continent'){
+                    console.log('pasok')
+                    $.get('/getcountries', {continent_total: val}, (data) => {
+                        $('#country_total').empty();
+                        // console.log(data);
+                        $('#country_total').append('<option value="none">None</option>')
+                        $('#country_total').append('<option value="All_Countries">All Countries</option>')
+                        $.each(data, function(index, value) {
+                            // if(value.position_available){
+                                // <% for (const i in continent) { %>
+                                //     <option value="<%= continent[i].continent %>"> <%= continent[i].continent %> </option>
+                                // <% } %>
+                                $('#country_total').append('<option value="'+value.COUNTRY+'">'+value.COUNTRY+'</option>')
+                                // $('#country_total').append('<% for (const i in' + data +') { %><option value="<%= ' + data[i].country +'%>"> <%=' +data[i].country +'%> </option><% } %>')
+                            // }
+                        })
+                    })  
                     // $('#country_total').empty();
                     // $('#country_total').append('<option selected value="All_Countries">All Countries</option>');
                     // $('#country_total').append('<option value="All_Countries">All Countries</option>');
