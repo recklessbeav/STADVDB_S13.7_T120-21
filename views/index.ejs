@@ -82,9 +82,9 @@
         <div class="container px-5 pt-5 pb-3" style="background-color: #550526;">
             <form method="post">
                 <div class="row">
-                    <div class="col">
-                        <label for="cases_table">Cases</label>
-                        <select id="cases_table" name="cases_table"
+                    <div id = "top-row">
+                        <label class="label" for="cases_table">Cases</label>
+                        <select class="select" id="cases_table" name="cases_table"
                             style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
                             <option value="None" selected>None</option>
                             <option value="All_Cases">All Cases</option>
@@ -96,10 +96,8 @@
                             <option value="new_deaths">New Deaths Cases</option>
                             <option value="new_recovered">New Recovered Cases</option>
                         </select>
-                    </div>
-                    <div class="col">
-                        <label for="country_table">Country</label>
-                        <select id="country_table" name="country_table"
+                        <label class="label" for="country_table">Country</label>
+                        <select class="select" id="country_table" name="country_table"
                             style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
                             <option value="None" selected>None</option>
                             <option value="All_Countries">All Countries</option>
@@ -109,12 +107,12 @@
                                 <option value="<%= country[i].COUNTRY %>"> <%= country[i].COUNTRY %> </option>
                             <% } %>
                         </select>
-                    </div>
-                    <div class="col">
                         <!-- <label for="start_date">Start Date</label> -->
-                        <label for="start_date">Month</label>
+                        <label class="label" for="months">Month</label>
+                            <!--Label for this has been changed from "start_date" to "months"-->
+
                         <!-- <input type="date" id="start_date" name="start_date" style="height: 28px"> -->
-                        <select id="start_date" name="start_date"
+                        <select class="select" id="months" name="months"
                             style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
                             <option value="All_Months" selected>All Months</option>
                             <option value="1">January</option>
@@ -126,17 +124,24 @@
                             <option value="7">July</option>
                         </select>
                     </div>
+                            <!--ID and name have also been changed to "months"-->
+                        <div id = "dates">
+                            <label class="label" for="start_date">Start Date</label>
+                                <input class="input" type="date" id="start_date" name="start_date" style="height: 28px">
+                            <label class="label" for="end_date">End Date</label>
+                                <input class="input" type="date" id="end_date" name="end_date" style="height: 28px">
+                        </div>
                     <!-- <div class="col-2">
                         <label for="end_date">End Date</label>
                         <input type="date" id="end_date" name="end_date" style="height: 28px">
                     </div> -->
-                    <div class="col text-right">
                         <!-- <a href="/filtered" class="btn btn-success" role="button">Filter</a> -->
-                        <input type="submit" class="btn btn-success" value="Filter">
-                    </div>
-                    <div class="col text-right">
-                        <a href="/" class="btn btn-success btn-reset" role="button">Reset</a>
-                    </div>
+                        <div id = "filter_btn">
+                            <input id = "filter" type="submit" class="btn btn-success" value="Filter">
+                        </div>
+                        <div id = "reset_btn">
+                            <a id = "reset" href="/" class="btn btn-success btn-reset" role="button">Reset</a>
+                        </div>
                 </div>
                 <div class="row pt-2">
                     <div class="inside_table">
