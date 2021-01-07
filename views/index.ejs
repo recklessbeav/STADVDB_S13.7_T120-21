@@ -113,8 +113,9 @@
 
                         <!-- <input type="date" id="start_date" name="start_date" style="height: 28px"> -->
                         <select class="select" id="months" name="months"
-                            style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
-                            <option value="All_Months" selected>All Months</option>
+                            style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" onchange="monthsAndDates(this.value)">
+                            <option value="none"selected>None</option>
+                            <option value="All_Months">All Months</option>
                             <option value="1">January</option>
                             <option value="2">February</option>
                             <option value="3">March</option>
@@ -127,9 +128,9 @@
                             <!--ID and name have also been changed to "months"-->
                         <div id = "dates">
                             <label class="label" for="start_date">Start Date</label>
-                                <input class="input" type="date" id="start_date" name="start_date" style="height: 28px">
+                                <input class="input" type="date" id="start_date" name="start_date" style="height: 28px" onchange="datesAndMonths()">
                             <label class="label" for="end_date">End Date</label>
-                                <input class="input" type="date" id="end_date" name="end_date" style="height: 28px">
+                                <input class="input" type="date" id="end_date" name="end_date" style="height: 28px" onchange="datesAndMonths()">
                         </div>
                     <!-- <div class="col-2">
                         <label for="end_date">End Date</label>
@@ -146,6 +147,7 @@
                 <div class="row pt-2">
                     <div class="inside_table">
                         <!-- insert table here -->
+                        <label class="label">MONTHLY</label>
                         <table border="1">
                             <tr>
                                 <th>Country</th>
@@ -159,9 +161,9 @@
                                 <th>New Recovered Cases</th>
                             </tr>
                             <%
-                            if(userData.length!=0){
+                            if(userData1.length!=0){
                             var i=1;
-                            userData.forEach(function(data){
+                            userData1.forEach(function(data){
                             %>
                             <tr>
                                 <td><%=data.country %></td>
@@ -181,7 +183,43 @@
                                 </tr>
                             <% } %>
                         </table>
-                            
+                        <br>
+                        <label class="label">DAILY</label>
+                        <table border="1">
+                            <tr>
+                                <th>Country</th>
+                                <th>Date</th>
+                                <th>Confirmed Cases</th>
+                                <th>Death Cases</th>
+                                <th>Recovered Cases</th>
+                                <th>Active Cases</th>
+                                <th>New Cases</th>
+                                <th>New Deaths Cases</th>
+                                <th>New Recovered Cases</th>
+                            </tr>
+                            <%
+                            if(userData2.length!=0){
+                            var i=1;
+                            userData2.forEach(function(data){
+                            %>
+                            <tr>
+                                <td><%=data.country %></td>
+                                <td><%=data.date %></td>
+                                <td><%=data.confirmed %></td>
+                                <td><%=data.deaths %></td>
+                                <td><%=data.recovered %></td>
+                                <td><%=data.active %></td>
+                                <td><%=data.new_cases %></td>
+                                <td><%=data.new_deaths %></td>
+                                <td><%=data.new_recovered %></td>
+                            </tr>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                                <tr>
+                                    <td colspan="7">No Data Found</td>
+                                </tr>
+                            <% } %>
+                        </table>
                     </div>
                  </div>
                 <!-- <div class="row d-flex justify-content-end pt-5">
@@ -257,14 +295,58 @@
     </div>
 
     <script>
-        window.onscroll = function () { myFunction() };
+        // window.onscroll = function () { myFunction() };
 
-        $(document).ready(function () {
-            $('#continent_total').select2();
-        });
+        // $(document).ready(function () {
+        //     $('#continent_total').select2();
+        // });
 
         function table2Filter() {
             $('#country_total').prop("disabled", false);
+        }
+
+        // function filteroverview (cases, country, ) {
+        //     console.log(month);
+        //     if (cases!="None"){
+        //         $('#country_table').prop("disabled", false);
+        //         $('#months').prop("disabled", false);
+        //         $('#start_date').prop("disabled", false);
+        //         $('#end_date').prop("disabled", false);
+        //     }
+        //     else if (cases == "None") {
+        //         $('#country_table').prop("disabled", true);
+        //         $('#months').prop("disabled", true);
+        //         $('#start_date').prop("disabled", true);
+        //         $('#end_date').prop("disabled", true);
+        //     }
+        // }
+
+        function monthsAndDates(month) {
+            console.log(month);
+            if (month!="none"){
+                $('#start_date').prop("disabled", true);
+                $('#end_date').prop("disabled", true);
+            }
+            else if (month == "none") {
+                $('#start_date').prop("disabled", false);
+                $('#end_date').prop("disabled", false);   
+            }
+        }
+
+        function datesAndMonths() {
+            var startD = $('#start_date').val();
+            var endD = $('#end_date').val();
+
+            console.log(startD);
+            console.log(endD);
+
+            if ( (startD && endD) || (startD && !endD) || (!startD && endD) ){
+                $('#months').prop("disabled", true);
+            }
+
+            else {
+                $('#months').prop("disabled", false);
+            }
         }
 
         function populateCountry(continent, countryIDattribute) {
