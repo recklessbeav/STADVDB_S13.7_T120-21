@@ -340,6 +340,11 @@
             console.log(startD);
             console.log(endD);
 
+            // set end_date min to the day after start_date
+            var date = new Date(startD)
+            date.setDate(date.getDate()+1)
+            $('#end_date').attr('min' , date.toISOString().slice(0,10))
+
             if ( (startD && endD) || (startD && !endD) || (!startD && endD) ){
                 $('#months').prop("disabled", true);
             }
