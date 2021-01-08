@@ -82,9 +82,9 @@ app.post('/', (req, res) => {
         if (cases == 'All_Cases'){
             q_cases = ', max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered';
         }
-        // else if (cases == 'None') {
-        //     q_cases = '';
-        // }
+        else if (cases == 'None') {
+            q_cases = '';
+        }
         else{
             q_cases = ', max(' + cases + ') as ' + cases;
         }
@@ -92,9 +92,9 @@ app.post('/', (req, res) => {
         if (country == 'All_Countries'){
             COUNTRY = '';
         }
-        // else if (country == 'None') {
-        //     COUNTRY = ' WHERE country=""';
-        // }
+        else if (country == 'None') {
+            COUNTRY = ' WHERE country=""';
+        }
         else{
             COUNTRY = ' WHERE country="' + country + '"';
         }
@@ -146,9 +146,9 @@ app.post('/', (req, res) => {
         if (cases == 'All_Cases'){
             q_cases = ', confirmed, deaths, recovered, active, new_cases, new_deaths, new_recovered';
         }
-        // else if (cases == 'None') {
-        //     q_cases = '';
-        // }
+        else if (cases == 'None') {
+            q_cases = '';
+        }
         else{
             q_cases = ', '+ cases + '';
         }
@@ -156,47 +156,47 @@ app.post('/', (req, res) => {
         if (country == 'All_Countries'){
             COUNTRY = '';
         }
-        // else if (country == 'None') {
-        //     COUNTRY = ' WHERE country=""';
-        // }
+        else if (country == 'None') {
+            COUNTRY = ' WHERE country=""';
+        }
         else{
             COUNTRY = ' WHERE country="' + country + '"';
         }
 
         if(start_date && end_date && COUNTRY =='')
         {
-            START = 'WHERE daily.date between date("' + start_date + '") ';
+            START = ' WHERE daily.date between date("' + start_date + '") ';
             END   = 'and date("' + end_date + '")' ;
         }
 
         else if(start_date && end_date && COUNTRY !='')
         {
-            START = 'AND daily.date between date("' + start_date + '") '; 
+            START = ' AND daily.date between date("' + start_date + '") '; 
             END   = 'and date("' + end_date + '")' ;
         }
 
         else if(start_date && !end_date && COUNTRY =='')
         {
-            START = 'WHERE daily.date between date("' + start_date + '")';
+            START = ' WHERE daily.date between date("' + start_date + '")';
             END   = '';
         }
 
         else if(start_date && !end_date && COUNTRY !='')
         {
-            START = 'AND daily.date between date("' + start_date + '") '; 
+            START = ' AND daily.date between date("' + start_date + '") '; 
             END   = '';
         }
 
         else if (!start_date && end_date && COUNTRY =='')
         {
             START = '';
-            END   = 'WHERE daily.date between date("' + end_date + '") ';
+            END   = ' WHERE daily.date between date("' + end_date + '") ';
         }
 
         else if (!start_date && end_date && COUNTRY !='')
         {
             START = '';
-            END   = 'AND daily.date between date("' + end_date + '") ';
+            END   = ' AND daily.date between date("' + end_date + '") ';
         }
 
         var query = 'SELECT country, daily.date AS date' + q_cases + ' FROM DAILY' + COUNTRY + START + END + ';';
