@@ -39,7 +39,7 @@ app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
     // var query = 'SELECT country, MONTH(DAILY.DATE) AS month, max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered  FROM DAILY GROUP BY month(DAILY.DATE), country;';
-    var query = 'SELECT * FROM DAILY WHERE COUNTRY="";';
+    var query = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
     db.query(query, (err, result) => {
         console.log(result);
         if (err) throw err;
@@ -52,8 +52,8 @@ app.get('/', (req, res) => {
             active_cases    :       "-",
             new_cases       :       "-"
         }
-        db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
-            db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
+        db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+            db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
                 if (err) throw err;
                 res.render('index.ejs', {title:'Home', userData1: result, userData2: result, oneData: res1, country: countries, continent: continent});
             });
@@ -83,39 +83,39 @@ app.post('/', (req, res) => {
         var MONTHS;
         var COUNTRY;
         if (cases == 'All_Cases'){
-            q_cases = ', max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered';
+            q_cases = ', max(d.confirmed) AS confirmed, max(d.deaths) AS deaths, max(d.recovered) AS recovered, max(d.active) AS active, max(d.new_cases) AS new_cases, max(d.new_deaths) AS new_deaths, max(d.new_recovered) AS new_recovered';
         }
         else if (cases == 'None') {
             q_cases = '';
         }
         else{
-            q_cases = ', max(' + cases + ') as ' + cases;
+            q_cases = ', max(d.' + cases + ') as ' + cases;
         }
 
         if (country == 'All_Countries'){
             COUNTRY = '';
         }
         else if (country == 'None') {
-            COUNTRY = ' WHERE country=""';
+            COUNTRY = ' WHERE c.country=""';
         }
         else{
-            COUNTRY = ' WHERE country="' + country + '"';
+            COUNTRY = ' WHERE c.country="' + country + '"';
         }
         
         if (months == 'All_Months'){
             MONTHS = '';
         }
         else if (months != 'All_Months' && COUNTRY == ''){
-            MONTHS = ' WHERE month(daily.date)="' + months + '"';
+            MONTHS = ' WHERE month(d.date)="' + months + '"';
         }
         else if (start_date != 'All_Months' && country != ''){
-            MONTHS = ' AND month(daily.date)="' + months + '"';
+            MONTHS = ' AND month(d.date)="' + months + '"';
         }
         console.log("cases ", cases);
         console.log("country ", country);
         console.log("month ", months);
 
-        var query = 'SELECT country, month(daily.date) AS month' + q_cases + ' FROM DAILY' + COUNTRY + MONTHS + ' GROUP BY month(daily.date), country;';
+        var query = 'SELECT	c.country AS country, month(d.date) AS month' + q_cases + ' FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id' + COUNTRY + MONTHS + ' GROUP BY month(d.date), c.country ORDER BY c.country ASC;';
 
         db.query(query, (err, result) => {
             if (err) throw err;
@@ -127,10 +127,10 @@ app.post('/', (req, res) => {
                 active_cases    :       "-",
                 new_cases       :       "-"
             }
-            var query2 = 'SELECT * FROM DAILY WHERE COUNTRY="";';
+            var query2 = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
             db.query(query2, (err, result2) => {
-                db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
-                    db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
+                db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                    db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
                         if (err) throw err;
                         
                         // calculate the duration in seconds
@@ -153,13 +153,13 @@ app.post('/', (req, res) => {
         var END;
 
         if (cases == 'All_Cases'){
-            q_cases = ', confirmed, deaths, recovered, active, new_cases, new_deaths, new_recovered';
+            q_cases = ', d.confirmed AS confirmed, d.deaths AS deaths, d.recovered AS recovered, d.active AS active, d.new_cases AS new_cases, d.new_deaths AS new_deaths, d.new_recovered AS new_recovered';
         }
         else if (cases == 'None') {
             q_cases = '';
         }
         else{
-            q_cases = ', '+ cases + '';
+            q_cases = ', d.'+ cases + ' AS ' + cases;
         }
         
         if (country == 'All_Countries'){
@@ -169,46 +169,46 @@ app.post('/', (req, res) => {
             COUNTRY = ' WHERE country=""';
         }
         else{
-            COUNTRY = ' WHERE country="' + country + '"';
+            COUNTRY = ' WHERE c.country="' + country + '"';
         }
 
         if(start_date && end_date && COUNTRY =='')
         {
-            START = ' WHERE daily.date between date("' + start_date + '") ';
+            START = ' WHERE d.date between date("' + start_date + '") ';
             END   = 'and date("' + end_date + '")' ;
         }
 
         else if(start_date && end_date && COUNTRY !='')
         {
-            START = ' AND daily.date between date("' + start_date + '") '; 
+            START = ' AND d.date between date("' + start_date + '") '; 
             END   = 'and date("' + end_date + '")' ;
         }
 
         else if(start_date && !end_date && COUNTRY =='')
         {
-            START = ' WHERE daily.date between date("' + start_date + '")';
+            START = ' WHERE d.date between date("' + start_date + '")';
             END   = '';
         }
 
         else if(start_date && !end_date && COUNTRY !='')
         {
-            START = ' AND daily.date between date("' + start_date + '") '; 
+            START = ' AND d.date between date("' + start_date + '") '; 
             END   = '';
         }
 
         else if (!start_date && end_date && COUNTRY =='')
         {
             START = '';
-            END   = ' WHERE daily.date between date("' + end_date + '") ';
+            END   = ' WHERE d.date between date("' + end_date + '") ';
         }
 
         else if (!start_date && end_date && COUNTRY !='')
         {
             START = '';
-            END   = ' AND daily.date between date("' + end_date + '") ';
+            END   = ' AND d.date between date("' + end_date + '") ';
         }
 
-        var query = 'SELECT country, daily.date AS date' + q_cases + ' FROM DAILY' + COUNTRY + START + END + ';';
+        var query = 'SELECT c.country, d.date AS date' + q_cases + ' FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id' + COUNTRY + START + END + ' ORDER BY c.country ASC;';
         console.log(query);
         db.query(query, (err, result) => {
             if (err) throw err;
@@ -242,10 +242,10 @@ app.post('/', (req, res) => {
                 active_cases    :       "-",
                 new_cases       :       "-"
             }
-            var query2 = 'SELECT * FROM DAILY WHERE COUNTRY="";';
+            var query2 = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
             db.query(query2, (err, result2) => {
-                db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
-                    db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
+                db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                    db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
                         if (err) throw err;
                         
                         // calculate the duration in seconds
@@ -262,7 +262,7 @@ app.post('/', (req, res) => {
 
     else if ( (!cases && !country && !months) && ((!start_date && !end_date)) && (country_total && continent_total) ) {
         console.log("Total");
-        var query = 'SELECT * FROM DAILY WHERE COUNTRY="";';
+        var query = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
         db.query(query, (err, result) => {
             if (err) throw err;
 
@@ -279,18 +279,18 @@ app.post('/', (req, res) => {
             else {
                 if ( (continent_total == 'All_Continent') || (country_total == 'none' && continent_total == 'All_Continent') )
                 {
-                    QUERY = 'SELECT SUM(total_cases) AS total_cases, SUM(total_recovered) AS total_recovered, SUM(total_deaths) AS total_deaths, SUM(active_cases) AS active_cases, SUM(new_cases) AS new_cases FROM WORLDOMETER GROUP BY CONTINENT;';
+                    QUERY = 'SELECT SUM(w.total_cases) AS total_cases, SUM(w.total_recovered) AS total_recovered, SUM(w.total_deaths) AS total_deaths, SUM(w.active_cases) AS active_cases, SUM(w.new_cases) AS new_cases FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON w.id = c.worldometer_id  GROUP BY c.CONTINENT;';
                 }
 
                 else
                 {
                     if ( ((country_total != 'none')) && ((continent_total != 'All_Continent' && continent_total != 'none')) ) {
                         console.log("SPECIFIC");
-                        COUNTRY   = ' WHERE country="' + country_total + '"';
-                        CONTINENT = ' AND continent="' + continent_total + '"';
+                        COUNTRY   = ' WHERE c.country="' + country_total + '"';
+                        CONTINENT = ' AND c.continent="' + continent_total + '"';
                     }
 
-                    QUERY = 'SELECT total_cases, total_recovered, total_deaths, active_cases, new_cases FROM WORLDOMETER ' + COUNTRY + CONTINENT + ';';
+                    QUERY = 'SELECT w.total_cases AS total_cases, w.total_recovered AS total_recovered, w.total_deaths AS total_deaths, w.active_cases AS active_cases, w.new_cases AS new_cases FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON w.id = c.worldometer_id ' + COUNTRY + CONTINENT + ';';
                 }
             }
 
@@ -339,8 +339,8 @@ app.post('/', (req, res) => {
                     }
                 }   
 
-                db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
-                    db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
+                db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
+                    db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
                         if (err) throw err;
                         
                         // calculate the duration in seconds
