@@ -137,8 +137,8 @@ form label {
 
     background-color: #E26C69;
     border-radius: 0px;
-    height: 150px;
-    width: 150px;
+    height: 180px;
+    width: 180px;
     margin: 20px;
     box-shadow: 0 4px 8px 0  rgba(0, 0, 0, 0.3);
 }
@@ -149,6 +149,7 @@ form label {
 }
 
 .num-cases{
+    font-size: 30px;
     font-weight: 800;
     margin: 0px;
     color: #000000;
