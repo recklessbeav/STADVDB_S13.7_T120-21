@@ -62,6 +62,9 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
+    // get timestamp before running the query
+    var pre_query = new Date().getTime();
+
     console.log("called...");
     console.log(req.body);
     var cases = req.body.cases_table;
@@ -129,6 +132,12 @@ app.post('/', (req, res) => {
                 db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
                     db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
                         if (err) throw err;
+                        
+                        // calculate the duration in seconds
+                        var post_query = new Date().getTime();
+                        var duration = (post_query - pre_query) / 1000;
+                        console.log(duration)
+                        
                         res.render('index.ejs', {title:'Home', userData1: result, userData2: result2, oneData:res1, country: countries, continent: continent});
                     });
                 })
@@ -238,6 +247,12 @@ app.post('/', (req, res) => {
                 db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
                     db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
                         if (err) throw err;
+                        
+                        // calculate the duration in seconds
+                        var post_query = new Date().getTime();
+                        var duration = (post_query - pre_query) / 1000;
+                        console.log(duration)
+                        
                         res.render('index.ejs', {title:'Home', userData1: result2, userData2: result, oneData:res1, country: countries, continent: continent});
                     });
                 })
@@ -327,7 +342,12 @@ app.post('/', (req, res) => {
                 db.query('SELECT DISTINCT(continent) FROM WORLDOMETER;', (err, continent) => {
                     db.query('SELECT DISTINCT(COUNTRY) FROM DAILY;', (err, countries) => {
                         if (err) throw err;
-                        //console.log(RESULT);
+                        
+                        // calculate the duration in seconds
+                        var post_query = new Date().getTime();
+                        var duration = (post_query - pre_query) / 1000;
+                        console.log(duration)
+                        
                         res.render('index.ejs', {title:'Home', userData1: result, userData2: result, oneData: TOTAL, country: countries, continent: continent});
                     });
                 })
