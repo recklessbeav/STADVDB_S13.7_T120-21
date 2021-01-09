@@ -370,11 +370,7 @@ app.get('/Continents', (req, res) => {
 })
 
 
-let port = process.env.PORT;
-
-if(port == null || port == "") {
-    port = 2000;
-}
+let port = process.env.PORT || 2000;
 
 app.listen('port', () => {
     console.log('listening to server at port ' + port);
