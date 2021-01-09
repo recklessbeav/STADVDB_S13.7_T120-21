@@ -369,6 +369,13 @@ app.get('/Continents', (req, res) => {
     res.send(Object.keys(countriesAndContinents).sort());
 })
 
-app.listen('2000', () => {
-    console.log('listening to server at port 2000');
+
+let port = process.env.PORT;
+
+if(port == null || port == "") {
+    port = 2000;
+}
+
+app.listen('port', () => {
+    console.log('listening to server at port ' + port);
 });
