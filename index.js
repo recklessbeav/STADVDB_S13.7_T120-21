@@ -285,7 +285,7 @@ app.post('/', (req, res) => {
                 else
                 {
                     if ( ((country_total != 'none')) && ((continent_total != 'All_Continent' && continent_total != 'none')) ) {
-                        console.log("SPECIFIC");
+                        console.log("SPECIFIC country");
                         COUNTRY   = ' WHERE c.country="' + country_total + '"';
                         CONTINENT = ' AND c.continent="' + continent_total + '"';
                     }
