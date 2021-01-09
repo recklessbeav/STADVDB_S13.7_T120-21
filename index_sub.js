@@ -115,7 +115,7 @@ app.post('/', (req, res) => {
         console.log("country ", country);
         console.log("month ", months);
 
-        var query = 'SELECT	c.country AS country, month(d.date) AS month' + q_cases + ' FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id' + COUNTRY + MONTHS + ' GROUP BY month(d.date), c.country ORDER BY c.country ASC;';
+        var query = 'SELECT	c.country AS country, month(d.date) AS month' + q_cases + ' FROM daily d, countryprofile c ' + COUNTRY + MONTHS + ' AND d.worldometer_id = c.worldometer_id GROUP BY month(d.date), c.country ORDER BY c.country ASC;';
 
         db.query(query, (err, result) => {
             if (err) throw err;
@@ -208,7 +208,7 @@ app.post('/', (req, res) => {
             END   = ' AND d.date between date("' + end_date + '") ';
         }
 
-        var query = 'SELECT c.country, d.date AS date' + q_cases + ' FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id' + COUNTRY + START + END + ' ORDER BY c.country ASC;';
+        var query = 'SELECT c.country, d.date AS date' + q_cases + ' FROM daily d, countryprofile c ' + COUNTRY + START + END + ' AND d.worldometer_id = c.worldometer_id ORDER BY c.country ASC;';
         console.log(query);
         db.query(query, (err, result) => {
             if (err) throw err;
@@ -279,7 +279,7 @@ app.post('/', (req, res) => {
             else {
                 if ( (continent_total == 'All_Continent') || (country_total == 'none' && continent_total == 'All_Continent') )
                 {
-                    QUERY = 'SELECT SUM(w.total_cases) AS total_cases, SUM(w.total_recovered) AS total_recovered, SUM(w.total_deaths) AS total_deaths, SUM(w.active_cases) AS active_cases, SUM(w.new_cases) AS new_cases FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON w.id = c.worldometer_id  GROUP BY c.CONTINENT;';
+                    QUERY = 'SELECT SUM(w.total_cases) AS total_cases, SUM(w.total_recovered) AS total_recovered, SUM(w.total_deaths) AS total_deaths, SUM(w.active_cases) AS active_cases, SUM(w.new_cases) AS new_cases FROM WORLDOMETER w, COUNTRYPROFILE c WHERE w.id = c.worldometer_id GROUP BY c.CONTINENT;';
                 }
 
                 else
@@ -294,7 +294,7 @@ app.post('/', (req, res) => {
                         CONTINENT = ' WHERE c.continent="' + continent_total + '"';
                     }
 
-                    QUERY = 'SELECT w.total_cases AS total_cases, w.total_recovered AS total_recovered, w.total_deaths AS total_deaths, w.active_cases AS active_cases, w.new_cases AS new_cases FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON w.id = c.worldometer_id ' + COUNTRY + CONTINENT + ';';
+                    QUERY = 'SELECT w.total_cases AS total_cases, w.total_recovered AS total_recovered, w.total_deaths AS total_deaths, w.active_cases AS active_cases, w.new_cases AS new_cases FROM WORLDOMETER w, COUNTRYPROFILE c ' + COUNTRY + CONTINENT + ' AND w.id = c.worldometer_id;';
                 }
             }
 
@@ -373,17 +373,6 @@ app.get('/Continents', (req, res) => {
     res.send(Object.keys(countriesAndContinents).sort());
 })
 
-
-// app.listen(2000, () => {
-//     console.log('listening to server at port 2000');
-// });
-
-let port = process.env.PORT;
-
-if(port == null || port == "") {
-    port = 9090;
-}
-
-app.listen(port, function () {
-    console.log('app listening at port ' + port);
+app.listen('2001', () => {
+    console.log('listening to server at port 2001');
 });
