@@ -321,22 +321,40 @@ app.post('/', (req, res) => {
             else {
                 if ( (continent_total == 'All_Continent') || (country_total == 'none' && continent_total == 'All_Continent') )
                 {
-                    QUERY = 'SELECT SUM(w.total_cases) AS total_cases, SUM(w.total_recovered) AS total_recovered, SUM(w.total_deaths) AS total_deaths, SUM(w.active_cases) AS active_cases, SUM(w.new_cases) AS new_cases FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON w.id = c.worldometer_id  GROUP BY c.CONTINENT;';
+                    QUERY = 'SELECT SUM(w.total_cases) AS total_cases, SUM(w.total_recovered) AS total_recovered, SUM(w.total_deaths) AS total_deaths, SUM(w.active_cases) AS active_cases, SUM(w.new_cases) AS new_cases FROM WORLDOMETER w;';
                 }
 
                 else
                 {
                     if ( ((country_total != 'none')) && ((continent_total != 'All_Continent' && continent_total != 'none')) ) {
                         console.log("SPECIFIC");
-                        COUNTRY   = ' WHERE c.country="' + country_total + '"';
+                        COUNTRY   = 'JOIN COUNTRYPROFILE c ON w.id = c.worldometer_id  WHERE c.country="' + country_total + '"';
                         CONTINENT = ' AND c.continent="' + continent_total + '"';
                     }
                     else if ( ((country_total == 'none')) && ((continent_total != 'All_Continent' && continent_total != 'none')) ){
                         console.log("SPECIFIC continent");
-                        CONTINENT = ' WHERE c.continent="' + continent_total + '"';
+                        if (continent_total == 'Africa'){
+                            q_conti = 'AFR';
+                        }
+                        else if (continent_total == 'Asia'){
+                            q_conti = 'ASI';
+                        }
+                        else if (continent_total == 'Australia/Oceania'){
+                            q_conti = 'AUO';
+                        }
+                        else if (continent_total == 'Europe'){
+                            q_conti = 'EUR';
+                        }
+                        else if (continent_total == 'North America'){
+                            q_conti = 'NAM';
+                        }
+                        else if (continent_total == 'South America'){
+                            q_conti = 'SAM';
+                        }
+                        CONTINENT = ' WHERE id LIKE "' + q_conti + '%"';
                     }
 
-                    QUERY = 'SELECT w.total_cases AS total_cases, w.total_recovered AS total_recovered, w.total_deaths AS total_deaths, w.active_cases AS active_cases, w.new_cases AS new_cases FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON w.id = c.worldometer_id ' + COUNTRY + CONTINENT + ';';
+                    QUERY = 'SELECT w.total_cases AS total_cases, w.total_recovered AS total_recovered, w.total_deaths AS total_deaths, w.active_cases AS active_cases, w.new_cases AS new_cases FROM WORLDOMETER w ' + COUNTRY + CONTINENT + ';';
                 }
             }
 
