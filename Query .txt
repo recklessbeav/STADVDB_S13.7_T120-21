@@ -1,0 +1,254 @@
+1. Confirmed Cases per Day per Country
+
+	"SELECT c.country AS Country, d.date AS Date, d.confirmed AS Confirmed
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id;"
+	
+	"SELECT c.country AS Country, d.date AS Date, d.confirmed AS Confirmed
+	From daily d, countryprofile c
+	WHERE d.worldometer_id = c.worldometer_id"
+
+2. Confirmed Cases per month per Country
+	
+	"SELECT c.country AS Country, month(d.date) AS month, MAX(d.confirmed) AS confirmed_cases
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id
+	GROUP BY month(d.date), c.country;"	
+	
+	"SELECT c.country AS Country, month(d.date) AS Month, d.confirmed AS Confirmed
+	From daily d, countryprofile c
+	WHERE d.worldometer_id = c.worldometer_id
+	GROUP BY month(d.date), c.country"
+	
+3. Confirmed Cases per Country
+
+	"SELECT        c.country, w.total_cases
+	FROM        worldometer w JOIN countryprofile c ON w.worldometer_id = c.worldometer_id
+	GROUP BY c.country ORDER BY w.total_cases DESC;"	
+	
+	"SELECT c.country, w.total_cases
+	FROM countryprofile c, worldometer w
+	WHERE w.id = c.worldometer_id
+	GROUP BY c.country
+	ORDER BY w.total_cases DESC"
+	
+4. Death Cases per Day per Country
+
+	"SELECT c.country, d.date, d.deaths
+	FROM daily d JOIN countryprofile c ON d.worldometer_id=c.worldometer_id;"	
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(DEATHS) AS DEATHS 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"" AND DAILY.DATE BETWEEN DATE(""(START DATE)"") AND DATE(""(END DATE)"")"
+
+5. Death Cases per Month per Country
+
+	"SELECT	c.country, month(d.date) AS Month, MAX(d.deaths) AS death_cases
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id;"	
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(DEATHS) AS DEATHS 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)""
+	GROUP BY MONTH(DAILY.DATE), COUNTRY"
+
+6. Death Cases per Country
+
+	"SELECT c.country, w.total_deaths
+	FROM worldometer w JOIN countryprofile c ON w.id = c.worldometer_id
+	GROUP BY c.country ORDER BY w.total_cases DESC"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(DEATHS) AS DEATHS 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"""
+
+7. Recovered Cases per day per Country
+
+	"SELECT c.country AS Country, month(d.date) AS Month, MAX(d.recovered) AS 'Recovered Cases'
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id
+	GROUP BY month(d.date), c.country;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(RECOVERED) AS RECOVERED 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"" AND DAILY.DATE BETWEEN DATE(""(START DATE)"") AND DATE(""(END DATE)"")"
+
+8. Recovered Cases per Month per Country
+
+	"SELECT c.country AS Country, month(d.date) AS Month, MAX(d.recovered) AS 'Recovered Cases'
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id
+	GROUP BY month(d.date), c.country;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(RECOVERED) AS RECOVERED 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)""
+	GROUP BY MONTH(DAILY.DATE), COUNTRY"
+
+9. Recovered Cases per Country
+
+	"SELECT c.country, w.total_recovered
+	FROM worldometer w JOIN countryprofile c ON w.id = c.worldometer_id
+	GROUP BY c.country ORDER BY w.total_cases DESC;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(RECOVERED) AS RECOVERED 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"""
+
+10. Active Cases per day per Country
+
+	"SELECT c.country AS Country, d.date AS Date, d.active AS Active
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(ACTIVE) AS ACTIVE 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"" AND DAILY.DATE BETWEEN DATE(""(START DATE)"") AND DATE(""(END DATE)"")"
+
+11. Active Cases per month per Country
+
+	"SELECT c.country AS Country, month(d.date) AS Month, MAX(d.active) AS 'Active Cases'
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id
+	GROUP BY month(d.date), c.country;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(ACTIVE) AS ACTIVE 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)""
+	GROUP BY MONTH(DAILY.DATE), COUNTRY"
+
+12. Active Cases per Country
+
+	"SELECT c.country, w.active_cases
+	FROM worldometer w JOIN countryprofile c ON w.id = c.worldometer_id
+	GROUP BY c.country ORDER BY w.total_cases DESC;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(ACTIVE) AS ACTIVE 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"""
+
+13. New Cases per day per Country
+
+	"SELECT c.country AS Country, d.date AS Date, d.new_cases AS 'New Cases'
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(NEW_CASES) AS NEW_CASES 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"" AND DAILY.DATE BETWEEN DATE(""(START DATE)"") AND DATE(""(END DATE)"")"
+
+14. New Cases per month per Country
+
+	"SELECT c.country AS Country, month(d.date) AS Month, MAX(d.new_cases) AS 'New Cases'
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id
+	GROUP BY month(d.date), c.country;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(NEW_CASES) AS NEW_CASES 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)""
+	GROUP BY MONTH(DAILY.DATE), COUNTRY"
+
+15. New Cases per Country
+
+	"SELECT c.country, w.new_cases
+	FROM worldometer w JOIN countryprofile c ON w.id = c.worldometer_id
+	GROUP BY c.country ORDER BY w.total_cases DESC;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(NEW_CASES) AS NEW_CASES 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"""
+
+16. New Death Cases per day per Country
+
+	"SELECT c.country AS Country, d.date AS Date, d.recovered AS Recovered
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(NEW_DEATHS) AS NEW_DEATHS 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"" AND DAILY.DATE BETWEEN DATE(""(START DATE)"") AND DATE(""(END DATE)"")"
+
+17. New Death Cases per month per Country
+
+	"SELECT c.country AS Country, month(d.date) AS Month, MAX(d.new_death) AS 'New Death Cases'
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id
+	GROUP BY month(d.date), c.country;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(NEW_DEATHS) AS NEW_DEATHS 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)""
+	GROUP BY MONTH(DAILY.DATE), COUNTRY"
+
+18. New Death Cases per Country
+
+	"SELECT c.country, w.new_deaths
+	FROM worldometer w JOIN countryprofile c ON w.id = c.worldometer_id
+	GROUP BY c.country ORDER BY w.total_cases DESC;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(NEW_DEATHS) AS NEW_DEATHS 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"""
+
+19. New Recovered Cases per day per Country
+
+	"SELECT c.country AS Country, d.date AS Date, d.new_recovered AS 'New Recovered'
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(NEW_RECOVERED) AS NEW_RECOVERED 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"" AND DAILY.DATE BETWEEN DATE(""(START DATE)"") AND DATE(""(END DATE)"")"
+
+20. New Recovered Cases per month per Country
+
+	"SELECT c.country AS Country, month(d.date) AS Month, MAX(d.new_recovered) AS 'New Recovered Cases'
+	FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id
+	GROUP BY month(d.date), c.country;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(NEW_RECOVERED) AS NEW_RECOVERED 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)""
+	GROUP BY MONTH(DAILY.DATE), COUNTRY"
+
+21. New Recovered Cases per Country
+
+	"SELECT c.country, w.new_recovered
+	FROM worldometer w JOIN countryprofile c ON w.id = c.worldometer_id
+	GROUP BY c.country ORDER BY w.total_cases DESC;"
+	
+	"SELECT COUNTRY, DAILY.DATE AS DATE, MAX(NEW_RECOVERED) AS NEW_RECOVERED 
+	FROM DAILY,   COUNTRYPROFILE 
+	WHERE COUNTRY = ""(COUNTRY)"""
+
+22. Total Death Cases per Continent
+
+	"SELECT SUM(w.total_cases) AS ‘Total Cases’, SUM(w.total_recovered) AS ‘Total Recovered’, SUM(w.total_deaths) AS ‘Total Deaths’, SUM(w.active_cases) AS ‘Active Cases’, SUM(w.new_cases) AS ‘New Cases’
+	FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON w.id = c.worldometer_id
+	GROUP BY c.CONTINENT;"
+	
+	"SELECT SUM(TOTAL_DEATHS) AS TOTAL_DEATHS, CONTINENT
+	FROM WORLDOMETER, COUNTRYPROFILE
+	GROUP BY CONTINENT"
+
+23. Total Cases per Continent
+
+	**
+	
+	"SELECT SUM(TOTAL_CASES) AS TOTAL_CASES, CONTINENT
+	FROM WORLDOMETER, COUNTRYPROFILE
+	GROUP BY CONTINENT"
+	
+24. Total Recovered Cases per Continent
+
+	**
+	
+	"SELECT SUM(TOTAL_RECOVERED) AS TOTAL_RECOVERED
+	FROM WORLDOMETER, COUNTRYPROFILE
+	GROUP BY CONTINENT"
+	
+25. Total Active Cases per Continent
+
+	**
+	
+	"SELECT SUM(ACTIVE_CASES) AS ACTIVE_CASES
+	FROM WORLDOMETER, COUNTRYPROFILE
+	GROUP BY CONTINENT"
+
+26. Total New Cases per Continent
+
+	**
+
+	"SELECT SUM(NEW_CASES) AS NEW_CASES
+	FROM WORLDOMETER, COUNTRYPROFILE
+	GROUP BY CONTINENT"
+
