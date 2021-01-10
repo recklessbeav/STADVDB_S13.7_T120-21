@@ -82,24 +82,43 @@ app.post('/', (req, res) => {
         var q_cases;
         var MONTHS;
         var COUNTRY;
+
+        if (country == 'All_Countries'){
+            COUNTRY = 'JOIN countryprofile c ON d.worldometer_id = c.worldometer_id';
+            q_country = 'c.country as country, '
+            g_country = ' , c.country  ORDER BY c.country ASC'
+        }
+        else if (country == 'None') {
+            COUNTRY = '';
+            q_country = ''
+            g_country = ''
+        }
+        else{
+            COUNTRY = 'JOIN countryprofile c ON d.worldometer_id = c.worldometer_id WHERE c.country="' + country + '"';
+            q_country = 'c.country as country, '
+            g_country = ' , c.country  ORDER BY c.country ASC'
+        }
+
         if (cases == 'All_Cases'){
-            q_cases = ', max(d.confirmed) AS confirmed, max(d.deaths) AS deaths, max(d.recovered) AS recovered, max(d.active) AS active, max(d.new_cases) AS new_cases, max(d.new_deaths) AS new_deaths, max(d.new_recovered) AS new_recovered';
+            if (country != 'None'){
+                q_case = 'sum'
+            }
+            else{
+                q_case = 'max'
+            }
+            q_cases = ', ' + q_case + '(d.confirmed) AS confirmed, ' + q_case + '(d.deaths) AS deaths, ' + q_case + '(d.recovered) AS recovered, ' + q_case + '(d.active) AS active, ' + q_case + '(d.new_cases) AS new_cases, ' + q_case + '(d.new_deaths) AS new_deaths, ' + q_case + '(d.new_recovered) AS new_recovered';
         }
         else if (cases == 'None') {
             q_cases = '';
         }
         else{
-            q_cases = ', max(d.' + cases + ') as ' + cases;
-        }
-
-        if (country == 'All_Countries'){
-            COUNTRY = '';
-        }
-        else if (country == 'None') {
-            COUNTRY = ' WHERE c.country=""';
-        }
-        else{
-            COUNTRY = ' WHERE c.country="' + country + '"';
+            if (country == 'None'){
+                q_case = 'sum'
+            }
+            else{
+                q_case = 'max'
+            }
+            q_cases = ', ' + q_case + '(d.' + cases + ') as ' + cases;
         }
         
         if (months == 'All_Months'){
@@ -115,11 +134,11 @@ app.post('/', (req, res) => {
         console.log("country ", country);
         console.log("month ", months);
 
-        var query = 'SELECT	c.country AS country, month(d.date) AS month' + q_cases + ' FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id' + COUNTRY + MONTHS + ' GROUP BY month(d.date), c.country ORDER BY c.country ASC;';
+        var query = 'SELECT ' + q_country + ' month(d.date) AS month' + q_cases + ' FROM daily d ' + COUNTRY + MONTHS + ' GROUP BY month(d.date) ' + g_country + ';';
 
         db.query(query, (err, result) => {
             if (err) throw err;
-            console.log('success');
+            console.log(query);
             var res1 = {
                 total_cases     :       "-",
                 total_recovered :       "-",
@@ -153,23 +172,46 @@ app.post('/', (req, res) => {
         var END;
 
         if (cases == 'All_Cases'){
-            q_cases = ', d.confirmed AS confirmed, d.deaths AS deaths, d.recovered AS recovered, d.active AS active, d.new_cases AS new_cases, d.new_deaths AS new_deaths, d.new_recovered AS new_recovered';
+            if (country == 'None'){
+                q_case = 'sum';
+                g_case = ' GROUP BY d.date ';
+            }
+            else{
+                q_case = ''
+                g_case = ''
+            }
+            q_cases = ', ' + q_case + '(d.confirmed) AS confirmed, ' + q_case + '(d.deaths) AS deaths, ' + q_case + '(d.recovered) AS recovered, ' + q_case + '(d.active) AS active, ' + q_case + '(d.new_cases) AS new_cases, ' + q_case + '(d.new_deaths) AS new_deaths, ' + q_case + '(d.new_recovered) AS new_recovered';
         }
         else if (cases == 'None') {
             q_cases = '';
+            g_case = '';
         }
         else{
-            q_cases = ', d.'+ cases + ' AS ' + cases;
+            if (country == 'None'){
+                q_case = 'sum';
+                g_case = ' GROUP BY d.date ';
+            }
+            else{
+                q_case = '';
+                g_case = '';
+            }
+            q_cases = ', ' + q_case + '(d.' + cases + ') as ' + cases;
         }
-        
+
         if (country == 'All_Countries'){
-            COUNTRY = '';
+            COUNTRY = 'JOIN countryprofile c ON d.worldometer_id = c.worldometer_id';
+            q_country = 'c.country as country, '
+            g_country = '  ORDER BY c.country ASC'
         }
         else if (country == 'None') {
-            COUNTRY = ' WHERE country=""';
+            COUNTRY = '';
+            q_country = ''
+            g_country = ''
         }
         else{
-            COUNTRY = ' WHERE c.country="' + country + '"';
+            COUNTRY = 'JOIN countryprofile c ON d.worldometer_id = c.worldometer_id WHERE c.country="' + country + '"';
+            q_country = 'c.country as country, '
+            g_country = '  ORDER BY c.country ASC'
         }
 
         if(start_date && end_date && COUNTRY =='')
@@ -208,7 +250,7 @@ app.post('/', (req, res) => {
             END   = ' AND d.date between date("' + end_date + '") ';
         }
 
-        var query = 'SELECT c.country, d.date AS date' + q_cases + ' FROM daily d JOIN countryprofile c ON d.worldometer_id = c.worldometer_id' + COUNTRY + START + END + ' ORDER BY c.country ASC;';
+        var query = 'SELECT ' + q_country + ' d.date AS date' + q_cases + ' FROM daily d ' + COUNTRY + START + END + g_case + g_country + ';';
         console.log(query);
         db.query(query, (err, result) => {
             if (err) throw err;
