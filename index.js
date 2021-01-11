@@ -356,30 +356,30 @@ app.post('/', (req, res) => {
 
                 else
                 {
-                    if ( ((continent_total != 'All_Continent' && continent_total != 'none')) ){
-                        console.log("SPECIFIC continent");
-                        if (continent_total == 'Africa'){
-                            q_conti = 'AFR';
-                        }
-                        else if (continent_total == 'Asia'){
-                            q_conti = 'ASI';
-                        }
-                        else if (continent_total == 'Australia/Oceania'){
-                            q_conti = 'AUO';
-                        }
-                        else if (continent_total == 'Europe'){
-                            q_conti = 'EUR';
-                        }
-                        else if (continent_total == 'North America'){
-                            q_conti = 'NAM';
-                        }
-                        else if (continent_total == 'South America'){
-                            q_conti = 'SAM';
-                        }
-                        CONTINENT = ' WHERE id LIKE "' + q_conti + '%"';
-                    }
+                    // if ( ((continent_total != 'All_Continent' && continent_total != 'none')) ){
+                    //     console.log("SPECIFIC continent");
+                    //     if (continent_total == 'Africa'){
+                    //         q_conti = 'AFR';
+                    //     }
+                    //     else if (continent_total == 'Asia'){
+                    //         q_conti = 'ASI';
+                    //     }
+                    //     else if (continent_total == 'Australia/Oceania'){
+                    //         q_conti = 'AUO';
+                    //     }
+                    //     else if (continent_total == 'Europe'){
+                    //         q_conti = 'EUR';
+                    //     }
+                    //     else if (continent_total == 'North America'){
+                    //         q_conti = 'NAM';
+                    //     }
+                    //     else if (continent_total == 'South America'){
+                    //         q_conti = 'SAM';
+                    //     }
+                    //     CONTINENT = ' WHERE id LIKE "' + q_conti + '%"';
+                    // }
 
-                    QUERY = 'SELECT w.country as country, w.total_cases AS total_cases, w.total_recovered AS total_recovered, w.total_deaths AS total_deaths, w.total_tests AS total_tests FROM WORLDOMETER w ' + CONTINENT + ';';
+                    QUERY = 'SELECT c.country, w.total_cases, w.total_recovered, w.total_deaths, w.total_tests FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON C.COUNTRY = W.COUNTRY WHERE c.continent="' + continent_total + '";';
                 }
             }
             if(NONE){
