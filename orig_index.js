@@ -430,6 +430,9 @@ app.post('/', (req, res) => {
 
         })
     }//end of total cases per continent
+
+    //In-dept report
+    
     
 })
 
