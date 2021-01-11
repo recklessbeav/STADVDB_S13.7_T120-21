@@ -79,7 +79,7 @@ app.get('/', (req, res) => {
             db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
                 db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
                     if (err) throw err;
-                    res.render('index.ejs', {title:'Home', userData1: result, userData2: result, oneData: res1, country: countries, continent: continent, overviewTotal: overview});
+                    res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, oneData: res1, country: countries, continent: continent, overviewTotal: overview});
                 });
             }); 
         });
@@ -206,7 +206,7 @@ app.post('/', (req, res) => {
                             var duration = (post_query - pre_query) / 1000;
                             console.log(duration)
                             
-                            res.render('index.ejs', {title:'Home', userData1: result, userData2: result2, oneData:res1, country: countries, continent: continent, overviewTotal: overview});
+                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result2, oneData:res1, country: countries, continent: continent, overviewTotal: overview});
                         });
                     })
                 })
@@ -369,7 +369,7 @@ app.post('/', (req, res) => {
                             var duration = (post_query - pre_query) / 1000;
                             console.log(duration)
                             
-                            res.render('index.ejs', {title:'Home', userData1: result2, userData2: result, oneData:res1, country: countries, continent: continent, overviewTotal: overview});
+                            res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result, oneData:res1, country: countries, continent: continent, overviewTotal: overview});
                         });
                     })
                 });
@@ -510,7 +510,7 @@ app.post('/', (req, res) => {
                             var duration = (post_query - pre_query) / 1000;
                             console.log(duration)
                             
-                            res.render('index.ejs', {title:'Home', userData1: result, userData2: result, oneData: TOTAL, country: countries, continent: continent, overviewTotal: overview});
+                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, oneData: TOTAL, country: countries, continent: continent, overviewTotal: overview});
                         });
                     })
                 });

@@ -1,0 +1,393 @@
+<html>
+<head>
+    <title>Corona Virus Update</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" 
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="all" href="/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Rose&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:black|Ubuntu" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css2?family=Tienne&display=swap' rel='stylesheet'>
+    
+    <!-- JS and jQuery -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
+        <ul>
+            <li class="title">
+                CORONA VIRUS UPDATE
+            </li>
+            <li>
+                <i>As of July 27, 2020</i>
+            </li>
+        </ul>
+        <!-- <a class="navbar-brand" href="/"><img src="title2.png" style="height: 50px;"></a>    -->
+    </nav>
+           
+
+    <div class="container">
+        <h1 class="header">OVERVIEW</h1>
+        <div class="row mt-5"> <!-- Summary of Cases Around the World-->
+            
+            <%
+                if(overviewTotal){
+            %>
+            <div class="card">
+                <i class="fa fa-circle" style="color:#FAA613"></i>
+                <h2 class="num-cases" id="total_cases" name="total_cases"><%=overviewTotal.total_cases %></h2>
+                <p class="case-type">Total cases</p>
+            </div>
+
+            <div class="card">
+                <i class="fa fa-circle" style="color:#688E26"></i>
+                <h2 class="num-cases" id="total_recovered" name="total_recovered"><%=overviewTotal.total_recovered %></h2>
+                <p class="case-type">Recovered cases</p>
+            </div>
+            
+            <div class="card">
+                <i class="fa fa-circle" style="color:#F44708"></i>
+                <h2 class="num-cases" id="total_deaths" name="total_deaths"><%=overviewTotal.total_deaths %></h2>
+                <p class="case-type">Death cases</p>
+            </div>
+
+            <div class="card">
+                <i class="fa fa-circle" style="color:#D235B9"></i>
+                <h2 class="num-cases" id="total_tests" name="total_tests"><%=overviewTotal.total_tests %></h2>
+                <p class="case-type">Total tests</p>
+            </div>
+
+            <% } %>
+        </div>
+        <div class="container px-5 pt-5 pb-3" style="background-color: #550526;">
+            <form method="post">
+                <div class="row">
+                    <div id = "top-row">
+                        <label class="label" for="cases_table">Cases</label>
+                        <select class="select" id="cases_table" name="cases_table"
+                            style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            <option value="None" selected>None</option>
+                            <option value="All_Cases">All Cases</option>
+                            <option value="confirmed">Recent Week Reports</option>
+                            <option value="deaths">Death Reprts</option>
+                            <option value="recovered">Daily Reports</option>
+                        </select>
+                        <label class="label" for="country_table">Country</label>
+                        <select class="select" id="country_table" name="country_table"
+                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            <option value="None" selected>None</option>
+                            <option value="All_Countries">All Countries</option>
+                            <!-- <option value="New Cases">Afghanistan</option> -->
+                            <!-- <option value="Active Cases">Philippines</option> -->
+                            <% for (const i in country) { %>
+                                <option value="<%= country[i].COUNTRY %>"> <%= country[i].COUNTRY %> </option>
+                            <% } %>
+                        </select>
+                        <!-- <label for="start_date">Start Date</label> -->
+                        <label class="label" for="months">Month</label>
+                            <!--Label for this has been changed from "start_date" to "months"-->
+
+                        <!-- <input type="date" id="start_date" name="start_date" style="height: 28px"> -->
+                        <select class="select" id="months" name="months"
+                            style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" onchange="monthsAndDates(this.value)">
+                            <option value="none"selected>None</option>
+                            <option value="All_Months">All Months</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                        </select>
+                    </div>
+                            <!--ID and name have also been changed to "months"-->
+                        <div id = "dates">
+                            <label class="label" for="start_date">Start Date</label>
+                                <input class="input" type="date" id="start_date" name="start_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
+                            <label class="label" for="end_date">End Date</label>
+                                <input class="input" type="date" id="end_date" name="end_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
+                        </div>
+                    <!-- <div class="col-2">
+                        <label for="end_date">End Date</label>
+                        <input type="date" id="end_date" name="end_date" style="height: 28px">
+                    </div> -->
+                        <!-- <a href="/filtered" class="btn btn-success" role="button">Filter</a> -->
+                        <div id = "filter_btn">
+                            <input id = "filter" type="submit" class="btn btn-success" value="Filter">
+                        </div>
+                        <div id = "reset_btn">
+                            <a id = "reset" href="/" class="btn btn-success btn-reset" role="button">Reset</a>
+                        </div>
+                </div>
+                <div class="row pt-2">
+                    <div class="inside_table">
+                        <!-- insert table here -->
+                        <label class="label">MONTHLY</label>
+                        <table border="1">
+                            <tr>
+                                <th>Country</th>
+                                <th>Month</th>
+                                <th>Confirmed Cases</th>
+                                <th>Death Cases</th>
+                                <th>Recovered Cases</th>
+                                <th>Active Cases</th>
+                                <th>New Cases</th>
+                                <th>New Deaths Cases</th>
+                                <th>New Recovered Cases</th>
+                            </tr>
+                            <%
+                            if(userData1.length!=0){
+                            var i=1;
+                            userData1.forEach(function(data){
+                            %>
+                            <tr>
+                                <td><%=data.country %></td>
+                                <td><%=data.month %></td>
+                                <td><%=data.confirmed %></td>
+                                <td><%=data.deaths %></td>
+                                <td><%=data.recovered %></td>
+                                <td><%=data.active %></td>
+                                <td><%=data.new_cases %></td>
+                                <td><%=data.new_deaths %></td>
+                                <td><%=data.new_recovered %></td>
+                            </tr>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                                <tr>
+                                    <td colspan="9">No Data Found</td>
+                                </tr>
+                            <% } %>
+                        </table>
+                        <br>
+                        <label class="label">DAILY</label>
+                        <table border="1">
+                            <tr>
+                                <th>Country</th>
+                                <th>Date</th>
+                                <th>Confirmed Cases</th>
+                                <th>Death Cases</th>
+                                <th>Recovered Cases</th>
+                                <th>Active Cases</th>
+                                <th>New Cases</th>
+                                <th>New Deaths Cases</th>
+                                <th>New Recovered Cases</th>
+                            </tr>
+                            <%
+                            if(userData2.length!=0){
+                            var i=1;
+                            userData2.forEach(function(data){
+                            %>
+                            <tr>
+                                <td><%=data.country %></td>
+                                <td><%=data.date %></td>
+                                <td><%=data.confirmed %></td>
+                                <td><%=data.deaths %></td>
+                                <td><%=data.recovered %></td>
+                                <td><%=data.active %></td>
+                                <td><%=data.new_cases %></td>
+                                <td><%=data.new_deaths %></td>
+                                <td><%=data.new_recovered %></td>
+                            </tr>
+                            <%  i++; }) %>
+                            <% } else{ %>
+                                <tr>
+                                    <td colspan="9">No Data Found</td>
+                                </tr>
+                            <% } %>
+                        </table>
+                    </div>
+                 </div>
+                <!-- <div class="row d-flex justify-content-end pt-5">
+                    <a href="/" class="btn btn-success btn-reset" role="button">Reset</a>
+                </div> -->
+            </form>
+        </div>
+
+        <h1 class="header">TOTAL CASES FOR CONTINENTS</h1>
+        <div class="row table p-5">
+            <form id="total-form" method="POST">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <select id="continent_total" name="continent_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" onchange="populateCountry(this.value, 'country_total')">
+                            <option value="none" selected>None</option>
+                            
+                            <% for (const i in continent) { %>
+                                <option value="<%= continent[i].continent %>"> <%= continent[i].continent %> </option>
+                            <% } %>
+                        </select>
+
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Filter" onclick="table2Filter()">              
+                </div>
+
+                <div class="row table justify-content-center">
+                    <%
+                    if(oneData){
+                    %>
+                    
+                    <div class="row pt-2">
+                        <div class="inside_table">
+                            <!-- insert table here -->
+                
+                            <table border="1">
+                                <tr>
+                                    <th>Country</th>
+                                    <th>Total Cases</th>
+                                    <th>Total Death Cases</th>
+                                    <th>Total Recovered Cases</th>
+                                    <th>Total Tests</th>
+                                </tr>
+                                <%
+                                if(userData1.length!=0){
+                                var i=1;
+                                userData1.forEach(function(data){
+                                %>
+                                <tr>
+                                   <!-- <td></td> <!-->
+                                    <td><%=oneData.total_cases %></td>
+                                    <td><%=oneData.total_deaths %></td>
+                                    <td><%=oneData.total_recovered %></td>
+                                    <!-- <td></td> <!-->
+                                </tr>
+                                <%  i++; }) %>
+                                <% } else{ %>
+                                    <tr>
+                                        <td colspan="9">No Data Found</td>
+                                    </tr>
+                                <% } %>
+                            </table>
+                            
+                        </div>
+                     </div>
+
+
+                    <% } %>
+                </div>
+            </form>
+            <div class="row justify-content-end" style="width:100%">
+                <a href="/" class="btn btn-success btn-reset" name="reset_total" id="reset_total" role="button">Reset</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // window.onscroll = function () { myFunction() };
+
+        // $(document).ready(function () {
+        //     $('#continent_total').select2();
+        // });
+
+        function table2Filter() {
+            $('#country_total').prop("disabled", false);
+        }
+
+        // function filteroverview (cases, country, ) {
+        //     console.log(month);
+        //     if (cases!="None"){
+        //         $('#country_table').prop("disabled", false);
+        //         $('#months').prop("disabled", false);
+        //         $('#start_date').prop("disabled", false);
+        //         $('#end_date').prop("disabled", false);
+        //     }
+        //     else if (cases == "None") {
+        //         $('#country_table').prop("disabled", true);
+        //         $('#months').prop("disabled", true);
+        //         $('#start_date').prop("disabled", true);
+        //         $('#end_date').prop("disabled", true);
+        //     }
+        // }
+
+        function monthsAndDates(month) {
+            console.log(month);
+            if (month!="none"){
+                $('#start_date').prop("disabled", true);
+                $('#end_date').prop("disabled", true);
+            }
+            else if (month == "none") {
+                $('#start_date').prop("disabled", false);
+                $('#end_date').prop("disabled", false);   
+            }
+        }
+
+        function datesAndMonths() {
+            var startD = $('#start_date').val();
+            var endD = $('#end_date').val();
+
+            console.log(startD);
+            console.log(endD);
+
+            // set end_date min to the day after start_date
+            var date = new Date(startD)
+            date.setDate(date.getDate()+1)
+            $('#end_date').attr('min' , date.toISOString().slice(0,10))
+
+            if ( (startD && endD) || (startD && !endD) || (!startD && endD) ){
+                $('#months').prop("disabled", true);
+            }
+
+            else {
+                $('#months').prop("disabled", false);
+            }
+        }
+
+        function populateCountry(continent, countryIDattribute) {
+            //var val = $('#continent_total').val();
+            var countrySelect = document.getElementById(countryIDattribute);
+            countrySelect.innerHTML = `<option value="none" selected>None</option>`;
+            var request = new XMLHttpRequest();
+            if(continent!="none"){
+                $('#country_total').prop("disabled", false);
+                request.open('GET', `/Countries?continent=${continent}`, true);
+                request.onload = function () {
+                    if (this.status >= 200 && this.status < 400) {
+                        //Success
+                        var countries = JSON.parse(this.response);
+                        for (const country of countries) {
+                            countrySelect.innerHTML += `<option value="${country}">${country}</option>`;
+                        }
+
+                        console.log(countries);
+                    } else {
+                        //returned an error
+                    }
+                }
+
+                request.onerror = function() {
+                    //error of some sort
+                }
+                request.send();
+
+                console.log(continent);
+                console.log(countryIDattribute);
+            }
+            else{
+                $('#country_total').val('none');
+                $('#country_total').prop("disabled", true);
+            }
+        }
+    </script>
+</body>
+</html>
