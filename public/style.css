@@ -167,7 +167,8 @@ table, td, th {
 } 
 table { 
     border-collapse: collapse; 
-    width: 50%; 
+    width: 100%;
+    /* table-layout: fixed; */
 } 
 .table-data{ 
     position: relative; 
@@ -175,7 +176,17 @@ table {
     top:100px; 
 } 
 th, td { 
-    padding: 15px; 
+    padding: 10px; 
+    font-size: 13px;
+}
+
+th {
+    padding: 3px; 
+    font-weight: 600;
+}
+
+label {
+    color: black;
 }
 
 #cases_table{
