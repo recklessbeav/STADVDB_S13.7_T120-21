@@ -377,36 +377,30 @@ app.post('/', (req, res) => {
         });
     }
 
-    else if ( (!cases && !country && !months) && ((!start_date && !end_date)) && (country_total && continent_total) ) {
+    else if ( (!cases && !country && !months) && ((!start_date && !end_date)) && (continent_total) ) {
         console.log("Total");
         var query = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
         db.query(query, (err, result) => {
             if (err) throw err;
 
-            var COUNTRY = '';
             var CONTINENT = '';
             var QUERY = '';
             var NONE;
 
-            if (continent_total == 'none' && country_total == 'none')
+            if (continent_total == 'none')
             {
                 NONE = true;
             }
 
             else {
-                if ( (continent_total == 'All_Continent') || (country_total == 'none' && continent_total == 'All_Continent') )
+                if ( (continent_total == 'All_Continent') )
                 {
                     QUERY = 'SELECT SUM(w.total_cases) AS total_cases, SUM(w.total_recovered) AS total_recovered, SUM(w.total_deaths) AS total_deaths, SUM(w.active_cases) AS active_cases, SUM(w.new_cases) AS new_cases FROM WORLDOMETER w;';
                 }
 
                 else
                 {
-                    if ( ((country_total != 'none')) && ((continent_total != 'All_Continent' && continent_total != 'none')) ) {
-                        console.log("SPECIFIC");
-                        COUNTRY   = 'JOIN COUNTRYPROFILE c ON w.id = c.worldometer_id  WHERE c.country="' + country_total + '"';
-                        CONTINENT = ' AND c.continent="' + continent_total + '"';
-                    }
-                    else if ( ((country_total == 'none')) && ((continent_total != 'All_Continent' && continent_total != 'none')) ){
+                    if ( ((continent_total != 'All_Continent' && continent_total != 'none')) ){
                         console.log("SPECIFIC continent");
                         if (continent_total == 'Africa'){
                             q_conti = 'AFR';
@@ -429,54 +423,52 @@ app.post('/', (req, res) => {
                         CONTINENT = ' WHERE id LIKE "' + q_conti + '%"';
                     }
 
-                    QUERY = 'SELECT w.total_cases AS total_cases, w.total_recovered AS total_recovered, w.total_deaths AS total_deaths, w.active_cases AS active_cases, w.new_cases AS new_cases FROM WORLDOMETER w ' + COUNTRY + CONTINENT + ';';
+                    QUERY = 'SELECT w.country as country, w.total_cases AS total_cases, w.total_recovered AS total_recovered, w.total_deaths AS total_deaths, w.total_tests AS total_tests FROM WORLDOMETER w ' + CONTINENT + ';';
                 }
             }
 
             console.log(QUERY);
 
-            db.query(QUERY, (err, RESULT) => {
-                //console.log(RESULT.length);
-                var totalcases = 0;
-                var totalrecovered = 0;
-                var totaldeaths = 0;
-                var activecases = 0;
-                var newcases = 0;
-                var TOTAL = {};
+            db.query(QUERY, (err, RESULTone) => {
+                console.log(RESULTone);
+                // var totalcases = 0;
+                // var totalrecovered = 0;
+                // var totaldeaths = 0;
+                // var teststotal = 0;
+                // var TOTAL = {};
 
-                if(NONE)
-                {
-                    TOTAL = {
-                        total_cases     :       "-",
-                        total_recovered :       "-",
-                        total_deaths    :       "-",
-                        active_cases    :       "-",
-                        new_cases       :       "-"
-                    }
-                    // window.alert("Invalid Query! Resetting Queries");
-                }
-                else {
-                    if(RESULT.length != 0){
-                        var i=1;
-                        RESULT.forEach(function(data) {
-                            //console.log(data);
+                // if(NONE)
+                // {
+                //     TOTAL = {
+                //         total_cases     :       "-",
+                //         total_recovered :       "-",
+                //         total_deaths    :       "-",
+                //         tests_total    :       "-",
+                //     }
+                //     // window.alert("Invalid Query! Resetting Queries");
+                // }
+                // else {
+                //     if(RESULT.length != 0){
+                //         var i=1;
+                //         RESULT.forEach(function(data) {
+                //             //console.log(data);
     
-                            totalcases += data.total_cases;
-                            totalrecovered += data.total_recovered;
-                            totaldeaths += data.total_deaths;
-                            activecases += data.active_cases;
-                            newcases += data.new_cases;
-                        })
-                    }
+                //             totalcases += data.total_cases;
+                //             totalrecovered += data.total_recovered;
+                //             totaldeaths += data.total_deaths;
+                //             activecases += data.active_cases;
+                //             newcases += data.new_cases;
+                //         })
+                //     }
 
-                    TOTAL = {
-                        total_cases     :       totalcases,
-                        total_recovered :       totalrecovered,
-                        total_deaths    :       totaldeaths,
-                        active_cases    :       activecases,
-                        new_cases       :       newcases
-                    }
-                }   
+                //     TOTAL = {
+                //         total_cases     :       totalcases,
+                //         total_recovered :       totalrecovered,
+                //         total_deaths    :       totaldeaths,
+                //         active_cases    :       activecases,
+                //         new_cases       :       newcases
+                //     }
+                // }   
                 db.query('SELECT sum(total_cases) as total_cases, sum(total_recovered) as total_recovered, sum(total_deaths) as total_deaths, sum(total_tests) as total_tests FROM WORLDOMETER', (err, overviewTotal) => {
                     var overviewcases = 0;
                     var overviewrecovered = 0;
@@ -510,7 +502,7 @@ app.post('/', (req, res) => {
                             var duration = (post_query - pre_query) / 1000;
                             console.log(duration)
                             
-                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, oneData: TOTAL, country: countries, continent: continent, overviewTotal: overview});
+                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, oneData: RESULTone, country: countries, continent: continent, overviewTotal: overview});
                         });
                     })
                 });
