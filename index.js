@@ -79,7 +79,7 @@ app.get('/', (req, res) => {
             db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
                 db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
                     if (err) throw err;
-                    res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, oneData: res1, country: countries, continent: continent, overviewTotal: overview});
+                    res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, userData4: result, country: countries, continent: continent, overviewTotal: overview});
                 });
             }); 
         });
@@ -140,7 +140,7 @@ app.post('/', (req, res) => {
                             var duration = (post_query - pre_query) / 1000;
                             console.log(duration)
                             
-                            res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result2, oneData:result2, country: countries, continent: continent, overviewTotal: overview});
+                            res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result2, userData4:result2, country: countries, continent: continent, overviewTotal: overview});
                         });
                     })
                 })
@@ -221,7 +221,7 @@ app.post('/', (req, res) => {
                             var duration = (post_query - pre_query) / 1000;
                             console.log(duration)
                             
-                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result2, oneData:res1, country: countries, continent: continent, overviewTotal: overview});
+                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result2, userData4:result2, country: countries, continent: continent, overviewTotal: overview});
                         });
                     })
                 })
@@ -282,13 +282,13 @@ app.post('/', (req, res) => {
             // console.log(result[0].date);
 
             // console.log(result);
-            var res1 = {
-                total_cases     :       "-",
-                total_recovered :       "-",
-                total_deaths    :       "-",
-                active_cases    :       "-",
-                new_cases       :       "-"
-            }
+            // var res1 = {
+            //     total_cases     :       "-",
+            //     total_recovered :       "-",
+            //     total_deaths    :       "-",
+            //     active_cases    :       "-",
+            //     new_cases       :       "-"
+            // }
             var query2 = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
             db.query(query2, (err, result2) => {
                 db.query('SELECT sum(total_cases) as total_cases, sum(total_recovered) as total_recovered, sum(total_deaths) as total_deaths, sum(total_tests) as total_tests FROM WORLDOMETER', (err, overviewTotal) => {
@@ -324,7 +324,7 @@ app.post('/', (req, res) => {
                             var duration = (post_query - pre_query) / 1000;
                             console.log(duration)
                             
-                            res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result, oneData:res1, country: countries, continent: continent, overviewTotal: overview});
+                            res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result, userData4:result2, country: countries, continent: continent, overviewTotal: overview});
                         });
                     })
                 });
@@ -382,7 +382,9 @@ app.post('/', (req, res) => {
                     QUERY = 'SELECT w.country as country, w.total_cases AS total_cases, w.total_recovered AS total_recovered, w.total_deaths AS total_deaths, w.total_tests AS total_tests FROM WORLDOMETER w ' + CONTINENT + ';';
                 }
             }
-
+            if(NONE){
+                QUERY = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY = "";';
+            }
             console.log(QUERY);
 
             db.query(QUERY, (err, RESULTone) => {
@@ -420,7 +422,7 @@ app.post('/', (req, res) => {
                             var duration = (post_query - pre_query) / 1000;
                             console.log(duration)
                             
-                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, oneData: RESULTone, country: countries, continent: continent, overviewTotal: overview});
+                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, userData4: RESULTone, country: countries, continent: continent, overviewTotal: overview});
                         });
                     })
                 });
