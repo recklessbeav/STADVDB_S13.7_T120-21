@@ -91,7 +91,7 @@
                           </div>
                           <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                            <label class="form-check-label" for="inlineRadio2">Week Reports</label>
+                            <label class="form-check-label" for="inlineRadio2">Recent Week Reports</label>
                           </div>
                           <br>
                         <label class="label" for="country_table">Country</label>
@@ -107,11 +107,11 @@
                         </select>
                         <br>
                         <!-- <label for="start_date">Start Date</label> -->
-                        <label class="label" for="months">Month</label>
+                        <!-- <label class="label" for="months">Month</label> -->
                             <!--Label for this has been changed from "start_date" to "months"-->
 
                         <!-- <input type="date" id="start_date" name="start_date" style="height: 28px"> -->
-                        <select class="select" id="months" name="months"
+                        <!-- <select class="select" id="months" name="months"
                             style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" onchange="monthsAndDates(this.value)">
                             <option value="none"selected>None</option>
                             <option value="All_Months">All Months</option>
@@ -122,7 +122,7 @@
                             <option value="5">May</option>
                             <option value="6">June</option>
                             <option value="7">July</option>
-                        </select>
+                        </select> -->
                     </div>
                         
                             <!--ID and name have also been changed to "months"-->
@@ -157,7 +157,6 @@
                         <table border="1">
                             <tr>
                                 <th>Country</th>
-                                <th>Month</th>
                                 <th>Confirmed Cases</th>
                                 <th>Death Cases</th>
                                 <th>Recovered Cases</th>
@@ -169,13 +168,12 @@
                                 <th>Week Increase Percentage</th>
                             </tr>
                             <%
-                            if(userData1.length!=0){
+                            if(userData2.length!=0){
                             var i=1;
-                            userData1.forEach(function(data){
+                            userData2.forEach(function(data){
                             %>
                             <tr>
                                 <td><%=data.country %></td>
-                                <td><%=data.month %></td>
                                 <td><%=data.confirmed %></td>
                                 <td><%=data.deaths %></td>
                                 <td><%=data.recovered %></td>
@@ -183,6 +181,8 @@
                                 <td><%=data.new_cases %></td>
                                 <td><%=data.new_deaths %></td>
                                 <td><%=data.new_recovered %></td>
+                                <td><%=data.confirmed_last_week %></td>
+                                <td><%=data.week_increase_percentage %></td>
                             </tr>
                             <%  i++; }) %>
                             <% } else{ %>
@@ -364,11 +364,11 @@
                                 <th>Country</th>
                                 <th>Date</th>
                                 <th>Total Deaths</th>
-                                <th>Death Cases</th>
+                                <!-- <th>Death Cases</th> -->
                                 <th>Deaths per 100 Cases</th>
                                 <th>Recovered per 100 Cases</th>
                                 <th>New Deaths</th>
-                                <th>Total Cases per 1M</th>
+                                <!-- <th>Total Cases per 1M</th> -->
                             </tr>
                             <!-- <%
                             if(userData1.length!=0){
@@ -377,14 +377,11 @@
                             %>
                             <tr>
                                 <td><%=data.country %></td>
-                                <td><%=data.month %></td>
-                                <td><%=data.confirmed %></td>
-                                <td><%=data.deaths %></td>
-                                <td><%=data.recovered %></td>
-                                <td><%=data.active %></td>
-                                <td><%=data.new_cases %></td>
+                                <td><%=data.date %></td>
+                                <td><%=data.total_deaths %></td>
+                                <td><%=data.deaths_100_cases %></td>
+                                <td><%=data.deaths_100_recovered %></td>
                                 <td><%=data.new_deaths %></td>
-                                <td><%=data.new_recovered %></td>
                             </tr>
                             <%  i++; }) %>
                             <% } else{ %>
@@ -435,9 +432,9 @@
                                     <th>Total Tests</th>
                                 </tr>
                                 <%
-                                if(oneData.length!=0){
+                                if(userData1.length!=0){
                                 var i=1;
-                                oneData.forEach(function(data){
+                                userData1.forEach(function(data){
                                 %>
                                 <tr>
                                     <td><%=data.country %></td>
