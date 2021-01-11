@@ -131,13 +131,13 @@
                             <br>
                             <br>
                             
-                        <div id = "dates">
+                        <!-- <div id = "dates">
                             <label class="label" for="start_date">Start Date</label>
                                 <input class="input" type="date" id="start_date" name="start_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
                             
                                 <label class="label" for="end_date">End Date</label>
                                 <input class="input" type="date" id="end_date" name="end_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
-                        </div>
+                        </div> -->
                     <!-- <div class="col-2">
                         <label for="end_date">End Date</label>
                         <input type="date" id="end_date" name="end_date" style="height: 28px">
@@ -153,20 +153,45 @@
                 <div class="row pt-2">
                     <div class="inside_table">
                         <!-- insert table here -->
-                        <label class="label">MONTHLY</label>
+                        <label class="label">REPORT</label>
                         <table border="1">
                             <tr>
                                 <th>Country</th>
+                                <%if(userData1.length!=0){%>
+                                <th>Total Cases</th>
+                                <% } %>
+                                <%if(userData2.length!=0){%>
                                 <th>Confirmed Cases</th>
+                                <% } %>
                                 <th>Death Cases</th>
                                 <th>Recovered Cases</th>
                                 <th>Active Cases</th>
+                                <%if(userData2.length!=0){%>
                                 <th>New Cases</th>
                                 <th>New Deaths Cases</th>
                                 <th>New Recovered Cases</th>
                                 <th>Confirmed Last Week</th>
                                 <th>Week Increase Percentage</th>
+                                <% } %>
                             </tr>
+                            <%
+                            if(userData1.length!=0){
+                            var i=1;
+                            userData1.forEach(function(data){
+                            %>
+                            <tr>
+                                <td><%=data.country %></td>
+                                <td><%=data.total_cases %></td>
+                                <td><%=data.deaths %></td>
+                                <td><%=data.recovered %></td>
+                                <td><%=data.active %></td>
+                            </tr>
+                            <%  i++; }) %>
+                            <% } else if (userData2.length==0){ %>
+                                <tr>
+                                    <td colspan="9">No Data Found</td>
+                                </tr>
+                            <% } %>
                             <%
                             if(userData2.length!=0){
                             var i=1;
@@ -185,7 +210,7 @@
                                 <td><%=data.week_increase_percentage %></td>
                             </tr>
                             <%  i++; }) %>
-                            <% } else{ %>
+                            <% } else if (userData1.length==0){ %>
                                 <tr>
                                     <td colspan="9">No Data Found</td>
                                 </tr>

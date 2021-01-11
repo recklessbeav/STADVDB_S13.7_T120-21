@@ -104,124 +104,130 @@ app.post('/', (req, res) => {
 
     var radio_option = req.body.inlineRadioOptions;
 
-    // death summary report
-    // if( (country && !months) && (country && start_date && end_date) && (!country_total && !continent_total) && (all_cases)){
-    //     console.log("death sum report");
-    //     var q_cases;
-    //     var MONTHS;
-    //     var COUNTRY;
+    if( (!radio_option) && (country) ){
+        var query2 = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
+            db.query(query2, (err, result2) => {
+                db.query('SELECT sum(total_cases) as total_cases, sum(total_recovered) as total_recovered, sum(total_deaths) as total_deaths, sum(total_tests) as total_tests FROM WORLDOMETER', (err, overviewTotal) => {
+                    var totalcases = 0;
+                    var totalrecovered = 0;
+                    var totaldeaths = 0;
+                    var totaltests = 0;
+                    var overview = {};
+                    if(overviewTotal.length != 0){
+                        var i=1;
+                        overviewTotal.forEach(function(data) {
+                            //console.log(data);
 
-    //     if (country == 'All_Countries'){
-    //         COUNTRY = 'JOIN countryprofile c ON d.worldometer_id = c.worldometer_id';
-    //         q_country = 'c.country as country, '
-    //         g_country = ' , c.country  ORDER BY c.country ASC'
-    //     }
-    //     else if (country == 'None') {
-    //         COUNTRY = '';
-    //         q_country = ''
-    //         g_country = ''
-    //     }
-    //     else{
-    //         COUNTRY = 'JOIN countryprofile c ON d.worldometer_id = c.worldometer_id WHERE c.country="' + country + '"';
-    //         q_country = 'c.country as country, '
-    //         g_country = ' , c.country  ORDER BY c.country ASC'
-    //     }
+                            totalcases += data.total_cases;
+                            totalrecovered += data.total_recovered;
+                            totaldeaths += data.total_deaths;
+                            totaltests += data.total_tests;
+                        })
+                    }
 
-    //     if(start_date && end_date && COUNTRY =='')
-    //     {
-    //         START = ' WHERE d.date between date("' + start_date + '") ';
-    //         END   = 'and date("' + end_date + '")' ;
-    //     }
-
-    //     else if(start_date && end_date && COUNTRY !='')
-    //     {
-    //         START = ' AND d.date between date("' + start_date + '") '; 
-    //         END   = 'and date("' + end_date + '")' ;
-    //     }
-
-    //     else if(start_date && !end_date && COUNTRY =='')
-    //     {
-    //         START = ' WHERE d.date between date("' + start_date + '")';
-    //         END   = '';
-    //     }
-
-    //     else if(start_date && !end_date && COUNTRY !='')
-    //     {
-    //         START = ' AND d.date between date("' + start_date + '") '; 
-    //         END   = '';
-    //     }
-
-    //     else if (!start_date && end_date && COUNTRY =='')
-    //     {
-    //         START = '';
-    //         END   = ' WHERE d.date between date("' + end_date + '") ';
-    //     }
-
-    //     else if (!start_date && end_date && COUNTRY !='')
-    //     {
-    //         START = '';
-    //         END   = ' AND d.date between date("' + end_date + '") ';
-    //     }
-
-    //     console.log("cases ", cases);
-    //     console.log("country ", country);
-    //     console.log("month ", months);
-
-    //     var query = 'SELECT ' + q_country + ' month(d.date) AS month' + q_cases + ' FROM daily d ' + COUNTRY + MONTHS + ' GROUP BY month(d.date) ' + g_country + ';';
-    //     var query2 = 'SELECT D.date, W.country AS country, W.total_deaths AS total_deaths, C.deaths_100_Cases AS deaths_100_cases, C.deaths_100_Recovered AS deaths_100_recovered, D.new_deaths AS new_deaths FROM    WORLDOMETER W JOIN COUNTRYWISE C ON   W.COUNTRY = C.COUNTRY JOIN DAILY D ON C.COUNTRY = D.COUNTRY WHERE MONTH(D.DATE)=7 AND DAY(D.DATE) =27;'
-
-    //     db.query(query, (err, result) => {
-    //         if (err) throw err;
-    //         console.log(query);
-    //         var res1 = {
-    //             total_cases     :       "-",
-    //             total_recovered :       "-",
-    //             total_deaths    :       "-",
-    //             active_cases    :       "-",
-    //             new_cases       :       "-"
-    //         }
-    //         var query2 = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
-    //         db.query(query2, (err, result2) => {
-    //             db.query('SELECT sum(total_cases) as total_cases, sum(total_recovered) as total_recovered, sum(total_deaths) as total_deaths, sum(total_tests) as total_tests FROM WORLDOMETER', (err, overviewTotal) => {
-    //                 var totalcases = 0;
-    //                 var totalrecovered = 0;
-    //                 var totaldeaths = 0;
-    //                 var totaltests = 0;
-    //                 var overview = {};
-    //                 if(overviewTotal.length != 0){
-    //                     var i=1;
-    //                     overviewTotal.forEach(function(data) {
-    //                         //console.log(data);
-
-    //                         totalcases += data.total_cases;
-    //                         totalrecovered += data.total_recovered;
-    //                         totaldeaths += data.total_deaths;
-    //                         totaltests += data.total_tests;
-    //                     })
-    //                 }
-
-    //                 overview = {
-    //                     total_cases     :       totalcases,
-    //                     total_recovered :       totalrecovered,
-    //                     total_deaths    :       totaldeaths,
-    //                     total_tests     :       totaltests,
-    //                 }
-    //                 db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
-    //                     db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
-    //                         if (err) throw err;
+                    overview = {
+                        total_cases     :       totalcases,
+                        total_recovered :       totalrecovered,
+                        total_deaths    :       totaldeaths,
+                        total_tests     :       totaltests,
+                    }
+                    db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                        db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
+                            if (err) throw err;
                             
-    //                         // calculate the duration in seconds
-    //                         var post_query = new Date().getTime();
-    //                         var duration = (post_query - pre_query) / 1000;
-    //                         console.log(duration)
+                            // calculate the duration in seconds
+                            var post_query = new Date().getTime();
+                            var duration = (post_query - pre_query) / 1000;
+                            console.log(duration)
                             
-    //                         res.render('index2.ejs', {title:'Home', userData1: result, userData2: result2, oneData:res1, country: countries, continent: continent, overviewTotal: overview});
-    //                     });
-    //                 })
-    //             })
-    //         })
-    //     });
-    // }//end of death summary report
+                            res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result2, oneData:result2, country: countries, continent: continent, overviewTotal: overview});
+                        });
+                    })
+                })
+            })
+    }
+
+    // total case report per country
+    else if( (radio_option == 'option1') && (country) ){
+        console.log("total case report per country");
+        var q_cases;
+        var MONTHS;
+        var COUNTRY;
+
+        if (country == 'All_Countries'){
+            COUNTRY = '';
+        }
+        else if (country == 'None') {
+            COUNTRY = '';
+        }
+        else{
+            COUNTRY = ' AND W.COUNTRY="' + country + '" ';
+        }
+
+        console.log("cases ", cases);
+        console.log("country ", country);
+        console.log("month ", months);
+
+        // var query = 'SELECT ' + q_country + ' month(d.date) AS month' + q_cases + ' FROM daily d ' + COUNTRY + MONTHS + ' GROUP BY month(d.date) ' + g_country + ';';
+        if (country == 'None') {
+            var query = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";'
+        } 
+        else{
+            var query = 'SELECT w.country as country, w.total_cases as total_cases, d.deaths as deaths, d.recovered as recovered, d.active as active FROM WORLDOMETER W JOIN DAILY D ON W.COUNTRY = D.COUNTRY WHERE MONTH(D.DATE) = 7 AND DAY(D.DATE) = 27 ' + COUNTRY + ';'
+        }
+        
+        db.query(query, (err, result) => {
+            if (err) throw err;
+            console.log(query);
+            var res1 = {
+                total_cases     :       "-",
+                total_recovered :       "-",
+                total_deaths    :       "-",
+                active_cases    :       "-",
+                new_cases       :       "-"
+            }
+            var query2 = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
+            db.query(query2, (err, result2) => {
+                db.query('SELECT sum(total_cases) as total_cases, sum(total_recovered) as total_recovered, sum(total_deaths) as total_deaths, sum(total_tests) as total_tests FROM WORLDOMETER', (err, overviewTotal) => {
+                    var totalcases = 0;
+                    var totalrecovered = 0;
+                    var totaldeaths = 0;
+                    var totaltests = 0;
+                    var overview = {};
+                    if(overviewTotal.length != 0){
+                        var i=1;
+                        overviewTotal.forEach(function(data) {
+                            //console.log(data);
+
+                            totalcases += data.total_cases;
+                            totalrecovered += data.total_recovered;
+                            totaldeaths += data.total_deaths;
+                            totaltests += data.total_tests;
+                        })
+                    }
+
+                    overview = {
+                        total_cases     :       totalcases,
+                        total_recovered :       totalrecovered,
+                        total_deaths    :       totaldeaths,
+                        total_tests     :       totaltests,
+                    }
+                    db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                        db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
+                            if (err) throw err;
+                            
+                            // calculate the duration in seconds
+                            var post_query = new Date().getTime();
+                            var duration = (post_query - pre_query) / 1000;
+                            console.log(duration)
+                            
+                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result2, oneData:res1, country: countries, continent: continent, overviewTotal: overview});
+                        });
+                    })
+                })
+            })
+        });
+    }//end of total case report per country
     
     // recent week report
      if ( (radio_option == 'option2') && (country) ) {
@@ -242,9 +248,15 @@ app.post('/', (req, res) => {
         }
 
         // var query = 'SELECT ' + q_country + ' d.date AS date' + q_cases + ' FROM daily d ' + COUNTRY + START + END + g_case + g_country + ';';
-        var query = 'SELECT C.COUNTRY AS country, MAX(D.CONFIRMED) AS confirmed, MAX(D.DEATHS) AS deaths, MAX(D.RECOVERED) AS recovered, MAX(D.ACTIVE) AS active, SUM(D.NEW_CASES)AS new_cases, SUM(D.NEW_DEATHS)AS new_deaths, SUM(D.NEW_RECOVERED) AS new_recovered, MAX(C.CONFIRMED_LAST_WEEK) AS confirmed_last_week, MAX(C.WEEK_INCREASE) AS week_increase_percentage FROM DAILY D JOIN COUNTRYWISE C ON D.COUNTRY = C.COUNTRY WHERE MONTH(D.DATE) = 7 AND DAY(D.DATE) BETWEEN 21 AND 27 ' + COUNTRY + ' GROUP BY C.COUNTRY;'
+        if (country == 'None') {
+            var query = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";'
+        } 
+        else{
+            var query = 'SELECT C.COUNTRY AS country, MAX(D.CONFIRMED) AS confirmed, MAX(D.DEATHS) AS deaths, MAX(D.RECOVERED) AS recovered, MAX(D.ACTIVE) AS active, SUM(D.NEW_CASES)AS new_cases, SUM(D.NEW_DEATHS)AS new_deaths, SUM(D.NEW_RECOVERED) AS new_recovered, MAX(C.CONFIRMED_LAST_WEEK) AS confirmed_last_week, MAX(C.WEEK_INCREASE) AS week_increase_percentage FROM DAILY D JOIN COUNTRYWISE C ON D.COUNTRY = C.COUNTRY WHERE MONTH(D.DATE) = 7 AND DAY(D.DATE) BETWEEN 21 AND 27 ' + COUNTRY + ' GROUP BY C.COUNTRY;'
+        }
         console.log(query);
         console.log('query length', query.length)
+        
         db.query(query, (err, result) => {
             if (err) throw err;
 
