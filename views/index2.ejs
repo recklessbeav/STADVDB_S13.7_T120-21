@@ -422,10 +422,6 @@
                 </div>
 
                 <div class="row table justify-content-center">
-                    <%
-                    if(oneData){
-                    %>
-                    
                     <div class="row pt-2">
                         <div class="inside_table">
                             <!-- insert table here -->
@@ -439,16 +435,16 @@
                                     <th>Total Tests</th>
                                 </tr>
                                 <%
-                                if(userData1.length!=0){
+                                if(oneData.length!=0){
                                 var i=1;
-                                userData1.forEach(function(data){
+                                oneData.forEach(function(data){
                                 %>
                                 <tr>
-                                   <!-- <td></td> <!-->
-                                    <td><%=oneData.total_cases %></td>
-                                    <td><%=oneData.total_deaths %></td>
-                                    <td><%=oneData.total_recovered %></td>
-                                    <!-- <td></td> <!-->
+                                    <td><%=data.country %></td>
+                                    <td><%=data.total_cases %></td>
+                                    <td><%=data.total_deaths %></td>
+                                    <td><%=data.total_recovered %></td>
+                                    <td><%=data.total_tests %></td>
                                 </tr>
                                 <%  i++; }) %>
                                 <% } else{ %>
@@ -460,8 +456,6 @@
                             
                         </div>
                      </div>
-
-                    <% } %>
                 </div>
             </form>
             <div class="row justify-content-end" style="width:100%">
