@@ -252,7 +252,7 @@ app.post('/', (req, res) => {
             var query = 'SELECT * FROM worldometer WHERE COUNTRY="";'
         } 
         else{
-            var query = 'SELECT C.COUNTRY AS country, MAX(D.CONFIRMED) AS confirmed, MAX(D.DEATHS) AS deaths, MAX(D.RECOVERED) AS recovered, MAX(D.ACTIVE) AS active, SUM(D.NEW_CASES)AS new_cases, SUM(D.NEW_DEATHS)AS new_deaths, SUM(D.NEW_RECOVERED) AS new_recovered, MAX(C.CONFIRMED_LAST_WEEK) AS confirmed_last_week, MAX(C.1_WEEK_INCREASE) AS week_increase_percentage FROM DAILY D JOIN COUNTRYWISE C ON D.COUNTRY = C.COUNTRY WHERE MONTH(D.DATE) = 7 AND DAY(D.DATE) BETWEEN 21 AND 27 ' + COUNTRY + ' GROUP BY C.COUNTRY;'
+            var query = 'SELECT C.COUNTRY AS country, MAX(D.CONFIRMED) AS confirmed, MAX(D.DEATHS) AS deaths, MAX(D.RECOVERED) AS recovered, MAX(D.ACTIVE) AS active, SUM(D.NEW_CASES)AS new_cases, SUM(D.NEW_DEATHS)AS new_deaths, SUM(D.NEW_RECOVERED) AS new_recovered, C.CONFIRMED_LAST_WEEK AS confirmed_last_week, C.`1_WEEK_INCREASE` AS week_increase_percentage FROM DAILY D JOIN COUNTRYWISE C ON D.COUNTRY = C.COUNTRY WHERE MONTH(D.DATE) = 7 AND DAY(D.DATE) BETWEEN 21 AND 27 ' + COUNTRY + ' GROUP BY C.COUNTRY;'
         }
         console.log(query);
         console.log('query length', query.length)
