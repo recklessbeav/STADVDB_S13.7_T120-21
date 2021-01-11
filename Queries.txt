@@ -1,188 +1,253 @@
-ORIGINAL DB
+Queries
 
-Query for 1 table (worldometer):
+1. Cases per Day per Country
 
-*Summary of Cases around the World*
-1.) SELECT sum(total_cases) as total_cases, sum(total_recovered) 
-        as total_recovered, sum(total_deaths) as total_deaths, 
-        sum(total_tests) as total_tests 
-     FROM WORLDOMETER;
+Original:
+
+SELECT	country, date, confirmed
+FROM	daily
+WHERE	date BETWEEN '2020-07-15' AND '2020-07-22'
+AND	country = 'Afghanistan';
+
+Optimized:
+
+SELECT	c.country, d.date, d.confirmed
+FROM	daily d
+JOIN	countryprofile c ON d.country = c.country
+WHERE	d.date BETWEEN '2020-07-15' AND '2020-07-22'
+AND	c.country = 'Afghanistan';
 
 
-*Cases by Continent*
-2.) SELECT  country, total_cases, total_recovered, total_deaths, total_tests
-    FROM     Worldometer
-    WHERE  continent=””;
+
+2. Cases per Month per Country
+
+Original:
+
+SELECT	country,
+	MONTH(date) AS Month,
+	SUM(confirmed) AS 'Total Confirmed Cases'
+FROM	daily
+WHERE	MONTH(date) = 2
+AND	country = 'Afghanistan'
+GROUP BY MONTH(date);
+
+Optimized:
+
+SELECT	c.country,
+	MONTH(d.date) AS Month,
+	SUM(d.confirmed) AS 'Total Confirmed Cases'
+FROM	daily d
+JOIN	countryprofile c ON d.country = c.country
+WHERE	MONTH(d.date) = 2
+AND	c.country = 'Afghanistan'
+GROUP BY MONTH(d.date);
 
 
 
+3. Cases per Country
 
-Query for 2 tables:
+Original:
 
-*Recent Week Report*
-1.)SELECT        C.COUNTRY AS COUNTRY, 
-                MAX(D.CONFIRMED) AS CONFIRMED, 
-        MAX(D.DEATHS) AS DEATHS, 
-        MAX(D.RECOVERED) AS RECOVERED, 
-        MAX(D.ACTIVE) AS ACTIVE, 
-        SUM(D.NEW_CASES)AS NEW_CASES, 
-        SUM(D.NEW_DEATHS)AS NEW_DEATHS, 
-        SUM(D.NEW_RECOVERED) AS NEW_RECOVERED,
-        MAX(C.CONFIRMED_LAST_WEEK) AS CONFIRMED_LAST_WEEK,
-        MAX(C.WEEK_INCREASE) AS WEEK_INCREASE_PERCENTAGE
-FROM        DAILY D
-JOIN        COUNTRYWISE C ON D.COUNTRY = C.COUNTRY
+SELECT	country, MONTH(date), SUM(confirmed)
+FROM	daily
+WHERE	country = 'Afghanistan'
+GROUP BY MONTH(date);
+
+Optimized:
+
+SELECT	c.country, MONTH(d.date), SUM(d.confirmed)
+FROM	daily d
+JOIN	countryprofile c ON d.country = c.country
+WHERE	c.country = 'Afghanistan'
+GROUP BY MONTH(d.date);
+
+
+
+4. Total Confirmed, Death, Recovered, Active, and New Cases per Continent
+
+Original:
+
+SELECT	SUM(total_cases) AS 'Total Cases',
+	SUM(total_recovered) AS 'Total Recovered',
+	SUM(total_deaths) AS 'Total Deaths',
+	SUM(active_cases) AS 'Active Cases',
+	SUM(new_cases) AS 'New Cases'
+FROM	WORLDOMETER
+WHERE	continent = 'Africa';
+
+Optimized:
+
+SELECT	SUM(w.total_cases) AS 'Total Cases',
+	SUM(w.total_recovered) AS 'Total Recovered',
+	SUM(w.total_deaths) AS 'Total Deaths',
+        SUM(w.active_cases) AS 'Active Cases',
+	SUM(w.new_cases) AS 'New Cases'
+FROM	WORLDOMETER w
+JOIN	countryprofile c ON c.country = w.country
+WHERE	c.continent = 'Africa';
+
+
+
+5. Cases by Continent
+
+Original:
+
+SELECT	country, total_cases, total_recovered, total_deaths, total_tests
+FROM	Worldometer
+WHERE	continent = 'Asia';
+
+Optimized:
+
+SELECT	c.country, w.total_cases, w.total_recovered, w.total_deaths, w.total_tests
+FROM	worldometer w
+JOIN	countryprofile c ON c.country = w.country
+WHERE	c.continent = 'Asia';
+
+
+
+6. Recent Week Report
+
+Original:
+
+SELECT	C.COUNTRY AS COUNTRY, 
+	MAX(D.CONFIRMED) AS CONFIRMED,
+	MAX(D.DEATHS) AS DEATHS, 
+	MAX(D.RECOVERED) AS RECOVERED,
+	MAX(D.ACTIVE) AS ACTIVE, 	
+	SUM(D.NEW_CASES)AS NEW_CASES, 
+ 	SUM(D.NEW_DEATHS)AS NEW_DEATHS, 
+	SUM(D.NEW_RECOVERED) AS NEW_RECOVERED,
+	C.CONFIRMED_LAST_WEEK AS CONFIRMED_LAST_WEEK,
+	C.`1_WEEK_INCREASE` AS WEEK_INCREASE_PERCENTAGE 
+FROM	DAILY D JOIN COUNTRYWISE C ON D.COUNTRY = C.COUNTRY
 WHERE 	MONTH(D.DATE) = 7 AND DAY(D.DATE) BETWEEN 21 AND 27
-GROUP BY C.COUNTRY
+GROUP BY C.COUNTRY;
+
+Optimized:
+
+SELECT	C.COUNTRY AS COUNTRY, 
+	MAX(D.CONFIRMED) AS CONFIRMED, 
+	MAX(D.DEATHS) AS DEATHS, 
+	MAX(D.RECOVERED) AS RECOVERED, 
+	MAX(D.ACTIVE) AS ACTIVE, 
+	SUM(D.NEW_CASES)AS NEW_CASES, 
+	SUM(D.NEW_DEATHS)AS NEW_DEATHS, 
+	SUM(D.NEW_RECOVERED) AS NEW_RECOVERED,
+	MAX(C.CONFIRMED_LAST_WEEK) AS CONFIRMED_LAST_WEEK,
+	MAX(C.WEEK_INCREASE) AS WEEK_INCREASE_PERCENTAGE
+FROM	DAILY D
+JOIN	COUNTRYWISE C ON D.COUNTRY = C.COUNTRY
+WHERE 	MONTH(D.DATE) = 7 AND DAY(D.DATE) BETWEEN 21 AND 27
+GROUP BY C.COUNTRY;
 
 
 
-*Total Case Report per Country*
-2.)         SELECT         w.country as country,
-                        w.total_cases as total_cases,
-                                d.deaths as deaths,
-                                d.recovered as recovered,
-                                d.active as active
-         FROM      WORLDOMETER W JOIN DAILY D ON W.COUNTRY 
-                                = D.COUNTRY
-WHERE    MONTH(D.DATE) = 7 AND DAY(D.DATE) = 27;
+7. Total Case Report per Country
+
+Original:
+
+SELECT	w.country, w.total_cases, d.deaths, d.recovered, d.active
+FROM	WORLDOMETER W
+JOIN	DAILY D ON W.COUNTRY = D.COUNTRY
+WHERE	MONTH(D.DATE) = 7 AND DAY(D.DATE) = 27;
+
+Optimized:
+
+SELECT	w.country as country,
+	w.total_cases as total_cases,
+	d.deaths as deaths,
+	d.recovered as recovered,
+	d.active as active
+FROM	WORLDOMETER W JOIN DAILY D ON W.COUNTRY = D.COUNTRY
+WHERE	MONTH(D.DATE) = 7 AND DAY(D.DATE) = 27;
 
 
 
+8. Death Summary Report per Country
 
-Query for 3 tables:
+Original: 
 
-*Death Summary Report per Country* given a specific date
-*Query for total deaths, with deaths per 100 cases and 100 recovered, and new deaths from current date (July 27, 2020)*
-1.)SELECT D.date, W.country AS country,
-                     W.total_deaths AS total_deaths,
-                   C.deaths_100_Cases AS deaths_100_cases,
-                   C.deaths_100_Recovered AS deaths_100_recovered,
-                   D.new_deaths AS new_deaths
-    FROM    WORLDOMETER W JOIN COUNTRYWISE C ON  
-                          W.COUNTRY = C.COUNTRY
-                           JOIN DAILY D ON C.COUNTRY = D.COUNTRY
-   WHERE MONTH(D.DATE)=7 AND DAY(D.DATE) =27;
+SELECT	D.date, W.country, 
+	W.total_deaths AS 'Total Deaths',
+	C.deaths_100_Cases AS 'Deaths/100 Cases',
+	C.deaths_100_Recovered AS 'Deaths/100 Recovered',
+	D.new_deaths AS 'New Deaths'
+FROM	WORLDOMETER W
+JOIN	COUNTRYWISE C ON W.COUNTRY = C.COUNTRY
+JOIN	DAILY D ON C.COUNTRY = D.COUNTRY
+WHERE	MONTH(D.DATE) = 7 AND DAY(D.DATE) = 27;
 
+Optimized:
 
-2.)
-*Query for daily cases for all countries per WHO region, percentage of daily cases per overall cases, percentage of daily cases per population*
-SELECT        D.COUNTRY AS COUNTRY,
-        W.POPULATION AS POPULATION,
-        D.CONFIRMED AS CONFIRMED_TODAY,
-        C.CONFIRMED AS OVERALL_COUNTRY,
-        (D.CONFIRMED / C.CONFIRMED * 100) AS TODAY_VS_OVERALL,
-        (D.CONFIRMED / W.POPULATION * 100) AS TODAY_VS_POPULATION
-FROM        WORLDOMETER W
-JOIN        COUNTRYWISE C ON W.COUNTRY = C.COUNTRY
-JOIN        DAILY D ON C.COUNTRY = D.COUNTRY
-WHERE        W.WHO_REGION = "Americas"
-AND        D.DATE = '2020-04-22'
+SELECT	d.date AS Date, w.country AS Country, 
+	w.total_deaths AS 'Total Deaths', 
+	c.deaths_100cases AS 'Deaths/100 Cases',
+	c.deaths_100recovered AS 'Deaths/100 Recovered',
+	d.new_deaths AS 'New Deaths'
+FROM	worldometer w
+JOIN	countrywise c ON w.COUNTRY = c.COUNTRY
+JOIN	daily d ON c.COUNTRY = d.COUNTRY
+WHERE	d.date = '2020-07-27';
 
 
 
+9. In-depth Report on Confirmed Cases by WHO Region
 
-Query for 4 tables:
+Original:
 
-Overview of death cases...
-*Query for total cases/1M population, deaths/100 cases, recovered/100 cases, and deaths/100 recovered from Afghanistan on July 8, 2020*
-1.) SELECT w.country, dw.date, w.deaths_1Mpop AS 'Deaths/1M Population', c.deaths_100_Cases AS 'Deaths/100 Cases', dw.deaths_100_Cases AS 'Overall Deaths/100 Cases', c.deaths_100_Recovered AS 'Deaths/100 Recovered', dw.deaths_100_Recovered AS 'Overall Deaths/100 Recovered'
-FROM worldometer w, countrywise c, daily d, daywise dw
-WHERE w.country = c.country AND c.country = d.country AND d.date = dw.date
-AND dw.date = '2020-07-08' AND w.country = 'Afghanistan';
+SELECT	D.COUNTRY AS COUNTRY,
+	W.POPULATION AS POPULATION,
+	D.CONFIRMED AS CONFIRMED_TODAY,
+	C.CONFIRMED AS OVERALL_COUNTRY,
+	(D.CONFIRMED / C.CONFIRMED * 100) AS TODAY_VS_OVERALL,
+	(D.CONFIRMED / W.POPULATION * 100) AS TODAY_VS_POPULATION
+FROM	WORLDOMETER W
+JOIN	COUNTRYWISE C ON W.COUNTRY = C.COUNTRY
+JOIN	DAILY D ON C.COUNTRY = D.COUNTRY
+WHERE	W.WHO_REGION = "Americas"
+AND	D.DATE = '2020-04-22'
+GROUP BY D.COUNTRY;
 
+Optimized:
 
-
-
-OPTIMIZED DB
-
-
-Query for 1 table:
-
-*Query sum for the whole*
-1.) SELECT sum(total_cases) as total_cases, sum(total_recovered) 
-        as total_recovered, sum(total_deaths) as total_deaths, 
-        sum(total_tests) as total_tests 
-     FROM WORLDOMETER;
-
-
-
-*Query per continent*
-2.) SELECT  country, total_cases, total_recovered, total_deaths, 
-total_tests
- FROM         Worldometer
- WHERE  continent=””;
-
-
-
-Query for 2 tables:
-
-
-*Query for recent week’s report*
-1.)SELECT        C.COUNTRY AS COUNTRY, 
-                        MAX(D.CONFIRMED) AS CONFIRMED, 
-                                MAX(D.DEATHS) AS DEATHS, 
-        MAX(D.RECOVERED) AS RECOVERED, 
-        MAX(D.ACTIVE) AS ACTIVE, 
-        SUM(D.NEW_CASES)AS NEW_CASES, 
-        SUM(D.NEW_DEATHS)AS NEW_DEATHS, 
-                                SUM(D.NEW_RECOVERED) AS 
-                                NEW_RECOVERED,
-                                C.CONFIRMED_LAST_WEEK AS 
-                                CONFIRMED_LAST_WEEK,
-                                C.`1_WEEK_INCREASE` AS 
-                                WEEK_INCREASE_PERCENTAGE 
-
-
-FROM                DAILY D JOIN COUNTRYWISE C ON D.COUNTRY = 
-                                C.COUNTRY
-WHERE                 MONTH(D.DATE) =7 AND DAY(D.DATE) BETWEEN 
-                                21 AND 27
-GROUP BY         C.COUNTRY;
-
-
-*Query for total cases with in-depth report*
-2.)         SELECT         w.country as country,
-                        w.total_cases as total_cases,
-                                d.deaths as deaths,
-                                d.recovered as recovered,
-                                d.active as active
-         FROM      WORLDOMETER W JOIN DAILY D ON W.COUNTRY 
-                                = D.COUNTRY
-WHERE    MONTH(D.DATE) = 7 AND DAY(D.DATE) = 27;
-
-
-Query for 3 tables:
-
-*Query for total deaths, with deaths per 100 cases and 100 recovered, and new deaths from current date (July 27, 2020)*
-1.) SELECT d.date AS Date, w.country AS Country, 
-                     w.total_deaths AS 'Total Deaths', 
-                   c.deaths_100cases AS 'Deaths/100 Cases',
-                   c.deaths_100recovered AS 'Deaths/100 Recovered',
-                   d.new_deaths AS 'New Deaths'
-    FROM    worldometer w JOIN countrywise c ON  
-                           w.COUNTRY = c.COUNTRY
-                           JOIN daily d ON c.COUNTRY = d.COUNTRY
-   WHERE d.date = ‘2020-07-27’;
-          
-
-
-2.) 
-
-Query for 4 tables:
-
-*Query for total cases/1M population, deaths/100 cases, recovered/100 cases, and deaths/100 recovered from Afghanistan on July 8, 2020*
-1.) SELECT w.country, dw.date, w.deaths_1Mpop AS 'Deaths/1M Population',
-        c.deaths_100cases AS 'Deaths/100 Cases', dw.deaths_100cases AS 'Overall Deaths/100 Cases', 
-    c.deaths_100recovered AS 'Deaths/100 Recovered', dw.deaths_100recovered AS 'Overall Deaths/100 Recovered'
-FROM worldometer w, countrywise c, daily d, daywise dw
-WHERE w.country = c.country AND c.country = d.country AND d.date = dw.date
-AND dw.date = '2020-07-08' AND w.country = 'Afghanistan';
+SELECT	D.COUNTRY AS COUNTRY,
+	P.POPULATION AS POPULATION,
+	D.CONFIRMED AS CONFIRMED_TODAY,
+	D.CONFIRMED AS OVERALL_COUNTRY,
+	(D.CONFIRMED / W.TOTAL_CASES * 100) AS TODAY_VS_OVERALL,
+	(D.CONFIRMED / P.POPULATION * 100) AS TODAY_VS_POPULATION
+FROM	WORLDOMETER W
+JOIN	COUNTRYPROFILE P ON W.COUNTRY = P.COUNTRY
+JOIN	COUNTRYWISE C ON W.COUNTRY = C.COUNTRY
+JOIN	DAILY D ON C.COUNTRY = D.COUNTRY
+WHERE	P.WHO_REGION = 'Americas'
+AND	D.DATE = '2020-04-22'
+GROUP BY D.COUNTRY;
 
 
 
+10. Overview of Death Cases per Country and Date
 
+Original:
 
+SELECT	w.country AS Country,
+	dw.date AS Date,
+	w.deaths_1Mpop AS 'Deaths/1M Population',
+	c.deaths_100_Cases AS 'Deaths/100 Cases', 
+	dw.deaths_100_Cases AS 'Overall Deaths/100 Cases', 
+	c.deaths_100_Recovered AS 'Deaths/100 Recovered',
+	dw.deaths_100_Recovered AS 'Overall Deaths/100 Recovered'
+FROM	worldometer w, countrywise c, daily d, daywise dw
+WHERE	w.country = c.country AND c.country = d.country AND d.date = dw.date
+AND	dw.date = '2020-07-08' AND w.country = 'Afghanistan';
 
-[a]This still needs to be optimized
-[b]removing this completed the query
+Optimized:
+
+SELECT	w.country, dw.date, w.deaths_1Mpop AS 'Deaths/1M Population',
+	c.deaths_100cases AS 'Deaths/100 Cases',
+	dw.deaths_100cases AS 'Overall Deaths/100 Cases', 
+	c.deaths_100recovered AS 'Deaths/100 Recovered',
+	dw.deaths_100recovered AS 'Overall Deaths/100 Recovered'
+FROM	worldometer w, countrywise c, daily d, daywise dw
+WHERE	w.country = c.country AND c.country = d.country AND d.date = dw.date
+AND	dw.date = '2020-07-08' AND w.country = 'Afghanistan';
