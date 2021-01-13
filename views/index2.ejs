@@ -238,11 +238,15 @@
                             style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
                             <option value="None" selected>None</option>
                             <option value="All_Regions">All Regions</option>
-                            <!-- <option value="New Cases">Afghanistan</option> -->
-                            <!-- <option value="Active Cases">Philippines</option> -->
-                            <% for (const i in region) { %>
+                            <option value="Africa">Africa</option>
+                            <option value="Americas">Americas</option>
+                            <option value="Eastern Mediterranean">Eastern Mediterranean</option>
+                            <option value="Europe">Europe</option>
+                            <option value="South-East Asia">South-East Asia</option>
+                            <option value="Western Pacific">Western Pacific</option>
+                            <!-- <% for (const i in region) { %>
                                 <option value="<%= region[i].WHO_REGION %>"> <%= region[i].WHO_REGION %> </option>
-                            <% } %>
+                            <% } %> -->
                         </select>
                         
                         <!-- <label for="start_date">Start Date</label> -->
@@ -436,10 +440,15 @@
                     <div class="form-group col">
                         <select id="continent_total" name="continent_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" onchange="populateCountry(this.value, 'country_total')">
                             <option value="none" selected>None</option>
-                            
-                            <% for (const i in continent) { %>
+                            <option value="Asia">Asia</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Africa">Africa</option>
+                            <option value="North America">North America</option>
+                            <option value="South America">South America</option>
+                            <option value="Australia/Oceania">Asia</option>
+                            <!-- <% for (const i in continent) { %>
                                 <option value="<%= continent[i].continent %>"> <%= continent[i].continent %> </option>
-                            <% } %>
+                            <% } %> -->
                         </select>
 
                     </div>

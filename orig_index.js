@@ -357,6 +357,16 @@ app.post('/', (req, res) => {
         var REGION;
         var r_date;
 
+        if (region == 'Western Pacific'){
+            region = 'WesternPacific';
+        }
+        else if (region == 'South-East Asia'){
+            region = 'South-EastAsia';
+        }
+        else if (region == 'Eastern Mediterranean'){
+            region = 'EasternMediterranean';
+        }
+
         if (region == 'All_Regions'){
             REGION = '';
             r_date = ' WHERE D.DATE = "' + date + '"';
@@ -430,9 +440,9 @@ app.post('/', (req, res) => {
                         total_deaths    :       totaldeaths,
                         total_tests     :       totaltests,
                     }
-                    db.query('SELECT DISTINCT(WHO_REGION) FROM worldometer ORDER BY WHO_REGION ASC;', (err, regions) => {
+                    // db.query('SELECT DISTINCT(WHO_REGION) FROM worldometer ORDER BY WHO_REGION ASC;', (err, regions) => {
                         db.query('SELECT DISTINCT(COUNTRY) FROM worldometer ORDER BY COUNTRY ASC;', (err, countries) => {
-                            db.query('SELECT DISTINCT(continent) FROM worldometer;', (err, continent) => {
+                            // db.query('SELECT DISTINCT(continent) FROM worldometer;', (err, continent) => {
                                 if (err) throw err;
                                 
                                 // calculate the duration in seconds
@@ -440,10 +450,10 @@ app.post('/', (req, res) => {
                                 var duration = (post_query - pre_query) / 1000;
                                 console.log(duration)
                                 
-                                res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result2, userData4:result2, userData3: result, country: countries, continent: continent, region: regions, overviewTotal: overview});
-                            });
+                                res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result2, userData4:result2, userData3: result, country: countries, overviewTotal: overview});
+                            // });
                         })
-                    });
+                    // });
                 });
             })
         });
@@ -530,8 +540,8 @@ app.post('/', (req, res) => {
                         total_deaths    :       overviewdeaths,
                         total_tests     :       overviewtests,
                     }
-                    db.query('SELECT DISTINCT(WHO_REGION) FROM worldometer ORDER BY WHO_REGION ASC;', (err, regions) => {
-                        db.query('SELECT DISTINCT(continent) FROM worldometer;', (err, continent) => {
+                    // db.query('SELECT DISTINCT(WHO_REGION) FROM worldometer ORDER BY WHO_REGION ASC;', (err, regions) => {
+                        // db.query('SELECT DISTINCT(continent) FROM worldometer;', (err, continent) => {
                             db.query('SELECT DISTINCT(COUNTRY) FROM worldometer ORDER BY COUNTRY ASC;', (err, countries) => {
                                 if (err) throw err;
                                 
@@ -540,10 +550,10 @@ app.post('/', (req, res) => {
                                 var duration = (post_query - pre_query) / 1000;
                                 console.log(duration)
                                 
-                                res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, userData4: RESULTone, userData3: result, country: countries, continent: continent, region: regions, overviewTotal: overview});
+                                res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, userData4: RESULTone, userData3: result, country: countries, overviewTotal: overview});
                             });
-                        })
-                    })
+                        // })
+                    // })
                 });
             })
 
