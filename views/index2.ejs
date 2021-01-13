@@ -233,15 +233,15 @@
                 <div class="row">
                     <div id = "top-row">
                         
-                        <label class="label" for="country_table">Country</label>
-                        <select class="select" id="country_table" name="country_table"
+                        <label class="label" for="region">WHO Region</label>
+                        <select class="select" id="region" name="region"
                             style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
                             <option value="None" selected>None</option>
-                            <option value="All_Countries">All Countries</option>
+                            <option value="All_Regions">All Regions</option>
                             <!-- <option value="New Cases">Afghanistan</option> -->
                             <!-- <option value="Active Cases">Philippines</option> -->
-                            <% for (const i in country) { %>
-                                <option value="<%= country[i].COUNTRY %>"> <%= country[i].COUNTRY %> </option>
+                            <% for (const i in region) { %>
+                                <option value="<%= region[i].WHO_REGION %>"> <%= region[i].WHO_REGION %> </option>
                             <% } %>
                         </select>
                         
@@ -253,11 +253,11 @@
                             
                             
                         <div id = "dates">
-                            <label class="label" for="start_date">Start Date</label>
-                                <input class="input" type="date" id="start_date" name="start_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
+                            <label class="label" for="date">Date</label>
+                                <input class="input" type="date" id="date" name="date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
                             
-                                <label class="label" for="end_date">End Date</label>
-                                <input class="input" type="date" id="end_date" name="end_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
+                                <!-- <label class="label" for="end_date">End Date</label>
+                                <input class="input" type="date" id="end_date" name="end_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()"> -->
                         </div>
                     <!-- <div class="col-2">
                         <label for="end_date">End Date</label>
@@ -278,33 +278,36 @@
                             <tr>
                                 <th>Country</th>
                                 <th>Population</th>
-                                <th>Confirmed Case</th>
+                                <% if(userData3.length!=0){ %>
+                                <th>Confirmed Cases</th>
+                                <th>Overall Confirmed Cases</th>
                                 <th>Percentage of Daily Cases Per Overall Cases</th>
                                 <th>Percentage of Daily Cases Per Population</th>
-                                <th>WHO Region</th>
+                                <% } %>
+                                <!-- <th>WHO Region</th> -->
                             </tr>
-                            <!-- <%
-                            if(userData1.length!=0){
+                            <%
+                            if(userData3.length!=0){
                             var i=1;
-                            userData1.forEach(function(data){
+                            userData3.forEach(function(data){
                             %>
                             <tr>
-                                <td><%=data.country %></td>
-                                <td><%=data.month %></td>
-                                <td><%=data.confirmed %></td>
-                                <td><%=data.deaths %></td>
-                                <td><%=data.recovered %></td>
-                                <td><%=data.active %></td>
-                                <td><%=data.new_cases %></td>
+                                <td><%=data.COUNTRY %></td>
+                                <td><%=data.POPULATION %></td>
+                                <td><%=data.CONFIRMED_TODAY %></td>
+                                <td><%=data.OVERALL_COUNTRY %></td>
+                                <td><%=data.TODAY_VS_OVERALL %></td>
+                                <td><%=data.TODAY_VS_POPULATION %></td>
+                                <!-- <td><%=data.new_cases %></td>
                                 <td><%=data.new_deaths %></td>
-                                <td><%=data.new_recovered %></td>
+                                <td><%=data.new_recovered %></td> -->
                             </tr>
                             <%  i++; }) %>
                             <% } else{ %>
                                 <tr>
                                     <td colspan="9">No Data Found</td>
                                 </tr>
-                            <% } %> -->
+                            <% } %>
                         </table>
                         <br>
                         

@@ -76,12 +76,14 @@ app.get('/', (req, res) => {
                 total_deaths    :       totaldeaths,
                 total_tests     :       totaltests,
             }
-            db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
-                db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
-                    if (err) throw err;
-                    res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, userData4: result, country: countries, continent: continent, overviewTotal: overview});
-                });
-            }); 
+            db.query('SELECT DISTINCT(WHO_REGION) FROM COUNTRYPROFILE ORDER BY WHO_REGION ASC;', (err, regions) => {
+                db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                    db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
+                        if (err) throw err;
+                        res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, userData4: result, userData3: result, country: countries, continent: continent, region: regions, overviewTotal: overview});
+                    });
+                }); 
+            });
         });
     });
 })
@@ -98,6 +100,9 @@ app.post('/', (req, res) => {
 
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
+    var date = req.body.date;
+
+    var region = req.body.region;
 
     var continent_total = req.body.continent_total;
     var country_total = req.body.country_total;
@@ -131,18 +136,20 @@ app.post('/', (req, res) => {
                         total_deaths    :       totaldeaths,
                         total_tests     :       totaltests,
                     }
-                    db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
-                        db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
-                            if (err) throw err;
-                            
-                            // calculate the duration in seconds
-                            var post_query = new Date().getTime();
-                            var duration = (post_query - pre_query) / 1000;
-                            console.log(duration)
-                            
-                            res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result2, userData4:result2, country: countries, continent: continent, overviewTotal: overview});
-                        });
-                    })
+                    db.query('SELECT DISTINCT(WHO_REGION) FROM COUNTRYPROFILE ORDER BY WHO_REGION ASC;', (err, regions) => {
+                        db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                            db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
+                                if (err) throw err;
+                                
+                                // calculate the duration in seconds
+                                var post_query = new Date().getTime();
+                                var duration = (post_query - pre_query) / 1000;
+                                console.log(duration)
+                                
+                                res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result2, userData4:result2, userData3: result2, country: countries, continent: continent, region: regions, overviewTotal: overview});
+                            });
+                        })
+                    });
                 })
             })
     }
@@ -212,18 +219,20 @@ app.post('/', (req, res) => {
                         total_deaths    :       totaldeaths,
                         total_tests     :       totaltests,
                     }
-                    db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
-                        db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
-                            if (err) throw err;
-                            
-                            // calculate the duration in seconds
-                            var post_query = new Date().getTime();
-                            var duration = (post_query - pre_query) / 1000;
-                            console.log(duration)
-                            
-                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result2, userData4:result2, country: countries, continent: continent, overviewTotal: overview});
-                        });
-                    })
+                    db.query('SELECT DISTINCT(WHO_REGION) FROM COUNTRYPROFILE ORDER BY WHO_REGION ASC;', (err, regions) => {
+                        db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                            db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
+                                if (err) throw err;
+                                
+                                // calculate the duration in seconds
+                                var post_query = new Date().getTime();
+                                var duration = (post_query - pre_query) / 1000;
+                                console.log(duration)
+                                
+                                res.render('index2.ejs', {title:'Home', userData1: result, userData2: result2, userData4:result2, userData3: result2, country: countries, continent: continent, region: regions, overviewTotal: overview});
+                            });
+                        })
+                    });
                 })
             })
         });
@@ -315,22 +324,123 @@ app.post('/', (req, res) => {
                         total_deaths    :       totaldeaths,
                         total_tests     :       totaltests,
                     }
-                    db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
-                        db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
-                            if (err) throw err;
-                            
-                            // calculate the duration in seconds
-                            var post_query = new Date().getTime();
-                            var duration = (post_query - pre_query) / 1000;
-                            console.log(duration)
-                            
-                            res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result, userData4:result2, country: countries, continent: continent, overviewTotal: overview});
-                        });
-                    })
+                    db.query('SELECT DISTINCT(WHO_REGION) FROM COUNTRYPROFILE ORDER BY WHO_REGION ASC;', (err, regions) => {
+                        db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                            db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
+                                if (err) throw err;
+                                
+                                // calculate the duration in seconds
+                                var post_query = new Date().getTime();
+                                var duration = (post_query - pre_query) / 1000;
+                                console.log(duration)
+                                
+                                res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result, userData4:result2, userData3: result2, country: countries, continent: continent, region: regions, overviewTotal: overview});
+                            });
+                        })
+                    });
                 });
             })
         });
     }// end of recent week report
+
+    // In-Depth report on confirmed cases by WHO Region
+    else if (region && date){
+        console.log("WHO Region");
+        var REGION;
+        var r_date;
+
+        if (region == 'All_Regions'){
+            REGION = '';
+        }
+        else if (region == 'None') {
+            REGION = '';
+        }
+        else{
+            REGION = ' AND P.WHO_REGION="' + region + '" ';
+        }
+
+        if (REGION == ''){
+            r_date = ' WHERE D.DATE = "' + date + '"';
+        }
+        else{
+            r_date = ' AND D.DATE = "' + date + '"';
+        }
+
+        if (region == 'None') {
+            var query = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";'
+        } 
+        else{
+            var query = 'SELECT D.COUNTRY AS COUNTRY, P.POPULATION AS POPULATION, D.CONFIRMED AS CONFIRMED_TODAY, D.CONFIRMED AS OVERALL_COUNTRY, (D.CONFIRMED / W.TOTAL_CASES * 100) AS TODAY_VS_OVERALL, (D.CONFIRMED / P.POPULATION * 100) AS TODAY_VS_POPULATION FROM WORLDOMETER W JOIN COUNTRYPROFILE P ON W.COUNTRY = P.COUNTRY JOIN    COUNTRYWISE C ON W.COUNTRY = C.COUNTRY JOIN    DAILY D ON C.COUNTRY = D.COUNTRY ' + REGION + r_date + ' ;'
+        }
+        console.log(query);
+        console.log('query length', query.length)
+        
+        db.query(query, (err, result) => {
+            if (err) throw err;
+
+            var date;
+            var newDate;
+            var timestampInSeconds;
+            for (var i = 0; i < result.length; i++)
+            {
+                timestampInSeconds = Math.floor(result[i].date/1000);
+                date = new Date(timestampInSeconds*1000);
+                // day
+                let day = ("0" + date.getDate()).slice(-2);
+
+                // month
+                let month = ("0" + (date.getMonth() + 1)).slice(-2);
+
+                // year
+                let year = date.getFullYear();
+                
+                newDate = year + "-" + month + "-" + day;
+                result[i].date = newDate;
+            }
+            var query2 = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
+            db.query(query2, (err, result2) => {
+                db.query('SELECT sum(total_cases) as total_cases, sum(total_recovered) as total_recovered, sum(total_deaths) as total_deaths, sum(total_tests) as total_tests FROM WORLDOMETER', (err, overviewTotal) => {
+                    var totalcases = 0;
+                    var totalrecovered = 0;
+                    var totaldeaths = 0;
+                    var totaltests = 0;
+                    var overview = {};
+                    if(overviewTotal.length != 0){
+                        var i=1;
+                        overviewTotal.forEach(function(data) {
+                            //console.log(data);
+
+                            totalcases += data.total_cases;
+                            totalrecovered += data.total_recovered;
+                            totaldeaths += data.total_deaths;
+                            totaltests += data.total_tests;
+                        })
+                    }
+
+                    overview = {
+                        total_cases     :       totalcases,
+                        total_recovered :       totalrecovered,
+                        total_deaths    :       totaldeaths,
+                        total_tests     :       totaltests,
+                    }
+                    db.query('SELECT DISTINCT(WHO_REGION) FROM COUNTRYPROFILE ORDER BY WHO_REGION ASC;', (err, regions) => {
+                        db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                            db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
+                                if (err) throw err;
+                                
+                                // calculate the duration in seconds
+                                var post_query = new Date().getTime();
+                                var duration = (post_query - pre_query) / 1000;
+                                console.log(duration)
+                                
+                                res.render('index2.ejs', {title:'Home', userData1: result2, userData2: result2, userData4:result2, userData3: result, country: countries, continent: continent, region: regions, overviewTotal: overview});
+                            });
+                        })
+                    });
+                });
+            })
+        });
+    }// end of In-Depth report on confirmed cases by WHO Region
 
     // total cases per continent
     else if ( (!cases && !country && !months) && ((!start_date && !end_date)) && (continent_total) ) {
@@ -413,18 +523,20 @@ app.post('/', (req, res) => {
                         total_deaths    :       overviewdeaths,
                         total_tests     :       overviewtests,
                     }
-                    db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
-                        db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
-                            if (err) throw err;
-                            
-                            // calculate the duration in seconds
-                            var post_query = new Date().getTime();
-                            var duration = (post_query - pre_query) / 1000;
-                            console.log(duration)
-                            
-                            res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, userData4: RESULTone, country: countries, continent: continent, overviewTotal: overview});
-                        });
-                    })
+                    db.query('SELECT DISTINCT(WHO_REGION) FROM COUNTRYPROFILE ORDER BY WHO_REGION ASC;', (err, regions) => {
+                        db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
+                            db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
+                                if (err) throw err;
+                                
+                                // calculate the duration in seconds
+                                var post_query = new Date().getTime();
+                                var duration = (post_query - pre_query) / 1000;
+                                console.log(duration)
+                                
+                                res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, userData4: RESULTone, userData3: result, country: countries, continent: continent, region: regions, overviewTotal: overview});
+                            });
+                        })
+                    });
                 });
             })
 
