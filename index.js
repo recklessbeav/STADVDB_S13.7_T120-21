@@ -39,6 +39,7 @@ app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
     // var query = 'SELECT country, MONTH(DAILY.DATE) AS month, max(confirmed) AS confirmed, max(deaths) AS deaths, max(recovered) AS recovered, max(active) AS active, max(new_cases) AS new_cases, max(new_deaths) AS new_deaths, max(new_recovered) AS new_recovered  FROM DAILY GROUP BY month(DAILY.DATE), country;';
+    var world_pre_query = new Date().getTime();
     var query = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";';
     db.query(query, (err, result) => {
         console.log(result);
@@ -76,6 +77,9 @@ app.get('/', (req, res) => {
                 total_deaths    :       totaldeaths,
                 total_tests     :       totaltests,
             }
+            var world_post_query = new Date().getTime();
+            var world_duration = (world_post_query - world_pre_query) / 1000;
+            console.log('world', world_duration)
             db.query('SELECT DISTINCT(WHO_REGION) FROM COUNTRYPROFILE ORDER BY WHO_REGION ASC;', (err, regions) => {
                 db.query('SELECT DISTINCT(COUNTRY) FROM COUNTRYPROFILE ORDER BY COUNTRY ASC;', (err, countries) => {
                     db.query('SELECT DISTINCT(continent) FROM COUNTRYPROFILE;', (err, continent) => {
@@ -83,7 +87,7 @@ app.get('/', (req, res) => {
                         res.render('index2.ejs', {title:'Home', userData1: result, userData2: result, userData4: result, userData3: result, country: countries, continent: continent, region: regions, overviewTotal: overview});
                     });
                 }); 
-            });
+            }); 
         });
     });
 })
@@ -101,6 +105,10 @@ app.post('/', (req, res) => {
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
     var date = req.body.date;
+
+    if(date == ''){
+        date = 'None';
+    }
 
     var region = req.body.region;
 
@@ -344,29 +352,28 @@ app.post('/', (req, res) => {
     }// end of recent week report
 
     // In-Depth report on confirmed cases by WHO Region
-    else if (region && date){
+    else if (region){
         console.log("WHO Region");
         var REGION;
         var r_date;
 
         if (region == 'All_Regions'){
             REGION = '';
+            r_date = ' WHERE D.DATE = "' + date + '"';
         }
         else if (region == 'None') {
             REGION = '';
         }
         else{
-            REGION = ' AND P.WHO_REGION="' + region + '" ';
-        }
-
-        if (REGION == ''){
-            r_date = ' WHERE D.DATE = "' + date + '"';
-        }
-        else{
+            REGION = ' WHERE P.WHO_REGION="' + region + '" ';
             r_date = ' AND D.DATE = "' + date + '"';
         }
 
-        if (region == 'None') {
+        if (date == 'None'){
+            r_date = '';
+        }
+
+        if (region == 'None' || r_date == '') {
             var query = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY="";'
         } 
         else{
