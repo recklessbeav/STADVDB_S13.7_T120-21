@@ -58,40 +58,42 @@
             <div class="card">
                 <i class="fa fa-circle" style="color:#FAA613"></i>
                 <h2 class="num-cases" id="total_cases" name="total_cases"><%=overviewTotal.total_cases %></h2>
-                <p class="case-type">Total cases</p>
+                <p class="case-type">TOTAL CASES</p>
             </div>
 
             <div class="card">
                 <i class="fa fa-circle" style="color:#688E26"></i>
                 <h2 class="num-cases" id="total_recovered" name="total_recovered"><%=overviewTotal.total_recovered %></h2>
-                <p class="case-type">Recovered cases</p>
+                <p class="case-type">RECOVERED CASES</p>
             </div>
             
             <div class="card">
                 <i class="fa fa-circle" style="color:#F44708"></i>
                 <h2 class="num-cases" id="total_deaths" name="total_deaths"><%=overviewTotal.total_deaths %></h2>
-                <p class="case-type">Death cases</p>
+                <p class="case-type">DEATH CASES</p>
             </div>
 
             <div class="card">
                 <i class="fa fa-circle" style="color:#D235B9"></i>
                 <h2 class="num-cases" id="total_tests" name="total_tests"><%=overviewTotal.total_tests %></h2>
-                <p class="case-type">Total tests</p>
+                <p class="case-type">TOTAL TESTS</p>
             </div>
 
             <% } %>
         </div>
-        <div class="container px-5 pt-5 pb-3" style="background-color: #550526;">
+
+        <h1 id = "report_gen_header" class="header">CASE REPORT GENERATOR</h1>
+        <div id = "report_gen_container" class="container px-5 pt-5 pb-3" style="background-color: #550526;">
             <form method="post">
                 <div class="row">
                     <div id = "top-row">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                            <label class="form-check-label" for="inlineRadio1">All Cases</label>
+                            <label id = "allcase_label" class="form-check-label" for="inlineRadio1">All Cases</label>
                           </div>
                           <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                            <label class="form-check-label" for="inlineRadio2">Recent Week Reports</label>
+                            <label id = "recent_label" class="form-check-label" for="inlineRadio2">Recent Week Reports</label>
                           </div>
                           <br>
                         <label class="label" for="country_table">Country</label>
@@ -143,17 +145,11 @@
                         <input type="date" id="end_date" name="end_date" style="height: 28px">
                     </div> -->
                         <!-- <a href="/filtered" class="btn btn-success" role="button">Filter</a> -->
-                        <div id = "filter_btn">
-                            <input id = "filter" type="submit" class="btn btn-success" value="Filter">
-                        </div>
-                        <div id = "reset_btn">
-                            <a id = "reset" href="/" class="btn btn-success btn-reset" role="button">Reset</a>
-                        </div>
                 </div>
-                <div class="row pt-2">
+                <div id = "case_rep_table" class="row pt-2">
                     <div class="inside_table">
                         <!-- insert table here -->
-                        <label class="label">REPORT</label>
+                        <label id = "report_label" class="label">REPORT</label>
                         <table border="1">
                             <tr>
                                 <th>Country</th>
@@ -189,7 +185,7 @@
                             <%  i++; }) %>
                             <% } else if (userData2.length==0){ %>
                                 <tr>
-                                    <td colspan="9">No Data Found</td>
+                                    <td colspan="9">No Data Found for RECENT WEEK REPORTS</td>
                                 </tr>
                             <% } %>
                             <%
@@ -212,7 +208,7 @@
                             <%  i++; }) %>
                             <% } else if (userData1.length==0){ %>
                                 <tr>
-                                    <td colspan="9">No Data Found</td>
+                                    <td colspan="9">No Data Found for ALL CASES</td>
                                 </tr>
                             <% } %>
                         </table>
@@ -224,11 +220,17 @@
                 <!-- <div class="row d-flex justify-content-end pt-5">
                     <a href="/" class="btn btn-success btn-reset" role="button">Reset</a>
                 </div> -->
+                <div id = "filter_case_rep" class = "filter_btn">
+                    <input id = "filter" type="submit" class="btn btn-success" value="FILTER">
+                </div>
+                <div id = "reset_case_rep" class = "reset_btn">
+                    <a id = "reset" href="/" class="btn btn-success btn-reset" role="button">RESET</a>
+                </div>
             </form>
         </div>
 
-        <h1 class="header">DAILY CASES</h1>
-        <div class="row table p-5">
+        <h1 class="header">CASES ACCORDING TO WHO REGION</h1>
+        <div id = "daily_container" class="row table p-5">
             <form method="post">
                 <div class="row">
                     <div id = "top-row">
@@ -265,11 +267,8 @@
                         <input type="date" id="end_date" name="end_date" style="height: 28px">
                     </div> -->
                         <!-- <a href="/filtered" class="btn btn-success" role="button">Filter</a> -->
-                        <div id = "filter_btn">
-                            <input id = "filter" type="submit" class="btn btn-success" value="Filter">
-                        </div>
-                        <div id = "reset_btn">
-                            <a id = "reset" href="/" class="btn btn-success btn-reset" role="button">Reset</a>
+                        <div id = "filter_WHO" class = "filter_btn">
+                            <input id = "filter" type="submit" class="btn btn-success" value="FILTER">
                         </div>
                 </div>
                 <div class="row pt-2">
@@ -319,15 +318,15 @@
                     <a href="/" class="btn btn-success btn-reset" role="button">Reset</a>
                 </div> -->
             </form>
-            <div class="row justify-content-end" style="width:100%">
-                <a href="/" class="btn btn-success btn-reset" name="reset_total" id="reset_total" role="button">Reset</a>
+            <div id = "reset_WHO" class = "reset_btn">
+                <a href="/" class="btn btn-success btn-reset" name="reset_total" id="reset_total" role="button">RESET</a>
             </div>
         </div>
 
         
     
-        <h1 class="header">DEATH SUMMARY REPORT</h1>
-        <div class="row table p-5">
+        <h1 id = "death_sum_header" class="header">DEATH SUMMARY REPORT</h1>
+        <div id = "death_sum_container" class="row table p-5">
             <form method="post">
                 <div class="row">
                     <div id = "top-row">
@@ -344,45 +343,21 @@
                             <% } %>
                         </select>
                         
-                        <!-- <label for="start_date">Start Date</label> -->
-                        <label class="label" for="months">Month</label>
-                            <!--Label for this has been changed from "start_date" to "months"-->
-
-                        <!-- <input type="date" id="start_date" name="start_date" style="height: 28px"> -->
-                        <select class="select" id="months" name="months"
-                            style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" onchange="monthsAndDates(this.value)">
-                            <option value="none"selected>None</option>
-                            <option value="All_Months">All Months</option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                        </select>
                     </div>
-                        
-                            <!--ID and name have also been changed to "months"-->
-                            
-                            
                         <div id = "dates">
-                            <label class="label" for="start_date">Start Date</label>
-                                <input class="input" type="date" id="start_date" name="start_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
-                            
-                                <label class="label" for="end_date">End Date</label>
-                                <input class="input" type="date" id="end_date" name="end_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
+                            <label class="label" for="date">Date</label>
+                                <input class="input" type="date" id="date" name="_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
                         </div>
                     <!-- <div class="col-2">
                         <label for="end_date">End Date</label>
                         <input type="date" id="end_date" name="end_date" style="height: 28px">
                     </div> -->
                         <!-- <a href="/filtered" class="btn btn-success" role="button">Filter</a> -->
-                        <div id = "filter_btn">
-                            <input id = "filter" type="submit" class="btn btn-success" value="Filter">
+                        <div id = "filter_deathSUM" class = "filter_btn">
+                            <input id = "filter" type="submit" class="btn btn-success" value="FILTER">
                         </div>
-                        <div id = "reset_btn">
-                            <a id = "reset" href="/" class="btn btn-success btn-reset" role="button">Reset</a>
+                        <div id = "reset_deathSUM" class = "reset_btn">
+                            <a id = "reset" href="/" class="btn btn-success btn-reset" role="button">RESET</a>
                         </div>
                 </div>
                 <div class="row pt-2">
@@ -430,11 +405,12 @@
             </form>
         </div>
 
-        <h1 class="header">TOTAL CASES FOR CONTINENTS</h1>
-        <div class="row table p-5">
+        <h1 id = "conts_header" class="header">TOTAL CASES FOR CONTINENTS</h1>
+        <div id = "conts_container" class="row table p-5">
             <form id="total-form" method="POST">
+                <label class="label" for="continents">Continents</label>
                 <div class="form-row">
-                    <div class="form-group col">
+                    <div id = "continents" class="form-group col">
                         <select id="continent_total" name="continent_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" onchange="populateCountry(this.value, 'country_total')">
                             <option value="none" selected>None</option>
                             <option value="Asia">Asia</option>
@@ -442,16 +418,15 @@
                             <option value="Africa">Africa</option>
                             <option value="North America">North America</option>
                             <option value="South America">South America</option>
-                            <option value="Australia/Oceania">Asia</option>
+                            <option value="Australia/Oceania">Australia/Oceania</option>
                         </select>
 
-                    </div>
-                    <input type="submit" class="btn btn-success" value="Filter" onclick="table2Filter()">              
+                    </div>       
                 </div>
 
-                <div class="row table justify-content-center">
+                <div id = "table_biggercont" class="row table justify-content-center">
                     <div class="row pt-2">
-                        <div class="inside_table">
+                        <div id = "tablecont_continent" class="inside_table">
                             <!-- insert table here -->
                 
                             <table border="1">
@@ -480,19 +455,71 @@
                                         <td colspan="9">No Data Found</td>
                                     </tr>
                                 <% } %>
-                            </table>
-                            
+                            </table>    
                         </div>
-                     </div>
-                </div>
-            </form>
-            <div class="row justify-content-end" style="width:100%">
-                <a href="/" class="btn btn-success btn-reset" name="reset_total" id="reset_total" role="button">Reset</a>
+                    </div>
+            </div>
+            <div id = "filter_bycont" class = "filter_btn">
+                <input type="submit" class="btn btn-success" value="FILTER" onclick="table2Filter()">   
+            </div>
+    
+            <div id = "reset_bycont" class = "reset_btn">
+                <a href="/" class="btn btn-success btn-reset" name="reset_total" id="reset_total" role="button">RESET</a>
             </div>
         </div>
-  
+    </form>
 
-
+    <h1 id = "death_overview_header" class="header">DEATH CASE OVERVIEW PER COUNTRY</h1>
+        <div id = "death_overview_container" class="row table p-5">
+            <form method="post">
+                <div class="row">
+                    <div id = "top-row">
+                        
+                        <label class="label" for="country_table">Country</label>
+                        <select class="select" id="country_table" name="country_table"
+                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            <option value="None" selected>None</option>
+                            <option value="All_Countries">All Countries</option>
+                            <% for (const i in country) { %>
+                                <option value="<%= country[i].COUNTRY %>"> <%= country[i].COUNTRY %> </option>
+                            <% } %>
+                        </select>
+                        
+                    </div>
+                        <div id = "dates">
+                            <label class="label" for="date">Date</label>
+                                <input class="input" type="date" id="date" name="_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
+                        </div>
+                        <div id = "filter_deathOVR" class = "filter_btn">
+                            <input id = "filter" type="submit" class="btn btn-success" value="FILTER">
+                        </div>
+                        <div id = "reset_deathOVR" class = "reset_btn">
+                            <a id = "reset" href="/" class="btn btn-success btn-reset" role="button">RESET</a>
+                        </div>
+                </div>
+                <div class="row pt-2">
+                    <div class="inside_table">
+                        <!-- insert table here -->
+                        <table border="1">
+                            <tr>
+                                <th>Country</th>
+                                <th>Date</th>
+                                <th>Total Deaths</th>
+                                <!-- <th>Death Cases</th> -->
+                                <th>Deaths per 1M Population</th>
+                                <th>Deaths per 100 Cases</th>
+                                <th>Overall per 100 Cases</th>
+                                <th>Deaths per 100 Recoveries</th>
+                                <th>Overall per 100 Recoveries</th>
+                            </tr>
+                        </table>
+                        <br>
+                        
+                    
+                    </div>
+                 </div>
+            </form>
+        </div>
     </div>
 
     <script>
