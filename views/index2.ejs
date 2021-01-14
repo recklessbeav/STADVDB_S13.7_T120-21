@@ -96,6 +96,7 @@
                             <label id = "recent_label" class="form-check-label" for="inlineRadio2">Recent Week Reports</label>
                           </div>
                           <br>
+                        <div id = "sel_div">
                         <label class="label" for="country_table">Country</label>
                         <select class="select" id="country_table" name="country_table"
                             style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" required>
@@ -107,6 +108,7 @@
                                 <option value="<%= country[i].COUNTRY %>"> <%= country[i].COUNTRY %> </option>
                             <% } %>
                         </select>
+                        </div>
                         <br>
                         <!-- <label for="start_date">Start Date</label> -->
                         <!-- <label class="label" for="months">Month</label> -->
@@ -332,7 +334,7 @@
                     <div id = "top-row">
                         
                         <label class="label" for="death_sum_country">Country</label>
-                        <select class="select" id="death_sum_country" name="death_sum_country"
+                        <select class="select" id="death_sum_country" name="death_sum_country" name="death_sum_country"
                             style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" required>
                             <option value="None" selected>None</option>
                             <option value="All_Countries">All Countries</option>
@@ -344,10 +346,10 @@
                         </select>
                         
                     </div>
-                        <!-- <div id = "dates">
+                        <div id = "dates">
                             <label class="label" for="date">Date</label>
-                                <input class="input" type="date" id="date" name="_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
-                        </div> -->
+                                <input class="input" type="date" id="date" name="date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
+                        </div>
                     <!-- <div class="col-2">
                         <label for="end_date">End Date</label>
                         <input type="date" id="end_date" name="end_date" style="height: 28px">
@@ -476,7 +478,7 @@
                     <div id = "top-row">
                         
                         <label class="label" for="death_country">Country</label>
-                        <select class="select" id="death_country" name="death_country"
+                        <select class="select" id="death_country" name="death_country" name="country_table"
                             style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" required>
                             <option value="None" selected>None</option>
                             <option value="All_Countries">All Countries</option>
@@ -508,9 +510,9 @@
                                 <!-- <th>Death Cases</th> -->
                                 <th>Deaths per 1M Population</th>
                                 <th>Deaths per 100 Cases</th>
-                                <th>Overall Deaths per 100 Cases</th>
+                                <th>Overall per 100 Cases</th>
                                 <th>Deaths per 100 Recoveries</th>
-                                <th>Overall Deaths per 100 Recoveries</th>
+                                <th>Overall per 100 Recoveries</th>
                             </tr>
                             <%
                                 if(userData6.length!=0){

@@ -382,3 +382,10 @@ label {
     left: 985px;
     bottom: 10px;
 }
+
+#sel_div {
+    position: absolute;
+    width: 450px;
+    left: 500px;
+    bottom: 0px;
+}
