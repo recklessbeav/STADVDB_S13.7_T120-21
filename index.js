@@ -8,13 +8,7 @@ const { start } = require('repl');
 const buffer = fs.readFileSync('countries_and_continents.json');
 const countriesAndContinents = JSON.parse(buffer);
 //Create connection
-const db = mysql.createConnection({
-    host        :   'localhost',
-    user        :   'root',
-    password    :   'p@ssword',
-    port        :   '3306',
-    database    :   'covid_db'
-});
+const db = mysql.createConnection(process.env.MYSQL_URL);
 //Connect
 db.connect((err) => {
     if(err){
@@ -648,9 +642,9 @@ app.get('/Continents', (req, res) => {
 
 let port = process.env.PORT;
 
-if(port == null || port == "") {
-    port = 9090;
-}
+// if(port == null || port == "") {
+//     port = 3000;
+// }
 
 app.listen(port, function () {
     console.log('app listening at port ' + port);
