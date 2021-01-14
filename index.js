@@ -663,6 +663,7 @@ app.post('/', (req, res) => {
         else{
             // var query = 'SELECT d.date AS Date, w.country AS Country, w.total_deaths AS 'Total_Deaths', c.deaths_100cases AS 'Deaths/100_Cases', c.deaths_100recovered AS 'Deaths/100_Recovered', d.new_deaths AS 'New_Deaths' FROM worldometer w JOIN countrywise c ON w.COUNTRY = c.COUNTRY JOIN daily d ON c.COUNTRY = d.COUNTRY WHERE d.date = '2020-07-27' ' + COUNTRY + ' ;';
             var query = 'SELECT w.country, dw.date, w.deaths_1Mpop AS "DeathsPM_Population", c.deaths_100cases AS "DeathsPH_Cases", dw.deaths_100cases AS "Overall_Deaths_PH_Cases", c.deaths_100recovered AS "DeathsPH_Recovered", dw.deaths_100recovered AS "Overall_DeathsPH_Recovered" FROM    worldometer w, countrywise c, daily d, daywise dw WHERE    w.country = c.country AND c.country = d.country AND d.date = dw.date' + do_date + COUNTRY + ';';
+            // var query = 'SELECT w.country, dw.date, w.deaths_1Mpop AS "DeathsPM_Population", c.deaths_100cases AS "DeathsPH_Cases", dw.deaths_100cases AS "Overall_Deaths_PH_Cases", c.deaths_100recovered AS "DeathsPH_Recovered", dw.deaths_100recovered AS "Overall_DeathsPH_Recovered" FROM    worldometer w, countrywise c, daily d, daywise dw WHERE    w.country = c.country AND c.country = d.country AND d.date = dw.date' + COUNTRY + do_date + ';';
         }
         console.log(query);
         console.log('query length', query.length)
