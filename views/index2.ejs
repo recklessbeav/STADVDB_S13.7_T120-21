@@ -331,8 +331,8 @@
                 <div class="row">
                     <div id = "top-row">
                         
-                        <label class="label" for="country_table">Country</label>
-                        <select class="select" id="country_table" name="country_table"
+                        <label class="label" for="death_sum_country">Country</label>
+                        <select class="select" id="death_sum_country" name="death_sum_country"
                             style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
                             <option value="None" selected>None</option>
                             <option value="All_Countries">All Countries</option>
@@ -344,10 +344,10 @@
                         </select>
                         
                     </div>
-                        <div id = "dates">
+                        <!-- <div id = "dates">
                             <label class="label" for="date">Date</label>
                                 <input class="input" type="date" id="date" name="_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
-                        </div>
+                        </div> -->
                     <!-- <div class="col-2">
                         <label for="end_date">End Date</label>
                         <input type="date" id="end_date" name="end_date" style="height: 28px">
@@ -374,25 +374,25 @@
                                 <th>New Deaths</th>
                                 <!-- <th>Total Cases per 1M</th> -->
                             </tr>
-                            <!-- <%
-                            if(userData1.length!=0){
+                            <%
+                            if(userData5.length!=0){
                             var i=1;
-                            userData1.forEach(function(data){
+                            userData5.forEach(function(data){
                             %>
                             <tr>
-                                <td><%=data.country %></td>
+                                <td><%=data.Country %></td>
                                 <td><%=data.date %></td>
-                                <td><%=data.total_deaths %></td>
-                                <td><%=data.deaths_100_cases %></td>
-                                <td><%=data.deaths_100_recovered %></td>
-                                <td><%=data.new_deaths %></td>
+                                <td><%=data.Total_Deaths %></td>
+                                <td><%=data.DeathsPH_Cases %></td>
+                                <td><%=data.DeathsPH_Recovered %></td>
+                                <td><%=data.New_Deaths %></td>
                             </tr>
                             <%  i++; }) %>
                             <% } else{ %>
                                 <tr>
                                     <td colspan="9">No Data Found</td>
                                 </tr>
-                            <% } %> -->
+                            <% } %>
                         </table>
                         <br>
                         
@@ -475,8 +475,8 @@
                 <div class="row">
                     <div id = "top-row">
                         
-                        <label class="label" for="country_table">Country</label>
-                        <select class="select" id="country_table" name="country_table"
+                        <label class="label" for="death_country">Country</label>
+                        <select class="select" id="death_country" name="death_country"
                             style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
                             <option value="None" selected>None</option>
                             <option value="All_Countries">All Countries</option>
@@ -504,13 +504,13 @@
                             <tr>
                                 <th>Country</th>
                                 <th>Date</th>
-                                <th>Total Deaths</th>
+                                <!-- <th>Total Deaths</th> -->
                                 <!-- <th>Death Cases</th> -->
                                 <th>Deaths per 1M Population</th>
                                 <th>Deaths per 100 Cases</th>
-                                <th>Overall per 100 Cases</th>
+                                <th>Overall Deaths per 100 Cases</th>
                                 <th>Deaths per 100 Recoveries</th>
-                                <th>Overall per 100 Recoveries</th>
+                                <th>Overall Deaths per 100 Recoveries</th>
                             </tr>
                         </table>
                         <br>
