@@ -167,7 +167,8 @@ table, td, th {
 } 
 table { 
     border-collapse: collapse; 
-    width: 50%; 
+    width: 100%;
+    /* table-layout: fixed; */
 } 
 .table-data{ 
     position: relative; 
@@ -175,7 +176,17 @@ table {
     top:100px; 
 } 
 th, td { 
-    padding: 15px; 
+    padding: 10px; 
+    font-size: 13px;
+}
+
+th {
+    padding: 3px; 
+    font-weight: 600;
+}
+
+label {
+    color: black;
 }
 
 #cases_table{
@@ -197,6 +208,7 @@ th, td {
     position: relative;
     margin-right: 5px;
     top: 5px;
+    color: white;
 }
 
 .select {
@@ -228,18 +240,145 @@ th, td {
     float: left;
 }
 
-#filter_btn {
-    position: relative;
+.filter_btn {
+    position: absolute;
     height: 36px;
     width: 70px;
-    top: 20px;
-    left: 25px;
 }
 
-#reset_btn {
-    position: relative;
+.reset_btn {
+    position: absolute;
     height: 36px;
     width: 70px;
-    top: 20px;
-    left: 50px;
+}
+
+#report_gen_header {
+    position: relative;
+    top: 75px;
+}
+
+#report_gen_container {
+    position: relative;
+    border-radius: 20px;
+}
+
+#daily_container {
+    position: relative;
+    border-radius: 20px;
+}
+
+#death_sum_header {
+    position: relative;
+    top: 75px;
+}
+
+#death_sum_container {
+    position: relative;
+    border-radius: 20px;
+    top: 75px;
+}
+
+#conts_header {
+    position: relative;
+    top: 150px;
+}
+
+#conts_container {
+    position: relative;
+    border-radius: 20px;
+    top: 150px;
+}
+
+#table_biggercont{
+    position: relative;
+    margin: auto;
+    width: 1020px;
+}
+
+#tablecont_continent{
+    position: relative;
+    margin: auto;
+    width: 1020px;
+}
+
+#case_rep_table{
+    position: relative;
+    bottom: 20px;
+}
+
+#filter_case_rep{
+    left: 980px;
+    bottom: 10px;
+}
+
+#reset_case_rep{
+    left: 905px;
+    bottom: 10px;
+}
+
+#reset_WHO{
+    left: 905px;
+    bottom: 10px;
+}
+
+#filter_WHO{
+    left: 985px;
+    bottom: 10px;
+}
+
+#reset_deathSUM{
+    left: 905px;
+    bottom: 10px;
+}
+
+#filter_deathSUM{
+    left: 985px;
+    bottom: 10px;
+}
+
+#filter_bycont{
+    left: 985px;
+    bottom: 10px;
+}
+
+#reset_bycont{
+    left: 905px;
+    bottom: 10px;
+}
+
+#region_label {
+    color: black;
+}
+
+#allcase_label {
+    color: white;
+}
+
+#recent_label {
+    color: white;
+}
+
+#report_label {
+    color: black;
+}
+
+#death_overview_header {
+    position: relative;
+    top: 225px;
+}
+
+#death_overview_container {
+    position: relative;
+    border-radius: 20px;
+    top: 225px;
+}
+
+#reset_deathOVR{
+    left: 905px;
+    bottom: 10px;
+}
+
+#filter_deathOVR{
+    left: 985px;
+    bottom: 10px;
 }
