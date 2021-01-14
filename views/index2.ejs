@@ -98,7 +98,7 @@
                           <br>
                         <label class="label" for="country_table">Country</label>
                         <select class="select" id="country_table" name="country_table"
-                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" required>
                             <option value="None" selected>None</option>
                             <option value="All_Countries">All Countries</option>
                             <!-- <option value="New Cases">Afghanistan</option> -->
@@ -237,7 +237,7 @@
                         
                         <label class="label" for="region">WHO Region</label>
                         <select class="select" id="region" name="region"
-                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" required>
                             <option value="None" selected>None</option>
                             <option value="All_Regions">All Regions</option>
                             <option value="Africa">Africa</option>
@@ -257,7 +257,7 @@
                             
                         <div id = "dates">
                             <label class="label" for="date">Date</label>
-                                <input class="input" type="date" id="date" name="date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
+                                <input class="input" type="date" id="date" name="date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()" required>
                             
                                 <!-- <label class="label" for="end_date">End Date</label>
                                 <input class="input" type="date" id="end_date" name="end_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()"> -->
@@ -333,7 +333,7 @@
                         
                         <label class="label" for="death_sum_country">Country</label>
                         <select class="select" id="death_sum_country" name="death_sum_country"
-                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" required>
                             <option value="None" selected>None</option>
                             <option value="All_Countries">All Countries</option>
                             <!-- <option value="New Cases">Afghanistan</option> -->
@@ -411,7 +411,7 @@
                 <label class="label" for="continents">Continents</label>
                 <div class="form-row">
                     <div id = "continents" class="form-group col">
-                        <select id="continent_total" name="continent_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" onchange="populateCountry(this.value, 'country_total')">
+                        <select id="continent_total" name="continent_total" style="border: solid 1px rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" onchange="populateCountry(this.value, 'country_total')" required>
                             <option value="none" selected>None</option>
                             <option value="Asia">Asia</option>
                             <option value="Europe">Europe</option>
@@ -477,7 +477,7 @@
                         
                         <label class="label" for="death_country">Country</label>
                         <select class="select" id="death_country" name="death_country"
-                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px">
+                            style="border: solid 1px  rgb(116, 115, 115); background-color: white; cursor: pointer; height: 28px; margin-bottom: 15px" required>
                             <option value="None" selected>None</option>
                             <option value="All_Countries">All Countries</option>
                             <% for (const i in country) { %>
@@ -488,7 +488,7 @@
                     </div>
                         <div id = "dates">
                             <label class="label" for="date">Date</label>
-                                <input class="input" type="date" id="date" name="_date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()">
+                                <input class="input" type="date" id="date" name="date" min="2020-01-22" max="2020-07-27" style="height: 28px" onchange="datesAndMonths()" required>
                         </div>
                         <div id = "filter_deathOVR" class = "filter_btn">
                             <input id = "filter" type="submit" class="btn btn-success" value="FILTER">
@@ -512,6 +512,26 @@
                                 <th>Deaths per 100 Recoveries</th>
                                 <th>Overall Deaths per 100 Recoveries</th>
                             </tr>
+                            <%
+                                if(userData6.length!=0){
+                                var i=1;
+                                userData6.forEach(function(data){
+                                %>
+                                <tr>
+                                    <td><%=data.country %></td>
+                                    <td><%=data.date %></td>
+                                    <td><%=data.DeathsPM_Population %></td>
+                                    <td><%=data.DeathsPH_Cases %></td>
+                                    <td><%=data.Overall_Deaths_PH_Cases %></td>
+                                    <td><%=data.DeathsPH_Recovered %></td>
+                                    <td><%=data.Overall_DeathsPH_Recovered %></td>
+                                </tr>
+                                <%  i++; }) %>
+                                <% } else{ %>
+                                    <tr>
+                                        <td colspan="9">No Data Found</td>
+                                    </tr>
+                                <% } %>
                         </table>
                         <br>
                         
