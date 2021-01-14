@@ -377,17 +377,17 @@
                                 <!-- <th>Total Cases per 1M</th> -->
                             </tr>
                             <%
-                            if(userData1.length!=0){
+                            if(userData5.length!=0){
                             var i=1;
-                            userData1.forEach(function(data){
+                            userData5.forEach(function(data){
                             %>
                             <tr>
-                                <td><%=data.country %></td>
+                                <td><%=data.Country %></td>
                                 <td><%=data.date %></td>
-                                <td><%=data.total_deaths %></td>
-                                <td><%=data.deaths_100_cases %></td>
-                                <td><%=data.deaths_100_recovered %></td>
-                                <td><%=data.new_deaths %></td>
+                                <td><%=data.Total_Deaths %></td>
+                                <td><%=data.DeathsPH_Cases %></td>
+                                <td><%=data.DeathsPH_Recovered %></td>
+                                <td><%=data.New_Deaths %></td>
                             </tr>
                             <%  i++; }) %>
                             <% } else{ %>

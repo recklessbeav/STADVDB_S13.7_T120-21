@@ -467,6 +467,8 @@ app.post('/', (req, res) => {
         else{
             COUNTRY = ' AND D.COUNTRY="' + death_sum_country + '" ';
         }
+        
+        var DATE =  'WHERE d.date = "' + req.body._date + '" ';
 
         // var query = 'SELECT ' + q_country + ' d.date AS date' + q_cases + ' FROM daily d ' + COUNTRY + START + END + g_case + g_country + ';';
         if (death_sum_country == 'None') {
@@ -474,7 +476,7 @@ app.post('/', (req, res) => {
         } 
         else{
             // var query = 'SELECT d.date AS Date, w.country AS Country, w.total_deaths AS 'Total_Deaths', c.deaths_100cases AS 'Deaths/100_Cases', c.deaths_100recovered AS 'Deaths/100_Recovered', d.new_deaths AS 'New_Deaths' FROM worldometer w JOIN countrywise c ON w.COUNTRY = c.COUNTRY JOIN daily d ON c.COUNTRY = d.COUNTRY WHERE d.date = '2020-07-27' ' + COUNTRY + ' ;';
-            var query = 'SELECT d.date AS date, w.country AS Country, w.total_deaths AS "Total_Deaths", c.deaths_100cases AS "DeathsPH_Cases", c.deaths_100recovered AS "DeathsPH_Recovered", d.new_deaths AS "New_Deaths" FROM worldometer w JOIN countrywise c ON w.COUNTRY = c.COUNTRY JOIN daily d ON c.COUNTRY = d.COUNTRY WHERE d.date = "2020-07-27"' + COUNTRY + ';';
+            var query = 'SELECT d.date AS date, w.country AS Country, w.total_deaths AS "Total_Deaths", c.deaths_100cases AS "DeathsPH_Cases", c.deaths_100recovered AS "DeathsPH_Recovered", d.new_deaths AS "New_Deaths" FROM worldometer w JOIN countrywise c ON w.COUNTRY = c.COUNTRY JOIN daily d ON c.COUNTRY = d.COUNTRY ' + DATE + COUNTRY + ';';
         }
         console.log(query);
         console.log('query length', query.length)
