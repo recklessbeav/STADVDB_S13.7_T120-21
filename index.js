@@ -471,38 +471,31 @@ app.post('/', (req, res) => {
                 NONE = true;
             }
             else {
-                if ( (continent_total == 'All_Continent') )
-                {
-                    QUERY = 'SELECT SUM(w.total_cases) AS total_cases, SUM(w.total_recovered) AS total_recovered, SUM(w.total_deaths) AS total_deaths, SUM(w.active_cases) AS active_cases, SUM(w.new_cases) AS new_cases FROM WORLDOMETER w;';
-                }
-
-                else
-                {
-                    if ( ((continent_total != 'All_Continent' && continent_total != 'none')) ){
-                        if (continent_total == 'Africa'){
-                            q_conti = 'AFR';
-                        }
-                        else if (continent_total == 'Asia'){
-                            q_conti = 'ASI';
-                        }
-                        else if (continent_total == 'Australia/Oceania'){
-                            q_conti = 'AUO';
-                        }
-                        else if (continent_total == 'Europe'){
-                            q_conti = 'EUR';
-                        }
-                        else if (continent_total == 'North America'){
-                            q_conti = 'NAM';
-                        }
-                        else if (continent_total == 'South America'){
-                            q_conti = 'SAM';
-                        }
-                        CONTINENT = ' WHERE id LIKE "' + q_conti + '%"';
+                if (continent_total != 'none') {
+                    if (continent_total == 'Africa'){
+                        q_conti = 'AFR';
                     }
-
-                    QUERY = 'SELECT c.country, w.total_cases, w.total_recovered, w.total_deaths, w.total_tests FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON C.COUNTRY = W.COUNTRY WHERE c.continent="' + continent_total + '";';
+                    else if (continent_total == 'Asia'){
+                        q_conti = 'ASI';
+                    }
+                    else if (continent_total == 'Australia/Oceania'){
+                        q_conti = 'AUO';
+                    }
+                    else if (continent_total == 'Europe'){
+                        q_conti = 'EUR';
+                    }
+                    else if (continent_total == 'North America'){
+                        q_conti = 'NAM';
+                    }
+                    else if (continent_total == 'South America'){
+                        q_conti = 'SAM';
+                    }
+                    CONTINENT = ' WHERE id LIKE "' + q_conti + '%"';
                 }
+
+                QUERY = 'SELECT c.country, w.total_cases, w.total_recovered, w.total_deaths, w.total_tests FROM WORLDOMETER w JOIN COUNTRYPROFILE c ON C.COUNTRY = W.COUNTRY WHERE c.continent="' + continent_total + '";';
             }
+
             if(NONE){
                 QUERY = 'SELECT * FROM COUNTRYPROFILE WHERE COUNTRY = "";';
             }
